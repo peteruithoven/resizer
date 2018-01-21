@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Resizer
+GenericName=Resizer App
+Comment=Image resizer
+Categories=Utility;
+Exec=com.github.peteruithoven.resizer
+Icon=application-default-icon
+Terminal=false
+Type=Application
+X-GNOME-Gettext-Domain=resizer
+Keywords=Image;resize
