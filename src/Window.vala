@@ -74,6 +74,7 @@ namespace Resizer {
       this.set_default (resize_btn);
 
       response.connect (on_response);
+      set_default_response(Gtk.ResponseType.APPLY);
 
       this.show_all ();
     }
