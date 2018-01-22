@@ -40,6 +40,7 @@ namespace Resizer {
 
       var width_entry = new Gtk.SpinButton.with_range (0, 10240, 1024);
       width_entry.hexpand = true;
+      width_entry.set_activates_default (true);
       settings.bind ("width", width_entry, "value", GLib.SettingsBindFlags.DEFAULT);
       width_entry.value_changed.connect (() => {
         Resizer.maxWidth = width_entry.get_value_as_int ();
@@ -49,6 +50,7 @@ namespace Resizer {
 
       var height_entry = new Gtk.SpinButton.with_range (0, 10240, 1024);
       height_entry.hexpand = true;
+      height_entry.set_activates_default (true);
       settings.bind ("height", height_entry, "value", GLib.SettingsBindFlags.DEFAULT);
       height_entry.value_changed.connect (() => {
         Resizer.maxHeight = height_entry.get_value_as_int ();
