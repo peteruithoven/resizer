@@ -27,7 +27,7 @@ namespace Resizer {
 
         public static void create_resized_image() {
             var input_name = file.get_path ();
-            var output_name = get_output_name (input_name);
+            var output_name = get_output_name (input_name, maxWidth, maxHeight);
 
             try {
                 string[] command = get_command(input_name, output_name, maxWidth, maxHeight);
@@ -40,10 +40,16 @@ namespace Resizer {
                 stderr.printf ("Error during resize: %s", e.message);
             }
         }
-        public static string get_output_name(string input) {
+        public static string get_output_name(string input, int width, int height) {
             try {
                 var file_regex = new GLib.Regex ("""(\/[^./]+)(\.\w+)""");
-                string output_name = file_regex.replace (input, input.length, 0, """\1-resized\2""");
+                var max_size = "";
+                if (width == height) {
+                    max_size = width.to_string ();
+                } else {
+                    max_size = width.to_string () +  "x" + height.to_string ();
+                }
+                string output_name = file_regex.replace (input, input.length, 0, """\1-""" + max_size + """\2""");
                 return output_name;
             } catch (RegexError e) {
                 stderr.printf ("Error on file: %s", e.message);
