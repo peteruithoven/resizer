@@ -2,7 +2,7 @@ namespace Resizer {
   public class ResizerWindow : Gtk.Dialog {
   // public class ResizerWindow : Gtk.ApplicationWindow {
 
-    // private Settings settings = new Settings ("com.github.peteruithoven.resizer");
+    private Settings settings = new Settings ("com.github.peteruithoven.resizer");
 
     public ResizerWindow () {
       Object (border_width: 6,
@@ -19,13 +19,13 @@ namespace Resizer {
 
       var width_entry = new Gtk.SpinButton.with_range (0, 10240, 1024);
       width_entry.hexpand = true;
-      // settings.bind ("width", width_entry, "value", GLib.SettingsBindFlags.DEFAULT);
+      settings.bind ("width", width_entry, "value", GLib.SettingsBindFlags.DEFAULT);
 
       var height_label = new Gtk.Label ("Height:");
 
       var height_entry = new Gtk.SpinButton.with_range (0, 10240, 1024);
       height_entry.hexpand = true;
-      // settings.bind ("height", height_entry, "value", GLib.SettingsBindFlags.DEFAULT);
+      settings.bind ("height", height_entry, "value", GLib.SettingsBindFlags.DEFAULT);
 
       var grid = new Gtk.Grid ();
       grid.column_spacing = 6 ;

@@ -17,7 +17,7 @@ executable(
     install : true
 )
 
-# meson.add_install_script('meson/post_install.py')
+meson.add_install_script('meson/post_install.py')
 
-# subdir('data')
-# subdir('po')
+subdir('data')
+subdir('po')

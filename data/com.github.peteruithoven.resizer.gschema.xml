@@ -1,0 +1,12 @@
+<schemalist>
+    <schema id="com.github.peteruithoven.resizer" path="/com/github/peteruithoven/resizer/" gettext-domain="com.github.peteruithoven.resizer">
+        <key name="width" type="i">
+            <range min="1" max="10240"/>
+            <default>1024</default>
+        </key>
+        <key name="height" type="i">
+            <range min="1" max="10240"/>
+            <default>1024</default>
+        </key>
+    </schema>
+</schemalist>
