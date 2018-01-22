@@ -20,10 +20,10 @@
 */
 
 namespace Resizer {
-    public class Resizer : Gtk.Application {
-        private ResizerWindow window = null;
+    public class Application : Gtk.Application {
+        private Window window = null;
 
-        public Resizer () {
+        public Application () {
             Object (
                 application_id: "com.github.peteruithoven.resizer",
                 flags: ApplicationFlags.HANDLES_OPEN
@@ -40,21 +40,21 @@ namespace Resizer {
         }
 
         public override void open (File[] files, string hint) {
-            stdout.printf ("%d files:\n", files.length);
+            // TODO: throw error when multiple filess
             foreach (var file in files) {
-                var path = file.get_path ();
-                stdout.printf ("- %s\n", path);
+                Resizer.file = file;
             }
+            activate();
         }
 
         protected override void activate () {
-            window = new ResizerWindow ();
+            window = new Window ();
             window.set_application (this);
             window.show_all ();
         }
 
         public static int main (string[] args) {
-            var app = new Resizer ();
+            var app = new Application ();
             return app.run (args);
         }
     }
