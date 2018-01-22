@@ -26,7 +26,7 @@ namespace Resizer {
         public Resizer () {
             Object (
                 application_id: "com.github.peteruithoven.resizer",
-                flags: ApplicationFlags.FLAGS_NONE
+                flags: ApplicationFlags.HANDLES_OPEN
             );
 
             var quit_action = new SimpleAction ("quit", null);
@@ -37,6 +37,14 @@ namespace Resizer {
             });
             add_action (quit_action);
             set_accels_for_action ("app.quit", {"<Ctrl>Q"});
+        }
+
+        public override void open (File[] files, string hint) {
+            stdout.printf ("%d files:\n", files.length);
+            foreach (var file in files) {
+                var path = file.get_path ();
+                stdout.printf ("- %s\n", path);
+            }
         }
 
         protected override void activate () {
