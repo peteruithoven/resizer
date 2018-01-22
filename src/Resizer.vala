@@ -31,10 +31,11 @@ namespace Resizer {
 
             try {
                 string[] command = get_command(input_name, output_name, maxWidth, maxHeight);
-                Subprocess subprocess = new Subprocess.newv (command, SubprocessFlags.STDERR_PIPE);
-                if (subprocess.wait_check ()) {
-                    stdout.printf ("Success!\n");
-                }
+                new Subprocess.newv (command, SubprocessFlags.STDERR_PIPE);
+                // Subprocess subprocess = new Subprocess.newv (command, SubprocessFlags.STDERR_PIPE);
+                // if (subprocess.wait_check ()) {
+                //     stdout.printf ("Success!\n");
+                // }
             } catch (Error e) {
                 stderr.printf ("Error during resize: %s", e.message);
             }
