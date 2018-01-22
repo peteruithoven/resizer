@@ -79,7 +79,6 @@ namespace Resizer {
       this.show_all ();
     }
     private void on_response (Gtk.Dialog source, int response_id) {
-      stdout.printf ("on_response: %i\n", response_id);
         switch (response_id) {
             case Gtk.ResponseType.APPLY:
                 Resizer.create_resized_image();

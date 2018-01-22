@@ -43,7 +43,6 @@ namespace Resizer {
             try {
                 var file_regex = new GLib.Regex ("""(\/[^./]+)(\.\w+)""");
                 string output_name = file_regex.replace (input, input.length, 0, """\1-resized\2""");
-                stdout.printf ("output_name: %s\n", output_name);
                 return output_name;
             } catch (RegexError e) {
                 stderr.printf ("Error on file: %s", e.message);
@@ -57,10 +56,6 @@ namespace Resizer {
             array.add ("-resize");
             array.add (width.to_string () +  "x" + height.to_string ());
             array.add (output);
-            stdout.printf ("Command:\n");
-            array.foreach ((str) => {
-        		stdout.printf ("- %s\n", str);
-        	});
             return array.data;
         }
     }
