@@ -21,8 +21,8 @@
 
 namespace Resizer {
     public class Resizer : Object {
-        public static int maxWidth = 1024;
-        public static int maxHeight = 1024;
+        public static int maxWidth = 1000;
+        public static int maxHeight = 1000;
         public static File file;
 
         public static void create_resized_image() {

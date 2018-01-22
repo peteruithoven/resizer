@@ -39,7 +39,7 @@ namespace Resizer {
       var width_label = new Gtk.Label ("Width:");
       width_label.halign = Gtk.Align.START;
 
-      var width_entry = new Gtk.SpinButton.with_range (0, 10240, 1024);
+      var width_entry = new Gtk.SpinButton.with_range (1, 10000, 1000);
       width_entry.hexpand = true;
       width_entry.set_activates_default (true);
       settings.bind ("width", width_entry, "value", GLib.SettingsBindFlags.DEFAULT);
@@ -50,7 +50,7 @@ namespace Resizer {
       var height_label = new Gtk.Label ("Height:");
       height_label.halign = Gtk.Align.START;
 
-      var height_entry = new Gtk.SpinButton.with_range (0, 10240, 1024);
+      var height_entry = new Gtk.SpinButton.with_range (1, 10000, 1000);
       height_entry.hexpand = true;
       height_entry.set_activates_default (true);
       settings.bind ("height", height_entry, "value", GLib.SettingsBindFlags.DEFAULT);
