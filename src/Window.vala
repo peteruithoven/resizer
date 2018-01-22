@@ -59,9 +59,9 @@ namespace Resizer {
       });
 
       var grid = new Gtk.Grid ();
-      grid.column_spacing = 6 ;
+      grid.column_spacing = 12;
+      grid.row_spacing = 12;
       grid.margin = 6;
-      grid.margin_bottom = 6;
       grid.attach(label, 0, 0, 2, 1);
       grid.attach(width_label, 0, 1, 1, 1);
       grid.attach(width_entry, 1, 1, 1, 1);
