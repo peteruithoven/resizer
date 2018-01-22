@@ -1,0 +1,5 @@
+[Contractor Entry]
+Name=Resize image
+Description=Resize image
+MimeType=image
+Exec=com.github.peteruithoven.resizer %f
