@@ -9,7 +9,7 @@ add_global_arguments('-DGETTEXT_PACKAGE="io.elementary.screenshot-tool"', langua
 
 executable(
     meson.project_name(),
-    'src/resizer.vala',
+    'src/Application.vala',
     'src/ResizerWindow.vala',
     dependencies: [
         dependency('gtk+-3.0'),
