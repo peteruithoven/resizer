@@ -27,7 +27,6 @@ namespace Resizer {
 
     public Window () {
       Object (border_width: 6,
-              deletable: false,
               resizable: false);
     }
     construct {
@@ -35,8 +34,10 @@ namespace Resizer {
       this.title = "Resizer";
 
       var label = new Gtk.Label ("Resize image within:");
+      label.halign = Gtk.Align.START;
 
       var width_label = new Gtk.Label ("Width:");
+      width_label.halign = Gtk.Align.START;
 
       var width_entry = new Gtk.SpinButton.with_range (0, 10240, 1024);
       width_entry.hexpand = true;
@@ -47,6 +48,7 @@ namespace Resizer {
       });
 
       var height_label = new Gtk.Label ("Height:");
+      height_label.halign = Gtk.Align.START;
 
       var height_entry = new Gtk.SpinButton.with_range (0, 10240, 1024);
       height_entry.hexpand = true;
@@ -58,6 +60,7 @@ namespace Resizer {
 
       var grid = new Gtk.Grid ();
       grid.column_spacing = 6 ;
+      grid.margin = 6;
       grid.margin_bottom = 6;
       grid.attach(label, 0, 0, 2, 1);
       grid.attach(width_label, 0, 1, 1, 1);
