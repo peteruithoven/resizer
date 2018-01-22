@@ -19,25 +19,35 @@
 * Authored by: Peter Uithoven <peter@peteruithoven.nl>
 */
 
-public class MyApp : Gtk.Application {
+namespace Resizer {
+    public class Resizer : Gtk.Application {
+        private ResizerWindow window = null;
 
-    public MyApp () {
-        Object (
-            application_id: "com.github.peteruithoven.resizer",
-            flags: ApplicationFlags.FLAGS_NONE
-        );
-    }
+        public Resizer () {
+            Object (
+                application_id: "com.github.peteruithoven.resizer",
+                flags: ApplicationFlags.FLAGS_NONE
+            );
 
-    protected override void activate () {
-        var main_window = new Gtk.ApplicationWindow (this);
-        main_window.default_height = 300;
-        main_window.default_width = 300;
-        main_window.title = "Hello World";
-        main_window.show_all ();
-    }
+            var quit_action = new SimpleAction ("quit", null);
+            quit_action.activate.connect (() => {
+                if (window != null) {
+                    window.destroy ();
+                }
+            });
+            add_action (quit_action);
+            set_accels_for_action ("app.quit", {"<Ctrl>Q"});
+        }
 
-    public static int main (string[] args) {
-        var app = new MyApp ();
-        return app.run (args);
+        protected override void activate () {
+            window = new ResizerWindow ();
+            window.set_application (this);
+            window.show_all ();
+        }
+
+        public static int main (string[] args) {
+            var app = new Resizer ();
+            return app.run (args);
+        }
     }
 }

@@ -40,6 +40,7 @@ ensure_vala_version("0.16" MINIMUM)
 include(ValaPrecompile)
 vala_precompile(VALA_C ${EXEC_NAME}
     src/resizer.vala
+    src/ResizerWindow.vala
 
 # tell what libraries to use when compiling
 PACKAGES
