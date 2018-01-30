@@ -2,4 +2,5 @@
 Name=Resize image
 Description=Resize image
 MimeType=image
+Icon=com.github.peteruithoven.resizer
 Exec=com.github.peteruithoven.resizer %f
