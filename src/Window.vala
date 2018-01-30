@@ -23,7 +23,7 @@ namespace Resizer {
   public class Window : Gtk.Dialog {
   // public class Window : Gtk.ApplicationWindow {
 
-    private Settings settings = new Settings ("com.github.peteruithoven.resizer");
+    private Settings settings = new Settings (Constants.PROJECT_NAME);
 
     public Window () {
       Object (border_width: 6,

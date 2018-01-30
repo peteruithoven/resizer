@@ -25,7 +25,7 @@ namespace Resizer {
 
         public Application () {
             Object (
-                application_id: "com.github.peteruithoven.resizer",
+                application_id: Constants.PROJECT_NAME,
                 flags: ApplicationFlags.HANDLES_OPEN
             );
 
