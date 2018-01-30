@@ -2,9 +2,9 @@
 Name=Resizer
 GenericName=Resizer App
 Comment=Image resizer
-Categories=Utility;
 Exec=com.github.peteruithoven.resizer
 Icon=application-default-icon
+Categories=Graphics;
 Terminal=false
 Type=Application
 X-GNOME-Gettext-Domain=resizer
