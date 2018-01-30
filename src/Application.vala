@@ -29,6 +29,7 @@ namespace Resizer {
                 flags: ApplicationFlags.HANDLES_OPEN
             );
 
+            // Support quiting app using Super+Q
             var quit_action = new SimpleAction ("quit", null);
             quit_action.activate.connect (() => {
                 if (window != null) {
@@ -40,7 +41,7 @@ namespace Resizer {
         }
 
         public override void open (File[] files, string hint) {
-            // TODO: throw error when multiple filess
+            // TODO: throw error when multiple files or handle multiple files
             foreach (var file in files) {
                 Resizer.file = file;
             }

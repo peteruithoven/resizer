@@ -42,6 +42,9 @@ namespace Resizer {
         }
         public static string get_output_name(string input, int width, int height) {
             try {
+                // turns "/home/user/Pictures/picture.jpg" into somesthing like:
+                // "/home/user/Pictures/picture-2000.jpg" or
+                // "/home/user/Pictures/picture-2000x1500.jpg" ors
                 var file_regex = new GLib.Regex ("""(\/[^./]+)(\.\w+)""");
                 var max_size = "";
                 if (width == height) {
@@ -57,6 +60,7 @@ namespace Resizer {
             }
         }
         public static string[] get_command (string input, string output, int width, int height) {
+            // Use ImageMagick's convert utility to resize image
             var array = new GenericArray<string> ();
             array.add ("convert");
             array.add (input);
