@@ -19,24 +19,24 @@ msgstr ""
 
 #: src/Window.vala:34
 msgid "Resizer"
-msgstr ""
+msgstr "Herschaler"
 
 #: src/Window.vala:36
 msgid "Resize image within:"
-msgstr ""
+msgstr "Herschaal de afbeelding binnen:"
 
 #: src/Window.vala:39
 msgid "Width:"
-msgstr ""
+msgstr "Breedte:"
 
 #: src/Window.vala:50
 msgid "Height:"
-msgstr ""
+msgstr "Hoogte:"
 
 #: src/Window.vala:75
 msgid "Cancel"
-msgstr ""
+msgstr "Annuleren"
 
 #: src/Window.vala:76
 msgid "Resize"
-msgstr ""
+msgstr "Herschaal"
