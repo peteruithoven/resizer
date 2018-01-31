@@ -9,4 +9,4 @@ Terminal=false
 Type=Application
 NoDisplay=true
 X-GNOME-Gettext-Domain=resizer
-Keywords=Image;resize
+Keywords=Image;resize;
