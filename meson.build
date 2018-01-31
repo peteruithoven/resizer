@@ -3,8 +3,6 @@ project(
     meson_version : '>= 0.43'
 )
 
-i18n = import('i18n')
-
 # Create config.vala from config.vala.in,
 # replacing variables like PROJECT_NAME
 conf_data = configuration_data()
@@ -14,6 +12,8 @@ config_header = configure_file(
     output : 'config.vala',
     configuration : conf_data
 )
+
+subdir('po')
 
 executable(
     meson.project_name(),
@@ -31,4 +31,3 @@ executable(
 meson.add_install_script('meson/post_install.py')
 
 subdir('data')
-# subdir('po')

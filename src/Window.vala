@@ -31,12 +31,12 @@ namespace Resizer {
     }
     construct {
       this.default_width = 200;
-      this.title = "Resizer";
+      this.title = _("Resizer");
 
-      var label = new Gtk.Label ("Resize image within:");
+      var label = new Gtk.Label (_("Resize image within:"));
       label.halign = Gtk.Align.START;
 
-      var width_label = new Gtk.Label ("Width:");
+      var width_label = new Gtk.Label (_("Width:"));
       width_label.halign = Gtk.Align.START;
 
       var width_entry = new Gtk.SpinButton.with_range (1, 10000, 1000);
@@ -47,7 +47,7 @@ namespace Resizer {
         Resizer.maxWidth = width_entry.get_value_as_int ();
       });
 
-      var height_label = new Gtk.Label ("Height:");
+      var height_label = new Gtk.Label (_("Height:"));
       height_label.halign = Gtk.Align.START;
 
       var height_entry = new Gtk.SpinButton.with_range (1, 10000, 1000);
@@ -72,8 +72,8 @@ namespace Resizer {
       Gtk.Box content = get_content_area () as Gtk.Box;
       content.add (grid);
 
-      this.add_button("Cancel", Gtk.ResponseType.CLOSE);
-      var resize_btn = this.add_button("Resize", Gtk.ResponseType.APPLY);
+      this.add_button(_("Cancel"), Gtk.ResponseType.CLOSE);
+      var resize_btn = this.add_button(_("Resize"), Gtk.ResponseType.APPLY);
       resize_btn.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
       resize_btn.can_default = true;
       this.set_default (resize_btn);

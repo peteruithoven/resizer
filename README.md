@@ -24,6 +24,15 @@ To install, use `ninja install`, then execute with `com.github.peteruithoven.res
     sudo ninja install
     com.github.peteruithoven.resizer
 
+## translations
+Generate `.pot` file using `po/LINGUAS` and `po/POTFILES`:
+
+    ninja com.github.peteruithoven.resizer-pot
+
+Generate / update `.po` files:
+
+    ninja com.github.peteruithoven.resizer-update-po
+
 ## Credits
 
 A lot of the code is inspired by the [elementary Screenshot tool](https://github.com/elementary/screenshot-tool) and Felipe Escoto's  [wallpaperize](https://github.com/Philip-Scott/wallpaperize).  
