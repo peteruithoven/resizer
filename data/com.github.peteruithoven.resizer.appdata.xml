@@ -19,6 +19,13 @@
       <image>https://raw.githubusercontent.com/peteruithoven/resizer/master/screenshot2.png</image>
     </screenshot>
   </screenshots>
+  <releases>
+    <release version="0.8.0" date="2018-01-31">
+      <description>
+        <p>Initial release</p>
+      </description>
+    </release>
+  </releases>
   <developer_name>Peter Uithoven</developer_name>
   <url type="homepage">https://github.com/peteruithoven/resizer</url>
   <url type="bugtracker">https://github.com/peteruithoven/resizer/issues</url>
