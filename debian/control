@@ -1,4 +1,4 @@
-Source: resizer
+Source: com.github.peteruithoven.resizer
 Section: x11
 Priority: extra
 Maintainer: Peter Uithoven <peter@peteruithoven.nl>
@@ -8,7 +8,7 @@ Build-Depends: cmake (>= 2.8),
                valac (>= 0.16)
 Standards-Version: 3.9.3
 
-Package: resizer
+Package: com.github.peteruithoven.resizer
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Description: Image resizer
