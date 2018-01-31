@@ -9,7 +9,7 @@ project(
 # replacing variables like PROJECT_NAME
 conf_data = configuration_data()
 conf_data.set_quoted('PROJECT_NAME', meson.project_name())
-config_header = configure_file(
+configure_file(
     input : 'src/config.vala.in',
     output : 'config.vala',
     configuration : conf_data
