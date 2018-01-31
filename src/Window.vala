@@ -24,6 +24,8 @@ namespace Resizer {
   // public class Window : Gtk.ApplicationWindow {
 
     private Settings settings = new Settings (Constants.PROJECT_NAME);
+    private Gtk.SpinButton width_entry;
+    private Gtk.SpinButton height_entry;
 
     public Window () {
       Object (border_width: 6,
@@ -39,24 +41,18 @@ namespace Resizer {
       var width_label = new Gtk.Label (_("Width:"));
       width_label.halign = Gtk.Align.START;
 
-      var width_entry = new Gtk.SpinButton.with_range (1, 10000, 1000);
+      width_entry = new Gtk.SpinButton.with_range (1, 10000, 1000);
       width_entry.hexpand = true;
       width_entry.set_activates_default (true);
       settings.bind ("width", width_entry, "value", GLib.SettingsBindFlags.DEFAULT);
-      width_entry.value_changed.connect (() => {
-        Resizer.maxWidth = width_entry.get_value_as_int ();
-      });
 
       var height_label = new Gtk.Label (_("Height:"));
       height_label.halign = Gtk.Align.START;
 
-      var height_entry = new Gtk.SpinButton.with_range (1, 10000, 1000);
+      height_entry = new Gtk.SpinButton.with_range (1, 10000, 1000);
       height_entry.hexpand = true;
       height_entry.set_activates_default (true);
       settings.bind ("height", height_entry, "value", GLib.SettingsBindFlags.DEFAULT);
-      height_entry.value_changed.connect (() => {
-        Resizer.maxHeight = height_entry.get_value_as_int ();
-      });
 
       var grid = new Gtk.Grid ();
       grid.column_spacing = 12;
@@ -86,6 +82,8 @@ namespace Resizer {
     private void on_response (Gtk.Dialog source, int response_id) {
         switch (response_id) {
             case Gtk.ResponseType.APPLY:
+                Resizer.maxWidth = width_entry.get_value_as_int ();
+                Resizer.maxHeight = height_entry.get_value_as_int ();
                 Resizer.create_resized_image();
                 destroy ();
                 break;
