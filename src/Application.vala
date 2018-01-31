@@ -41,10 +41,7 @@ namespace Resizer {
         }
 
         public override void open (File[] files, string hint) {
-            // TODO: throw error when multiple files or handle multiple files
-            foreach (var file in files) {
-                Resizer.file = file;
-            }
+            Resizer.files = files;
             activate();
         }
 

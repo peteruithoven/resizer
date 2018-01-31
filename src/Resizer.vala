@@ -23,21 +23,25 @@ namespace Resizer {
     public class Resizer : Object {
         public static int maxWidth = 1000;
         public static int maxHeight = 1000;
-        public static File file;
+        public static File[] files;
 
         public static void create_resized_image() {
-            var input_name = file.get_path ();
-            var output_name = get_output_name (input_name, maxWidth, maxHeight);
+            foreach (var file in files) {
+                stdout.printf ("resizing: %s\n", file.get_path ());
 
-            try {
-                string[] command = get_command(input_name, output_name, maxWidth, maxHeight);
-                new Subprocess.newv (command, SubprocessFlags.STDERR_PIPE);
-                // Subprocess subprocess = new Subprocess.newv (command, SubprocessFlags.STDERR_PIPE);
-                // if (subprocess.wait_check ()) {
-                //     stdout.printf ("Success!\n");
-                // }
-            } catch (Error e) {
-                stderr.printf ("Error during resize: %s", e.message);
+                var input_name = file.get_path ();
+                var output_name = get_output_name (input_name, maxWidth, maxHeight);
+
+                try {
+                    string[] command = get_command(input_name, output_name, maxWidth, maxHeight);
+                    new Subprocess.newv (command, SubprocessFlags.STDERR_PIPE);
+                    // Subprocess subprocess = new Subprocess.newv (command, SubprocessFlags.STDERR_PIPE);
+                    // if (subprocess.wait_check ()) {
+                    //     stdout.printf ("Success!\n");
+                    // }
+                } catch (Error e) {
+                    stderr.printf ("Error during resize: %s", e.message);
+                }
             }
         }
         public static string get_output_name(string input, int width, int height) {
