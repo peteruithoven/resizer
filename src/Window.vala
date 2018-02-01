@@ -24,6 +24,7 @@ namespace Resizer {
   // public class Window : Gtk.ApplicationWindow {
 
     private Settings settings = new Settings (Constants.PROJECT_NAME);
+    private Gtk.Label intro_label;
     private Gtk.SpinButton width_entry;
     private Gtk.SpinButton height_entry;
     private DropArea drop_area;
@@ -38,8 +39,8 @@ namespace Resizer {
       this.title = _("Resizer");
       var spacing = 12;
 
-      var label = new Gtk.Label (_("Resize image within:"));
-      label.margin_bottom = spacing/2;
+      intro_label = new Gtk.Label (_("Resize image(s) within:"));
+      intro_label.margin_bottom = spacing/2;
 
       // Width input
       var width_label = new Gtk.Label (_("Width:"));
@@ -84,7 +85,7 @@ namespace Resizer {
       grid.row_spacing = spacing;
       grid.margin = spacing/2;
       grid.margin_right = spacing;
-      grid.attach(label, 0, 0, 2, 1);
+      grid.attach(intro_label, 0, 0, 2, 1);
       grid.attach(width_input, 0, 1, 1, 1);
       grid.attach(drop_area, 0, 2, 1, 1);
       grid.attach(height_input, 1, 2, 1, 1);
@@ -119,9 +120,14 @@ namespace Resizer {
       // inform drag source that drop is finished successfully
       Gtk.drag_finish (drag_context, true, false, time);
 
-      show_preview(Resizer.files);
+      update(Resizer.files);
     }
-    public void show_preview(File[] files) {
+    public void update(File[] files) {
+      if (files.length > 1) {
+        intro_label.label = _("Resize %i images within:").printf (files.length);
+      } else {
+        intro_label.label = _("Resize image within:");
+      }
       drop_area.show_preview(files);
     }
     private void on_response (Gtk.Dialog source, int response_id) {
