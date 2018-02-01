@@ -26,7 +26,7 @@ namespace Resizer {
     private Settings settings = new Settings (Constants.PROJECT_NAME);
     private Gtk.SpinButton width_entry;
     private Gtk.SpinButton height_entry;
-
+    private DropArea drop_area;
     const Gtk.TargetEntry[] DRAG_TARGETS = {{ "text/uri-list", 0, 0 }};
 
     public Window () {
@@ -77,7 +77,7 @@ namespace Resizer {
       // Create 3th row, making sure the entry is in the center
       height_input.add(new Gtk.Label (""));
 
-      var drop_area = new DropArea();
+      drop_area = new DropArea();
 
       var grid = new Gtk.Grid ();
       grid.column_spacing = spacing/2;
@@ -118,6 +118,11 @@ namespace Resizer {
       Resizer.files = files.data;
       // inform drag source that drop is finished successfully
       Gtk.drag_finish (drag_context, true, false, time);
+
+      show_preview(Resizer.files);
+    }
+    public void show_preview(File[] files) {
+      drop_area.show_preview(files);
     }
     private void on_response (Gtk.Dialog source, int response_id) {
         switch (response_id) {

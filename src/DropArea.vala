@@ -8,9 +8,11 @@ namespace Resizer {
       image = new Gtk.Image ();
       image.get_style_context ().add_class ("card");
       image.hexpand = true;
-      image.height_request = 200;
       image.width_request = 300;
+      image.height_request = 200;
       image.margin = 6;
+      image.valign = Gtk.Align.CENTER;
+      image.halign = Gtk.Align.CENTER;
 
       drag_label = new Gtk.Label (_("Drop Image Here"));
       drag_label.justify = Gtk.Justification.CENTER;
@@ -21,6 +23,21 @@ namespace Resizer {
 
       this.add (image);
       this.add_overlay (drag_label);
+    }
+    public void show_preview(File[] files) {
+      drag_label.visible = false;
+      drag_label.no_show_all = true;
+
+      var file = files[0];
+      var pixbuf = new Gdk.Pixbuf.from_file_at_scale (
+        file.get_path (),
+        300,
+        500,
+        true
+      );
+      image.set_from_pixbuf (pixbuf);
+      image.height_request = pixbuf.height;
+      image.width_request = pixbuf.width;
     }
   }
 }
