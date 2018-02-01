@@ -27,6 +27,8 @@ namespace Resizer {
     private Gtk.SpinButton width_entry;
     private Gtk.SpinButton height_entry;
 
+    const Gtk.TargetEntry[] DRAG_TARGETS = {{ "text/uri-list", 0, 0 }};
+
     public Window () {
       Object (border_width: 6,
               resizable: false);
@@ -101,6 +103,21 @@ namespace Resizer {
       set_default_response(Gtk.ResponseType.APPLY);
 
       this.show_all ();
+
+      // set whole window as drag target
+      Gtk.drag_dest_set (this, Gtk.DestDefaults.MOTION | Gtk.DestDefaults.DROP, DRAG_TARGETS, Gdk.DragAction.COPY);
+      drag_data_received.connect (on_drag_data_received);
+    }
+    private void on_drag_data_received (Gdk.DragContext drag_context, int x, int y, Gtk.SelectionData data, uint info, uint time) {
+      var files = new GenericArray<File> ();
+      foreach (var uri in data.get_uris ()) {
+        stdout.printf ("received: %s\n", uri);
+        var file = File.new_for_uri (uri);
+        files.add (file);
+      };
+      Resizer.files = files.data;
+      // inform drag source that drop is finished successfully
+      Gtk.drag_finish (drag_context, true, false, time);
     }
     private void on_response (Gtk.Dialog source, int response_id) {
         switch (response_id) {
