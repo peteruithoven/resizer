@@ -12,16 +12,12 @@ namespace Resizer {
       image.width_request = 300;
       image.height_request = 200;
       image.margin = 6;
-      image.valign = Gtk.Align.CENTER;
-      image.halign = Gtk.Align.CENTER;
 
       image2 = new Gtk.Image ();
       image2.get_style_context ().add_class ("card");
       image2.margin = 6;
       image2.margin_left = 6+6;
       image2.margin_top = 6;
-      image2.valign = Gtk.Align.START;
-      image2.halign = Gtk.Align.END;
       image2.visible = false;
 
       drag_label = new Gtk.Label (_("Drop Image(s) Here"));
@@ -32,6 +28,8 @@ namespace Resizer {
       drag_label_style_context.add_class (Gtk.STYLE_CLASS_DIM_LABEL);
 
       var images = new Gtk.Fixed();
+      images.valign = Gtk.Align.CENTER;
+      images.halign = Gtk.Align.CENTER;
       images.put (image2, 0, 0);
       images.put (image, 0, 0);
       this.add(images);
