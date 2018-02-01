@@ -2,6 +2,7 @@ namespace Resizer {
   public class DropArea : Gtk.Overlay {
 
     private Gtk.Image image;
+    private Gtk.Image image2;
     private Gtk.Label drag_label;
 
     construct {
@@ -14,14 +15,26 @@ namespace Resizer {
       image.valign = Gtk.Align.CENTER;
       image.halign = Gtk.Align.CENTER;
 
-      drag_label = new Gtk.Label (_("Drop Image Here"));
+      image2 = new Gtk.Image ();
+      image2.get_style_context ().add_class ("card");
+      image2.margin = 6;
+      image2.margin_left = 6+6;
+      image2.margin_top = 6;
+      image2.valign = Gtk.Align.START;
+      image2.halign = Gtk.Align.END;
+      image2.visible = false;
+
+      drag_label = new Gtk.Label (_("Drop Image(s) Here"));
       drag_label.justify = Gtk.Justification.CENTER;
 
       var drag_label_style_context = drag_label.get_style_context ();
       drag_label_style_context.add_class ("h2");
       drag_label_style_context.add_class (Gtk.STYLE_CLASS_DIM_LABEL);
 
-      this.add (image);
+      var images = new Gtk.Fixed();
+      images.put (image2, 0, 0);
+      images.put (image, 0, 0);
+      this.add(images);
       this.add_overlay (drag_label);
     }
     public void show_preview(File[] files) {
@@ -38,6 +51,25 @@ namespace Resizer {
       image.set_from_pixbuf (pixbuf);
       image.height_request = pixbuf.height;
       image.width_request = pixbuf.width;
+
+      if (files.length > 1) {
+        var file2 = files[1];
+        stdout.printf ("second image: %s\n", file2.get_path ());
+        var pixbuf2 = new Gdk.Pixbuf.from_file_at_scale (
+          file2.get_path (),
+          300,
+          500,
+          true
+        );
+        image2.set_from_pixbuf (pixbuf2);
+        image2.visible = true;
+
+        image.margin_top = 6+6;
+      } else {
+        image2.visible = false;
+
+        image.margin_top = 6;
+      }
     }
   }
 }
