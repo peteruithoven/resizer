@@ -32,7 +32,7 @@ namespace Resizer {
               resizable: false);
     }
     construct {
-      this.default_width = 200;
+      this.default_width = 500;
       this.title = _("Resizer");
 
       var label = new Gtk.Label (_("Resize image within:"));
@@ -54,6 +54,8 @@ namespace Resizer {
       height_entry.set_activates_default (true);
       settings.bind ("height", height_entry, "value", GLib.SettingsBindFlags.DEFAULT);
 
+      var drop_area = new DropArea();
+
       var grid = new Gtk.Grid ();
       grid.column_spacing = 12;
       grid.row_spacing = 12;
@@ -63,6 +65,7 @@ namespace Resizer {
       grid.attach(width_entry, 1, 1, 1, 1);
       grid.attach(height_label, 0, 2, 1, 1);
       grid.attach(height_entry, 1, 2, 1, 1);
+      grid.attach(drop_area, 0, 3, 2, 1);
       grid.row_spacing = 6;
 
       Gtk.Box content = get_content_area () as Gtk.Box;
