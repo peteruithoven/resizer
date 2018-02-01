@@ -28,6 +28,8 @@ namespace Resizer {
     private Gtk.SpinButton width_entry;
     private Gtk.SpinButton height_entry;
     private DropArea drop_area;
+    private Gtk.Widget cancel_btn;
+    private Gtk.Widget resize_btn;
     const Gtk.TargetEntry[] DRAG_TARGETS = {{ "text/uri-list", 0, 0 }};
 
     public Window () {
@@ -39,7 +41,7 @@ namespace Resizer {
       this.title = _("Resizer");
       var spacing = 12;
 
-      intro_label = new Gtk.Label (_("Resize image(s) within:"));
+      intro_label = new Gtk.Label ("");
       intro_label.margin_bottom = spacing/2;
 
       // Width input
@@ -94,8 +96,8 @@ namespace Resizer {
       Gtk.Box content = get_content_area () as Gtk.Box;
       content.add (grid);
 
-      this.add_button(_("Cancel"), Gtk.ResponseType.CLOSE);
-      var resize_btn = this.add_button(_("Resize"), Gtk.ResponseType.APPLY);
+      cancel_btn = this.add_button(_("Cancel"), Gtk.ResponseType.CLOSE);
+      resize_btn = this.add_button(_("Resize"), Gtk.ResponseType.APPLY);
       resize_btn.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
       resize_btn.can_default = true;
       this.set_default (resize_btn);
@@ -108,6 +110,8 @@ namespace Resizer {
       // set whole window as drag target
       Gtk.drag_dest_set (this, Gtk.DestDefaults.MOTION | Gtk.DestDefaults.DROP, DRAG_TARGETS, Gdk.DragAction.COPY);
       drag_data_received.connect (on_drag_data_received);
+
+      update ({});
     }
     private void on_drag_data_received (Gdk.DragContext drag_context, int x, int y, Gtk.SelectionData data, uint info, uint time) {
       var files = new GenericArray<File> ();
@@ -120,15 +124,23 @@ namespace Resizer {
       // inform drag source that drop is finished successfully
       Gtk.drag_finish (drag_context, true, false, time);
 
-      update(Resizer.files);
+      update (Resizer.files);
     }
-    public void update(File[] files) {
-      if (files.length > 1) {
-        intro_label.label = _("Resize %i images within:").printf (files.length);
+    public void update (File[] files) {
+      if (files.length == 0) {
+        cancel_btn.sensitive = false;
+        resize_btn.sensitive = false;
+        intro_label.label = _("Resize image(s) within:");
       } else {
-        intro_label.label = _("Resize image within:");
+        cancel_btn.sensitive = true;
+        resize_btn.sensitive = true;
+        if (files.length == 1) {
+          intro_label.label = _("Resize image within:");
+        } else {
+          intro_label.label = _("Resize %i images within:").printf (files.length);
+        }
+        drop_area.show_preview (files);
       }
-      drop_area.show_preview(files);
     }
     private void on_response (Gtk.Dialog source, int response_id) {
         switch (response_id) {
