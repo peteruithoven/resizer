@@ -2,3 +2,4 @@ src/Application.vala
 src/Window.vala
 src/Resizer.vala
 src/Resizer.vala
+src/DropArea.vala
