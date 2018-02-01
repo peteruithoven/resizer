@@ -43,6 +43,7 @@ namespace Resizer {
         public override void open (File[] files, string hint) {
             Resizer.files = files;
             activate();
+            window.update(Resizer.files);
         }
 
         protected override void activate () {

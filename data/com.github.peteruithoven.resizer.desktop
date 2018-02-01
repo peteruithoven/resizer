@@ -7,6 +7,5 @@ Exec=com.github.peteruithoven.resizer %f
 Icon=com.github.peteruithoven.resizer
 Terminal=false
 Type=Application
-NoDisplay=true
 X-GNOME-Gettext-Domain=resizer
 Keywords=Image;resize;

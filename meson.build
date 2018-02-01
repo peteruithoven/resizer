@@ -23,6 +23,7 @@ executable(
     'src/Window.vala',
     'src/Resizer.vala',
     'src/Resizer.vala',
+    'src/DropArea.vala',
     'build/config.vala',
     dependencies: [
         dependency('gtk+-3.0')
