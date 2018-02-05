@@ -26,7 +26,8 @@ executable(
     'src/DropArea.vala',
     'build/config.vala',
     dependencies: [
-        dependency('gtk+-3.0')
+        dependency('gtk+-3.0'),
+        dependency('granite')
     ],
     install : true
 )

@@ -20,25 +20,36 @@
 */
 
 namespace Resizer {
-  public class Window : Gtk.Dialog {
-  // public class Window : Gtk.ApplicationWindow {
+  public class Window : Gtk.ApplicationWindow {
 
     private Settings settings = new Settings (Constants.PROJECT_NAME);
     private Gtk.Label intro_label;
     private Gtk.SpinButton width_entry;
     private Gtk.SpinButton height_entry;
     private DropArea drop_area;
-    private Gtk.Widget cancel_btn;
-    private Gtk.Widget resize_btn;
+    private Gtk.Button cancel_btn;
+    private Gtk.Button resize_btn;
     const Gtk.TargetEntry[] DRAG_TARGETS = {{ "text/uri-list", 0, 0 }};
 
     public Window () {
-      Object (border_width: 6,
-              resizable: false);
+      Object (border_width: 0,
+              resizable: false,
+              title: _("Resizer")
+             );
     }
     construct {
       this.default_width = 500;
-      this.title = _("Resizer");
+      this.get_style_context ().add_class ("rounded");
+
+      // creating a custom flat header
+      var header = new Gtk.HeaderBar ();
+      header.show_close_button = true;
+      var header_context = header.get_style_context ();
+      header_context.add_class ("titlebar");
+      header_context.add_class ("default-decoration");
+      header_context.add_class (Gtk.STYLE_CLASS_FLAT);
+      this.set_titlebar (header);
+
       var spacing = 12;
 
       intro_label = new Gtk.Label ("");
@@ -46,7 +57,6 @@ namespace Resizer {
 
       // Width input
       var width_label = new Gtk.Label (_("Width:"));
-      // width_label.halign = Gtk.Align.START;
       width_label.halign = Gtk.Align.END;
 
       width_entry = new Gtk.SpinButton.with_range (1, 10000, 1000);
@@ -73,6 +83,7 @@ namespace Resizer {
 
       var height_input = new Gtk.Grid ();
       height_input.row_spacing = spacing/2;
+      height_input.margin_right = spacing;
       height_input.valign = Gtk.Align.CENTER;
       height_input.orientation = Gtk.Orientation.VERTICAL;
       height_input.add(height_label);
@@ -81,29 +92,44 @@ namespace Resizer {
       height_input.add(new Gtk.Label (""));
 
       drop_area = new DropArea();
+      drop_area.margin_left = spacing/2;
+
+      cancel_btn = new Gtk.Button.with_label (_("Cancel"));
+      cancel_btn.clicked.connect (() => {
+        destroy ();
+      });
+      resize_btn = new Gtk.Button.with_label (_("Resize"));
+      resize_btn.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+      resize_btn.can_default = true;
+      resize_btn.clicked.connect (() => {
+        var resizer = Resizer.get_default ();
+        resizer.maxWidth = width_entry.get_value_as_int ();
+        resizer.maxHeight = height_entry.get_value_as_int ();
+        resizer.create_resized_image();
+        destroy ();
+      });
+      // when pressing enter, activate the resize button
+      this.set_default (resize_btn);
+
+      var buttons = new Gtk.Grid ();
+      buttons.column_spacing = spacing/2;
+      buttons.halign = Gtk.Align.END;
+      buttons.valign = Gtk.Align.END;
+      buttons.margin = spacing;
+      buttons.margin_top = 0;
+      buttons.add(cancel_btn);
+      buttons.add(resize_btn);
 
       var grid = new Gtk.Grid ();
       grid.column_spacing = spacing/2;
-      grid.row_spacing = spacing;
-      grid.margin = spacing/2;
-      grid.margin_right = spacing;
+      grid.row_spacing = spacing/2;
       grid.attach(intro_label, 0, 0, 2, 1);
       grid.attach(width_input, 0, 1, 1, 1);
       grid.attach(drop_area, 0, 2, 1, 1);
       grid.attach(height_input, 1, 2, 1, 1);
-      grid.row_spacing = 6;
+      grid.attach(buttons, 0, 3, 2, 1);
 
-      Gtk.Box content = get_content_area () as Gtk.Box;
-      content.add (grid);
-
-      cancel_btn = this.add_button(_("Cancel"), Gtk.ResponseType.CLOSE);
-      resize_btn = this.add_button(_("Resize"), Gtk.ResponseType.APPLY);
-      resize_btn.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
-      resize_btn.can_default = true;
-      this.set_default (resize_btn);
-
-      response.connect (on_response);
-      set_default_response(Gtk.ResponseType.APPLY);
+      this.add(grid);
 
       this.show_all ();
 
@@ -143,19 +169,5 @@ namespace Resizer {
         drop_area.show_preview (files);
       }
     }
-    private void on_response (Gtk.Dialog source, int response_id) {
-        switch (response_id) {
-            case Gtk.ResponseType.APPLY:
-                var resizer = Resizer.get_default ();
-                resizer.maxWidth = width_entry.get_value_as_int ();
-                resizer.maxHeight = height_entry.get_value_as_int ();
-                resizer.create_resized_image();
-                destroy ();
-                break;
-            case Gtk.ResponseType.CLOSE:
-                destroy ();
-                break;
-            }
-        }
-    }
+  }
 }
