@@ -41,9 +41,8 @@ namespace Resizer {
         }
 
         public override void open (File[] files, string hint) {
-            Resizer.files = files;
             activate();
-            window.update(Resizer.files);
+            Resizer.get_default ().files = files;
         }
 
         protected override void activate () {

@@ -21,11 +21,21 @@
 
 namespace Resizer {
     public class Resizer : Object {
-        public static int maxWidth = 1000;
-        public static int maxHeight = 1000;
-        public static File[] files;
+        public int maxWidth = 1000;
+        public int maxHeight = 1000;
+        private File[] _files;
+        public File[] files{
+            get {
+                return _files;
+            }
+            set {
+                _files = value;
+                changed();
+            }
+        }
+        public signal void changed();
 
-        public static void create_resized_image() {
+        public void create_resized_image() {
             foreach (var file in files) {
                 stdout.printf ("resizing: %s\n", file.get_path ());
 
@@ -44,7 +54,7 @@ namespace Resizer {
                 }
             }
         }
-        public static string get_output_name(string input, int width, int height) {
+        public string get_output_name(string input, int width, int height) {
             try {
                 // turns "/home/user/Pictures/picture.jpg" into somesthing like:
                 // "/home/user/Pictures/picture-2000.jpg" or
@@ -63,7 +73,7 @@ namespace Resizer {
                 return "";
             }
         }
-        public static string[] get_command (string input, string output, int width, int height) {
+        public string[] get_command (string input, string output, int width, int height) {
             // Use ImageMagick's convert utility to resize image
             var array = new GenericArray<string> ();
             array.add ("convert");
@@ -72,6 +82,11 @@ namespace Resizer {
             array.add (width.to_string () +  "x" + height.to_string ());
             array.add (output);
             return array.data;
+        }
+
+        private static GLib.Once<Resizer> instance;
+        public static unowned Resizer get_default () {
+            return instance.once (() => { return new Resizer (); });
         }
     }
 }

@@ -112,6 +112,9 @@ namespace Resizer {
       drag_data_received.connect (on_drag_data_received);
 
       update ({});
+      Resizer.get_default ().changed.connect(() => {
+        update(Resizer.get_default ().files);
+      });
     }
     private void on_drag_data_received (Gdk.DragContext drag_context, int x, int y, Gtk.SelectionData data, uint info, uint time) {
       var files = new GenericArray<File> ();
@@ -120,11 +123,9 @@ namespace Resizer {
         var file = File.new_for_uri (uri);
         files.add (file);
       };
-      Resizer.files = files.data;
+      Resizer.get_default ().files = files.data;
       // inform drag source that drop is finished successfully
       Gtk.drag_finish (drag_context, true, false, time);
-
-      update (Resizer.files);
     }
     public void update (File[] files) {
       if (files.length == 0) {
@@ -145,9 +146,10 @@ namespace Resizer {
     private void on_response (Gtk.Dialog source, int response_id) {
         switch (response_id) {
             case Gtk.ResponseType.APPLY:
-                Resizer.maxWidth = width_entry.get_value_as_int ();
-                Resizer.maxHeight = height_entry.get_value_as_int ();
-                Resizer.create_resized_image();
+                var resizer = Resizer.get_default ();
+                resizer.maxWidth = width_entry.get_value_as_int ();
+                resizer.maxHeight = height_entry.get_value_as_int ();
+                resizer.create_resized_image();
                 destroy ();
                 break;
             case Gtk.ResponseType.CLOSE:
