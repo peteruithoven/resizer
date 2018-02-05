@@ -21,6 +21,7 @@ executable(
     meson.project_name(),
     'src/Application.vala',
     'src/Window.vala',
+    'src/ResizePage.vala',
     'src/Resizer.vala',
     'src/Resizer.vala',
     'src/DropArea.vala',
