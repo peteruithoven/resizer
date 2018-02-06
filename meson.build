@@ -2,7 +2,7 @@ project(
     'com.github.peteruithoven.resizer',
     ['vala', 'c'],
     meson_version : '>= 0.43',
-    license: 'GPL-2.0+'
+    license: 'GPL-3.0+'
 )
 
 # Create config.vala from config.vala.in,

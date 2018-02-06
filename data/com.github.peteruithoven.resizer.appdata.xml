@@ -3,7 +3,7 @@
 <component type="desktop">
   <id>com.github.peteruithoven.resizer.desktop</id>
   <metadata_license>CC0</metadata_license>
-  <project_license>GPL-2.0+</project_license>
+  <project_license>GPL-3.0+</project_license>
   <name>Resizer</name>
   <summary>Quickly resize images from the context menu.</summary>
   <description>
