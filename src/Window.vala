@@ -45,6 +45,7 @@ namespace Resizer {
 
       var resize_page = new ResizePage (this);
       var resizing_page = new ResizingPage ();
+      var error_page = new ErrorPage ();
 
       // Pages stack
       pages = new Gtk.Stack ();
@@ -52,6 +53,7 @@ namespace Resizer {
       pages.transition_type = Gtk.StackTransitionType.SLIDE_LEFT_RIGHT;
       pages.add_named (resize_page, "resize");
       pages.add_named (resizing_page, "resizing");
+      pages.add_named (error_page, "error");
       this.add (pages);
 
       Resizer.get_default ().state_changed.connect((r, state) => {
@@ -71,6 +73,7 @@ namespace Resizer {
             break;
           case Resizer.State.ERROR:
             stdout.printf ("  state: ERROR\n");
+            pages.visible_child_name = "error";
             break;
         }
       });

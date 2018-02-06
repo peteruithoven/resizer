@@ -67,6 +67,8 @@ namespace Resizer {
         }
         public signal void progress_changed(int numFiles, int numFilesResized);
 
+        public signal void resize_error(string filename);
+
         public async void resize_images() {
             state = State.RESIZING;
             numFiles = files.length;
@@ -79,8 +81,7 @@ namespace Resizer {
 
                 try {
                     string[] command = get_command(input_name, output_name, maxWidth, maxHeight);
-                    new Subprocess.newv (command, SubprocessFlags.STDERR_PIPE);
-                    Subprocess subprocess = new Subprocess.newv (command, SubprocessFlags.STDERR_PIPE);
+                    Subprocess subprocess = new Subprocess.newv (command, SubprocessFlags.NONE);
                     if (yield subprocess.wait_check_async ()) {
                         stdout.printf ("Successfully resized: %s\n", output_name);
                         numFilesResized++;
@@ -90,8 +91,8 @@ namespace Resizer {
                         }
                     }
                 } catch (Error e) {
-                    stderr.printf ("Error during resize: %s", e.message);
                     state = State.ERROR;
+                    resize_error(input_name);
                 }
             }
         }
