@@ -1,6 +1,12 @@
 # Resizer
 
-Quick image resize, accessible image's context menu.
+Quickly resize images from the context menu.  
+Features:
+- Use from context menu: right click on image(s), and select "Resize images".
+- Use from Applications menu: Drag and drop image(s).
+- Maintains aspect ratio.
+- Keyboard control: Change the sizes using the up and down keys, press enter to resize.
+- Settings are stored for next time.
 
 ![Screenshot 1](screenshot.png)
 ![Screenshot 2](screenshot2.png)
