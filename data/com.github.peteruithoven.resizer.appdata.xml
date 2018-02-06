@@ -7,9 +7,19 @@
   <name>Resizer</name>
   <summary>Quickly resize images from the context menu.</summary>
   <description>
-    <p>Simply right click on your image file(s), and select "Resize image" from the context menu.</p>
-    <p>Change the sizes using the up and down keys on your keyboard and press enter to resize.</p>
-    <p>Settings are stored for next time.</p>
+    <p>
+    Simple image resizer
+    </p>
+    <p>
+    Features:
+    </p>
+    <ul>
+    <li>Use from context menu: right click on image(s), and select "Resize images".</li>
+    <li>Use from Applications menu: Drag and drop image(s).</li>
+    <li>Maintains aspect ratio.</li>
+    <li>Keyboard control: Change the sizes using the up and down keys, press enter to resize.</li>
+    <li>Settings are stored for next time.</li>
+    </ul>
   </description>
   <screenshots>
     <screenshot type="default">
