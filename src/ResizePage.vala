@@ -126,7 +126,12 @@ namespace Resizer {
         } else {
           intro_label.label = _("Resize %i images within:").printf (files.length);
         }
-        drop_area.show_preview (files);
+        try {
+          drop_area.show_preview (files);
+        } catch (Error e) {
+          var message = _("Error creating preview: %s").printf(e.message);
+          MessageCenter.get_default().add_error(message);
+        }
       }
     }
   }

@@ -23,9 +23,9 @@ executable(
     'src/Window.vala',
     'src/ResizePage.vala',
     'src/ResizingPage.vala',
-    'src/ErrorPage.vala',
     'src/Resizer.vala',
     'src/DropArea.vala',
+    'src/MessageCenter.vala',
     'build/config.vala',
     dependencies: [
         dependency('gtk+-3.0'),

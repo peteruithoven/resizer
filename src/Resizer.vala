@@ -39,7 +39,6 @@ namespace Resizer {
         public enum State {
             IDLE,
             RESIZING,
-            ERROR,
             SUCCESS
         }
         private State _state = State.IDLE;
@@ -67,8 +66,6 @@ namespace Resizer {
         }
         public signal void progress_changed(int numFiles, int numFilesResized);
 
-        public signal void resize_error(string filename);
-
         public async void resize_images() {
             state = State.RESIZING;
             numFiles = files.length;
@@ -91,8 +88,8 @@ namespace Resizer {
                         }
                     }
                 } catch (Error e) {
-                    state = State.ERROR;
-                    resize_error(input_name);
+                    var message = _("There was an issue resizing '%s'").printf(input_name);
+                    MessageCenter.get_default().add_error(message);
                 }
             }
         }
