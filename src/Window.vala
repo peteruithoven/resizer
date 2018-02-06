@@ -54,9 +54,25 @@ namespace Resizer {
       pages.add_named (resizing_page, "resizing");
       this.add (pages);
 
-      GLib.Timeout.add (2000, () => {
-        pages.visible_child_name = "resizing";
-        return false;
+      Resizer.get_default ().state_changed.connect((r, state) => {
+        switch (state) {
+          case Resizer.State.IDLE:
+            pages.visible_child_name = "resize";
+            break;
+          case Resizer.State.RESIZING:
+            pages.visible_child_name = "resizing";
+            break;
+          case Resizer.State.SUCCESS:
+            // small delay to show completed progress
+            GLib.Timeout.add (500, () => {
+              this.destroy ();
+              return false;
+            });
+            break;
+          case Resizer.State.ERROR:
+            stdout.printf ("  state: ERROR\n");
+            break;
+        }
       });
 
       // set whole window as drag target

@@ -86,8 +86,7 @@ namespace Resizer {
         var resizer = Resizer.get_default ();
         resizer.maxWidth = width_entry.get_value_as_int ();
         resizer.maxHeight = height_entry.get_value_as_int ();
-        resizer.create_resized_image();
-        app.destroy ();
+        resizer.resize_images();
       });
       // when pressing enter, activate the resize button
       app.set_default (resize_btn);

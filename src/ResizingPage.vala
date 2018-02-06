@@ -26,24 +26,28 @@ namespace Resizer {
       this.width_request = 350;
       var spacing = 12;
 
-      var intro_label = new Gtk.Label (_("Resizing images"));
-      intro_label.halign = Gtk.Align.START;
-      intro_label.hexpand = true;
-      intro_label.margin_bottom = spacing/2;
-
       var bar = new Gtk.ProgressBar ();
       bar.hexpand = true;
       bar.halign = Gtk.Align.FILL;
 
-      var remaining_label = new Gtk.Label (_("X images remaining"));
+      var remaining_label = new Gtk.Label ("");
       remaining_label.halign = Gtk.Align.START;
 
       this.orientation = Gtk.Orientation.VERTICAL;
       this.margin = spacing;
       this.margin_top = 0;
-      this.add(intro_label);
       this.add(bar);
       this.add(remaining_label);
+
+      Resizer.get_default ().progress_changed.connect((r, numFiles, numFilesResized) => {
+        bar.fraction = ((double) numFilesResized) / ((double) numFiles);
+        var imagesRemaining = numFiles-numFilesResized;
+        if (imagesRemaining == 1) {
+          remaining_label.label = _("1 image remaining");
+        } else {
+          remaining_label.label = _("%i images remaining").printf (imagesRemaining);
+        }
+      });
     }
   }
 }
