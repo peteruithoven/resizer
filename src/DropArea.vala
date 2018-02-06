@@ -61,26 +61,33 @@ namespace Resizer {
       drag_label.no_show_all = true;
 
       var file = files[0];
-      var pixbuf = new Gdk.Pixbuf.from_file_at_scale (
-        file.get_path (),
-        300,
-        500,
-        true
-      );
-      image.set_from_pixbuf (pixbuf);
-      image.height_request = pixbuf.height;
-      image.width_request = pixbuf.width;
-
-      if (files.length > 1) {
-        var file2 = files[1];
-        stdout.printf ("second image: %s\n", file2.get_path ());
-        var pixbuf2 = new Gdk.Pixbuf.from_file_at_scale (
-          file2.get_path (),
+      try {
+        var pixbuf = new Gdk.Pixbuf.from_file_at_scale (
+          file.get_path (),
           300,
           500,
           true
         );
-        image2.set_from_pixbuf (pixbuf2);
+        image.set_from_pixbuf (pixbuf);
+        image.height_request = pixbuf.height;
+        image.width_request = pixbuf.width;
+      } catch (Error e) {
+        stderr.printf ("Error creating preview: %s\n", e.message);
+      }
+
+      if (files.length > 1) {
+        var file2 = files[1];
+        try {
+          var pixbuf2 = new Gdk.Pixbuf.from_file_at_scale (
+            file2.get_path (),
+            300,
+            500,
+            true
+          );
+          image2.set_from_pixbuf (pixbuf2);
+        } catch (Error e) {
+          stderr.printf ("Error creating preview: %s\n", e.message);
+        }
         image2.visible = true;
 
         image.margin_top = 6+6;
