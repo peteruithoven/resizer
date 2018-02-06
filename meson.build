@@ -22,7 +22,7 @@ executable(
     'src/Application.vala',
     'src/Window.vala',
     'src/ResizePage.vala',
-    'src/Resizer.vala',
+    'src/ResizingPage.vala',
     'src/Resizer.vala',
     'src/DropArea.vala',
     'build/config.vala',

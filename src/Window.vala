@@ -32,7 +32,6 @@ namespace Resizer {
              );
     }
     construct {
-      this.default_width = 500;
       this.get_style_context ().add_class ("rounded");
 
       // creating a custom flat header
@@ -45,15 +44,20 @@ namespace Resizer {
       this.set_titlebar (header);
 
       var resize_page = new ResizePage (this);
+      var resizing_page = new ResizingPage ();
 
       // Pages stack
       pages = new Gtk.Stack ();
+      pages.homogeneous = false;
       pages.transition_type = Gtk.StackTransitionType.SLIDE_LEFT_RIGHT;
       pages.add_named (resize_page, "resize");
-      pages.set_visible_child_name ("resize");
+      pages.add_named (resizing_page, "resizing");
       this.add (pages);
 
-      this.show_all ();
+      GLib.Timeout.add (2000, () => {
+        pages.visible_child_name = "resizing";
+        return false;
+      });
 
       // set whole window as drag target
       Gtk.drag_dest_set (this, Gtk.DestDefaults.MOTION | Gtk.DestDefaults.DROP, DRAG_TARGETS, Gdk.DragAction.COPY);
