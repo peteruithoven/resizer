@@ -19,6 +19,23 @@
 * Authored by: Peter Uithoven <peter@peteruithoven.nl>
 */
 
-namespace Constants {
-   public const string PROJECT_NAME = @PROJECT_NAME@;
+namespace Resizer {
+  public class ErrorPage : Gtk.Grid {
+
+    public ErrorPage () {
+      this.width_request = 350;
+      var spacing = 12;
+
+      var error_label = new Gtk.Label ("");
+      error_label.halign = Gtk.Align.START;
+
+      this.margin = spacing;
+      this.margin_top = 0;
+      this.add(error_label);
+
+      Resizer.get_default ().resize_error.connect((r, filename) => {
+        error_label.label = _("There was an issue resizing '%s'").printf(filename);
+      });
+    }
+  }
 }

@@ -20,7 +20,7 @@
 */
 
 namespace Resizer {
-    public class Application : Gtk.Application {
+    public class Application : Granite.Application {
         private Window window = null;
 
         public Application () {
@@ -37,13 +37,12 @@ namespace Resizer {
                 }
             });
             add_action (quit_action);
-            set_accels_for_action ("app.quit", {"<Ctrl>Q"});
+            set_accels_for_action ("app.quit", {"<Ctrl>Q", "Escape"});
         }
 
         public override void open (File[] files, string hint) {
-            Resizer.files = files;
             activate();
-            window.update(Resizer.files);
+            Resizer.get_default ().files = files;
         }
 
         protected override void activate () {

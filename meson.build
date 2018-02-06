@@ -21,12 +21,15 @@ executable(
     meson.project_name(),
     'src/Application.vala',
     'src/Window.vala',
-    'src/Resizer.vala',
+    'src/ResizePage.vala',
+    'src/ResizingPage.vala',
+    'src/ErrorPage.vala',
     'src/Resizer.vala',
     'src/DropArea.vala',
     'build/config.vala',
     dependencies: [
-        dependency('gtk+-3.0')
+        dependency('gtk+-3.0'),
+        dependency('granite')
     ],
     install : true
 )

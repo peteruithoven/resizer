@@ -21,11 +21,58 @@
 
 namespace Resizer {
     public class Resizer : Object {
-        public static int maxWidth = 1000;
-        public static int maxHeight = 1000;
-        public static File[] files;
+        public int maxWidth = 1000;
+        public int maxHeight = 1000;
 
-        public static void create_resized_image() {
+        private File[] _files;
+        public File[] files{
+            get {
+                return _files;
+            }
+            set {
+                _files = value;
+                changed();
+            }
+        }
+        public signal void changed();
+
+        public enum State {
+            IDLE,
+            RESIZING,
+            ERROR,
+            SUCCESS
+        }
+        private State _state = State.IDLE;
+        private State state{
+            get {
+                return _state;
+            }
+            set {
+                _state = value;
+                state_changed(_state);
+            }
+        }
+        public signal void state_changed(State state);
+
+        private int numFiles;
+        private int _numFilesResized;
+        private int numFilesResized{
+            get {
+                return _numFilesResized;
+            }
+            set {
+                _numFilesResized = value;
+                progress_changed(numFiles, _numFilesResized);
+            }
+        }
+        public signal void progress_changed(int numFiles, int numFilesResized);
+
+        public signal void resize_error(string filename);
+
+        public async void resize_images() {
+            state = State.RESIZING;
+            numFiles = files.length;
+            numFilesResized = 0;
             foreach (var file in files) {
                 stdout.printf ("resizing: %s\n", file.get_path ());
 
@@ -34,17 +81,22 @@ namespace Resizer {
 
                 try {
                     string[] command = get_command(input_name, output_name, maxWidth, maxHeight);
-                    new Subprocess.newv (command, SubprocessFlags.STDERR_PIPE);
-                    // Subprocess subprocess = new Subprocess.newv (command, SubprocessFlags.STDERR_PIPE);
-                    // if (subprocess.wait_check ()) {
-                    //     stdout.printf ("Success!\n");
-                    // }
+                    Subprocess subprocess = new Subprocess.newv (command, SubprocessFlags.NONE);
+                    if (yield subprocess.wait_check_async ()) {
+                        stdout.printf ("Successfully resized: %s\n", output_name);
+                        numFilesResized++;
+                        if (numFilesResized == numFiles) {
+                            stdout.printf ("All successfully resized\n");
+                            state = State.SUCCESS;
+                        }
+                    }
                 } catch (Error e) {
-                    stderr.printf ("Error during resize: %s", e.message);
+                    state = State.ERROR;
+                    resize_error(input_name);
                 }
             }
         }
-        public static string get_output_name(string input, int width, int height) {
+        public string get_output_name(string input, int width, int height) {
             try {
                 // turns "/home/user/Pictures/picture.jpg" into somesthing like:
                 // "/home/user/Pictures/picture-2000.jpg" or
@@ -63,7 +115,7 @@ namespace Resizer {
                 return "";
             }
         }
-        public static string[] get_command (string input, string output, int width, int height) {
+        public string[] get_command (string input, string output, int width, int height) {
             // Use ImageMagick's convert utility to resize image
             var array = new GenericArray<string> ();
             array.add ("convert");
@@ -72,6 +124,11 @@ namespace Resizer {
             array.add (width.to_string () +  "x" + height.to_string ());
             array.add (output);
             return array.data;
+        }
+
+        private static GLib.Once<Resizer> instance;
+        public static unowned Resizer get_default () {
+            return instance.once (() => { return new Resizer (); });
         }
     }
 }
