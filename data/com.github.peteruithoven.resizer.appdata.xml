@@ -36,6 +36,15 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.10.0" date="2018-02-07">
+      <description>
+        <ul>
+        <li>Progress indication</li>
+        <li>Proper error messages</li>
+        <li>Switched to GPL-3.0</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.8.0" date="2018-01-31">
       <description>
         <p>Initial release</p>
