@@ -1,5 +1,11 @@
 # Resizer
 
+<p align="center">
+    <a href="https://appcenter.elementary.io/com.github.peteruithoven.resizer">
+        <img src="https://appcenter.elementary.io/badge.svg" alt="Get it on AppCenter">
+    </a>
+</p>
+
 Quickly resize images from the context menu.  
 Features:
 - Use from context menu: right click on image(s), and select "Resize images".
