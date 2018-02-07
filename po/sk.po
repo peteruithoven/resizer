@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.peteruithoven.resizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 18:04+0100\n"
+"POT-Creation-Date: 2018-02-07 10:25+0100\n"
 "PO-Revision-Date: 2018-01-31 01:09+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,39 +17,58 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: src/Window.vala:41
+#: src/Window.vala:31
 msgid "Resizer"
 msgstr ""
 
-#: src/Window.vala:48
+#: src/ResizePage.vala:40
 msgid "Width:"
 msgstr ""
 
-#: src/Window.vala:66
+#: src/ResizePage.vala:57
 msgid "Height:"
 msgstr ""
 
-#: src/Window.vala:99
+#: src/ResizePage.vala:78
 msgid "Cancel"
 msgstr ""
 
-#: src/Window.vala:100
+#: src/ResizePage.vala:82
 msgid "Resize"
 msgstr ""
 
-#: src/Window.vala:133
+#: src/ResizePage.vala:120
 msgid "Resize image(s) within:"
 msgstr ""
 
-#: src/Window.vala:138
+#: src/ResizePage.vala:125
 msgid "Resize image within:"
 msgstr ""
 
-#: src/Window.vala:140
+#: src/ResizePage.vala:127
 #, c-format
 msgid "Resize %i images within:"
 msgstr ""
 
-#: src/DropArea.vala:23
+#: src/ResizePage.vala:132
+#, c-format
+msgid "Error creating preview: %s"
+msgstr ""
+
+#: src/ResizingPage.vala:46
+msgid "1 image remaining"
+msgstr ""
+
+#: src/ResizingPage.vala:48
+#, c-format
+msgid "%i images remaining"
+msgstr ""
+
+#: src/Resizer.vala:91
+#, c-format
+msgid "There was an issue resizing '%s'"
+msgstr ""
+
+#: src/DropArea.vala:44
 msgid "Drop Image(s) Here"
 msgstr ""
