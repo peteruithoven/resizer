@@ -34,6 +34,9 @@
     <screenshot>
       <image>https://raw.githubusercontent.com/peteruithoven/resizer/master/screenshot4.png</image>
     </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/peteruithoven/resizer/master/screenshot5.png</image>
+    </screenshot>
   </screenshots>
   <releases>
     <release version="0.10.0" date="2018-02-07">

@@ -12,6 +12,7 @@ Features:
 ![Screenshot 2](screenshot2.png)
 ![Screenshot 3](screenshot3.png)
 ![Screenshot 4](screenshot4.png)
+![Screenshot 5](screenshot5.png)
 
 ## Building, Testing, and Installation
 
