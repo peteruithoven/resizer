@@ -20,34 +20,34 @@
 */
 
 namespace Resizer {
-  public class MessageCenter : Gtk.Grid {
+    public class MessageCenter : Gtk.Grid {
 
-    public MessageCenter () {
-      this.orientation = Gtk.Orientation.VERTICAL;
+        public MessageCenter () {
+            this.orientation = Gtk.Orientation.VERTICAL;
+        }
+        public void add_message(Gtk.MessageType type, string message) {
+            stdout.printf ("adding message: %s\n", message);
+            var bar = new Gtk.InfoBar ();
+            bar.message_type = type;
+            bar.get_content_area ().add (new Gtk.Label (message));
+            bar.show_close_button = true;
+            bar.response.connect (() => {
+                bar.hide();
+                // TODO: find a better way
+                GLib.Timeout.add (1000, () => {
+                    bar.destroy();
+                    return false;
+                });
+            });
+            this.add(bar);
+            bar.show_all ();
+        }
+        public void add_error(string message) {
+            this.add_message (Gtk.MessageType.ERROR, message);
+        }
+        private static GLib.Once<MessageCenter> instance;
+        public static unowned MessageCenter get_default () {
+            return instance.once (() => { return new MessageCenter (); });
+        }
     }
-    public void add_message(Gtk.MessageType type, string message) {
-      stdout.printf ("adding message: %s\n", message);
-      var bar = new Gtk.InfoBar ();
-      bar.message_type = type;
-      bar.get_content_area ().add (new Gtk.Label (message));
-      bar.show_close_button = true;
-      bar.response.connect (() => {
-        bar.hide();
-        // TODO: find a better way
-        GLib.Timeout.add (1000, () => {
-          bar.destroy();
-          return false;
-        });
-      });
-      this.add(bar);
-      bar.show_all ();
-    }
-    public void add_error(string message) {
-      this.add_message (Gtk.MessageType.ERROR, message);
-    }
-    private static GLib.Once<MessageCenter> instance;
-    public static unowned MessageCenter get_default () {
-        return instance.once (() => { return new MessageCenter (); });
-    }
-  }
 }

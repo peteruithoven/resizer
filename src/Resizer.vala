@@ -25,7 +25,7 @@ namespace Resizer {
         public int maxHeight = 1000;
 
         private File[] _files;
-        public File[] files{
+        public File[] files {
             get {
                 return _files;
             }
@@ -42,7 +42,7 @@ namespace Resizer {
             SUCCESS
         }
         private State _state = State.IDLE;
-        private State state{
+        private State state {
             get {
                 return _state;
             }
@@ -55,7 +55,7 @@ namespace Resizer {
 
         private int numFiles;
         private int _numFilesResized;
-        private int numFilesResized{
+        private int numFilesResized {
             get {
                 return _numFilesResized;
             }

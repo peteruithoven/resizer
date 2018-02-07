@@ -20,22 +20,22 @@
 */
 
 namespace Resizer {
-  public class ErrorPage : Gtk.Grid {
+    public class ErrorPage : Gtk.Grid {
 
-    public ErrorPage () {
-      this.width_request = 350;
-      var spacing = 12;
+        public ErrorPage () {
+            this.width_request = 350;
+            var spacing = 12;
 
-      var error_label = new Gtk.Label ("");
-      error_label.halign = Gtk.Align.START;
+            var error_label = new Gtk.Label ("");
+            error_label.halign = Gtk.Align.START;
 
-      this.margin = spacing;
-      this.margin_top = 0;
-      this.add(error_label);
+            this.margin = spacing;
+            this.margin_top = 0;
+            this.add(error_label);
 
-      Resizer.get_default ().resize_error.connect((r, filename) => {
-        error_label.label = _("There was an issue resizing '%s'").printf(filename);
-      });
+            Resizer.get_default ().resize_error.connect((r, filename) => {
+                error_label.label = _("There was an issue resizing '%s'").printf(filename);
+            });
+        }
     }
-  }
 }
