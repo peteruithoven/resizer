@@ -37,7 +37,7 @@ namespace Resizer {
             intro_label.margin_bottom = spacing/2;
 
             // Width input
-            var width_label = new Gtk.Label (_("Width:"));
+            var width_label = new Gtk.Label (_("Max width:"));
             width_label.halign = Gtk.Align.END;
 
             width_entry = new Gtk.SpinButton.with_range (1, 10000, 1000);
@@ -54,7 +54,7 @@ namespace Resizer {
             width_input.add(new Gtk.Label (""));
 
             // height input
-            var height_label = new Gtk.Label (_("Height:"));
+            var height_label = new Gtk.Label (_("Max height:"));
             height_label.halign = Gtk.Align.START;
 
             height_entry = new Gtk.SpinButton.with_range (1, 10000, 1000);
