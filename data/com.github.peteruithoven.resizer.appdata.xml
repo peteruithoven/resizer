@@ -39,6 +39,14 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="1.0.0" date="2018-02-09">
+      <description>
+        <ul>
+        <li>Improved icon thanks to TraumaD</li>
+        <li>Clarified that it resizes within size using labels</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.10.0" date="2018-02-07">
       <description>
         <ul>
