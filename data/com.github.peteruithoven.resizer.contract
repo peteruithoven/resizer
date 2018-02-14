@@ -1,6 +1,8 @@
 [Contractor Entry]
 Name=Resize images
+Name[lt]=Keisti paveikslų dydį
 Description=Resize images
+Description[lt]=Keisti paveikslų dydį
 MimeType=image
 Icon=com.github.peteruithoven.resizer
 Exec=com.github.peteruithoven.resizer %F
