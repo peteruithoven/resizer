@@ -1,75 +1,75 @@
-# Lithuanian translations for com.github.peteruithoven.resizer package.
-# Copyright (C) 2018 THE com.github.peteruithoven.resizer'S COPYRIGHT HOLDER
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the com.github.peteruithoven.resizer package.
-# Automatically generated, 2018.
+# Moo, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: com.github.peteruithoven.resizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-07 10:25+0100\n"
-"PO-Revision-Date: 2018-01-31 01:09+0100\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
-"Language: lt\n"
+"POT-Creation-Date: 2018-02-14 22:27+0200\n"
+"PO-Revision-Date: 2018-02-14 22:33+0200\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ASCII\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
-"%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"Last-Translator: Moo\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: lt\n"
 
 #: src/Window.vala:31
 msgid "Resizer"
-msgstr ""
+msgstr "Dydžio keitiklis"
 
 #: src/ResizePage.vala:40
 msgid "Width:"
-msgstr ""
+msgstr "Plotis:"
 
 #: src/ResizePage.vala:57
 msgid "Height:"
-msgstr ""
+msgstr "Aukštis:"
 
 #: src/ResizePage.vala:78
 msgid "Cancel"
-msgstr ""
+msgstr "Atsisakyti"
 
 #: src/ResizePage.vala:82
 msgid "Resize"
-msgstr ""
+msgstr "Keisti dydį"
 
 #: src/ResizePage.vala:120
 msgid "Resize image(s) within:"
-msgstr ""
+msgstr "Keisti paveikslo(-ų) dydį ne daugiau kaip:"
 
 #: src/ResizePage.vala:125
 msgid "Resize image within:"
-msgstr ""
+msgstr "Keisti paveikslo dydį ne daugiau kaip:"
 
 #: src/ResizePage.vala:127
 #, c-format
 msgid "Resize %i images within:"
-msgstr ""
+msgstr "Keisti %i paveikslų dydį ne daugiau kaip:"
 
 #: src/ResizePage.vala:132
 #, c-format
 msgid "Error creating preview: %s"
-msgstr ""
+msgstr "Klaida kuriant peržiūrą: %s"
 
 #: src/ResizingPage.vala:46
 msgid "1 image remaining"
-msgstr ""
+msgstr "Liko 1 paveikslas"
 
 #: src/ResizingPage.vala:48
 #, c-format
 msgid "%i images remaining"
-msgstr ""
+msgstr "Liko %i paveikslai(-ų)"
 
 #: src/Resizer.vala:91
 #, c-format
 msgid "There was an issue resizing '%s'"
-msgstr ""
+msgstr "Atsirado problemų, keičiant \"%s\" dydį"
 
 #: src/DropArea.vala:44
 msgid "Drop Image(s) Here"
-msgstr ""
+msgstr "Tempkite paveikslą(-us) čia"
