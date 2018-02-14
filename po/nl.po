@@ -22,14 +22,12 @@ msgid "Resizer"
 msgstr "Herschaler"
 
 #: src/ResizePage.vala:40
-#, fuzzy
 msgid "Max width:"
-msgstr "Breedte:"
+msgstr "Max breedte:"
 
 #: src/ResizePage.vala:57
-#, fuzzy
 msgid "Max height:"
-msgstr "Hoogte:"
+msgstr "Max hoogte:"
 
 #: src/ResizePage.vala:78
 msgid "Cancel"
@@ -40,7 +38,6 @@ msgid "Resize"
 msgstr "Herschaal"
 
 #: src/ResizePage.vala:120
-#, fuzzy
 msgid "Resize image(s) within:"
 msgstr "Herschaal de afbeelding(en) binnen:"
 
@@ -49,29 +46,29 @@ msgid "Resize image within:"
 msgstr "Herschaal de afbeelding binnen:"
 
 #: src/ResizePage.vala:127
-#, fuzzy, c-format
+#, c-format
 msgid "Resize %i images within:"
-msgstr "Herschaal de %i afbeeldingen binnen:"
+msgstr "Herschaal %i afbeeldingen binnen:"
 
 #: src/ResizePage.vala:132
 #, c-format
 msgid "Error creating preview: %s"
-msgstr ""
+msgstr "Probleem bij het maken van voorbeeld: %s"
 
 #: src/ResizingPage.vala:46
 msgid "1 image remaining"
-msgstr ""
+msgstr "1 afbeelding over"
 
 #: src/ResizingPage.vala:48
-#, fuzzy, c-format
+#, c-format
 msgid "%i images remaining"
-msgstr "Herschaal de %i afbeeldingen binnen:"
+msgstr "%i afbeeldingen over:"
 
 #: src/Resizer.vala:91
 #, c-format
 msgid "There was an issue resizing '%s'"
-msgstr ""
+msgstr "Er was een probleem bij herschalen: '%s'"
 
 #: src/DropArea.vala:44
 msgid "Drop Image(s) Here"
-msgstr "Sleep afbeeldingen hierheen"
+msgstr "Sleep afbeelding(en) hierheen"
