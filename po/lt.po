@@ -24,14 +24,12 @@ msgid "Resizer"
 msgstr "Dydžio keitiklis"
 
 #: src/ResizePage.vala:40
-#, fuzzy
 msgid "Max width:"
-msgstr "Plotis:"
+msgstr "Didžiausias plotis:"
 
 #: src/ResizePage.vala:57
-#, fuzzy
 msgid "Max height:"
-msgstr "Aukštis:"
+msgstr "Didžiausias aukštis:"
 
 #: src/ResizePage.vala:78
 msgid "Cancel"
