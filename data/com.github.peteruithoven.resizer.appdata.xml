@@ -79,4 +79,5 @@
     <value key="x-appcenter-color-primary">#60caee</value>
     <value key="x-appcenter-color-primary-text">#ffffff</value>
   </custom>
+  <content_rating type="oars-1.1" />
 </component>
