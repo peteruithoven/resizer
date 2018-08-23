@@ -39,6 +39,15 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="1.0.3" date="2018-07-23">
+      <description>
+        <ul>
+        <li>Lithuanian translation (Thanks welaq)</li>
+        <li>Fixed issue where files with a . in their path couldn't be resized (Thanks inhji)</li>
+        <li>More appdata file fixes</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.0.2" date="2018-07-21">
       <description>
         <ul>
