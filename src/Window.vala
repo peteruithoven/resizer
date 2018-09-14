@@ -49,7 +49,8 @@ namespace Resizer {
             // Pages stack
             pages = new Gtk.Stack ();
             pages.homogeneous = false;
-            pages.transition_type = Gtk.StackTransitionType.SLIDE_LEFT_RIGHT;
+            pages.transition_duration = 500;
+            pages.transition_type = Gtk.StackTransitionType.SLIDE_UP;
             pages.add_named (resize_page, "resize");
             pages.add_named (resizing_page, "resizing");
 
@@ -68,6 +69,7 @@ namespace Resizer {
                         pages.visible_child_name = "resize";
                         break;
                     case Resizer.State.RESIZING:
+                        resize_page.visible = false;
                         pages.visible_child_name = "resizing";
                         break;
                     case Resizer.State.SUCCESS:
