@@ -39,10 +39,20 @@ namespace Resizer {
             this.add(bar);
             this.add(remaining_label);
 
+            var green_bar_provider = new Gtk.CssProvider ();
+            try {
+                green_bar_provider.load_from_data ("@define-color selected_bg_color @success_color;");
+            } catch (Error e) {
+                warning ("Failed to load custom CSS to make green progress bars. Error: %s", e.message);
+            }
+
             Resizer.get_default ().progress_changed.connect((r, numFiles, numFilesResized) => {
                 bar.fraction = ((double) numFilesResized) / ((double) numFiles);
                 var imagesRemaining = numFiles-numFilesResized;
-                if (imagesRemaining == 1) {
+                if (imagesRemaining == 0) {
+                    remaining_label.label = _("All images resized");
+                    bar.get_style_context ().add_provider (green_bar_provider, Gtk.STYLE_PROVIDER_PRIORITY_USER);
+                } else if (imagesRemaining == 1) {
                     remaining_label.label = _("1 image remaining");
                 } else {
                     remaining_label.label = _("%i images remaining").printf (imagesRemaining);
