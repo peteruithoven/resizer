@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.peteruithoven.resizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-14 22:53+0100\n"
+"POT-Creation-Date: 2018-09-14 19:36+0200\n"
 "PO-Revision-Date: 2018-01-31 01:09+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -56,11 +56,15 @@ msgstr ""
 msgid "Error creating preview: %s"
 msgstr ""
 
-#: src/ResizingPage.vala:46
+#: src/ResizingPage.vala:53
+msgid "All images resized"
+msgstr ""
+
+#: src/ResizingPage.vala:56
 msgid "1 image remaining"
 msgstr ""
 
-#: src/ResizingPage.vala:48
+#: src/ResizingPage.vala:58
 #, c-format
 msgid "%i images remaining"
 msgstr ""
