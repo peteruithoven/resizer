@@ -57,7 +57,7 @@ msgstr "Probleem bij het maken van voorbeeld: %s"
 
 #: src/ResizingPage.vala:53
 msgid "All images resized"
-msgstr ""
+msgstr "Alle afbeeldingen zijn herschaald"
 
 #: src/ResizingPage.vala:56
 msgid "1 image remaining"
