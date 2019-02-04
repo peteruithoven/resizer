@@ -37,7 +37,7 @@ namespace Resizer {
             image2 = new Gtk.Image ();
             image2.get_style_context ().add_class ("card");
             image2.margin = 6;
-            image2.margin_left = 6+6;
+            image2.margin_start = 6+6;
             image2.margin_top = 6;
             image2.visible = false;
 

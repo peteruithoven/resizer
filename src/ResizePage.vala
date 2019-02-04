@@ -64,7 +64,7 @@ namespace Resizer {
 
             var height_input = new Gtk.Grid ();
             height_input.row_spacing = spacing/2;
-            height_input.margin_right = spacing;
+            height_input.margin_end = spacing;
             height_input.valign = Gtk.Align.CENTER;
             height_input.orientation = Gtk.Orientation.VERTICAL;
             height_input.add(height_label);
@@ -73,7 +73,7 @@ namespace Resizer {
             height_input.add(new Gtk.Label (""));
 
             drop_area = new DropArea();
-            drop_area.margin_left = spacing/2;
+            drop_area.margin_start = spacing/2;
 
             cancel_btn = new Gtk.Button.with_label (_("Cancel"));
             cancel_btn.clicked.connect (() => {
