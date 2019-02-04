@@ -20,6 +20,7 @@ subdir('po')
 executable(
     meson.project_name(),
     'src/Application.vala',
+    'src/HeaderBar.vala',
     'src/Window.vala',
     'src/ResizePage.vala',
     'src/ResizingPage.vala',

@@ -34,13 +34,7 @@ namespace Resizer {
         construct {
             this.get_style_context ().add_class ("rounded");
 
-            // creating a custom flat header
-            var header = new Gtk.HeaderBar ();
-            header.show_close_button = true;
-            var header_context = header.get_style_context ();
-            header_context.add_class ("titlebar");
-            header_context.add_class ("default-decoration");
-            header_context.add_class (Gtk.STYLE_CLASS_FLAT);
+            var header = new HeaderBar ();
             this.set_titlebar (header);
 
             var resize_page = new ResizePage (this);
