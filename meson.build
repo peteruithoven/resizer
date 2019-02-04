@@ -1,7 +1,7 @@
 project(
     'com.github.peteruithoven.resizer',
     ['vala', 'c'],
-    meson_version : '>= 0.43',
+    meson_version : '>= 0.47',
     license: 'GPL-3.0+'
 )
 
