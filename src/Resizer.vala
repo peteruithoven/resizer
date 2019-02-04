@@ -118,7 +118,7 @@ namespace Resizer {
             array.add ("convert");
             array.add (input);
             array.add ("-resize");
-            array.add (width.to_string () +  "x" + height.to_string ());
+            array.add (width.to_string () +  "x" + height.to_string () + ">");
             array.add (output);
             return array.data;
         }
