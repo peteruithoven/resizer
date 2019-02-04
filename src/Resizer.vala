@@ -78,6 +78,7 @@ namespace Resizer {
 
                 try {
                     string[] command = get_command(input_name, output_name, maxWidth, maxHeight);
+                    debug ("command: %s", string.joinv (" ", command));
                     Subprocess subprocess = new Subprocess.newv (command, SubprocessFlags.NONE);
                     if (yield subprocess.wait_check_async ()) {
                         stdout.printf ("Successfully resized: %s\n", output_name);
