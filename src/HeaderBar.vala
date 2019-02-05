@@ -45,8 +45,6 @@ namespace Resizer {
             info_menu.popover = infoPopover;
 
             pack_end (info_menu);
-
-            this.show_all ();
         }
     }
 }
