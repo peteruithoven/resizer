@@ -3,7 +3,7 @@ Upstream-Name: resizer
 Source: https://github.com/peteruithoven/resizer
 
 Files: src/* data/* meson/* debian/*
-Copyright: 2018 Peter Uithoven <peter@peteruithoven.nl>
+Copyright: 2019 Peter Uithoven <peter@peteruithoven.nl>
 License: GPL-3.0+
 
 License: GPL-3.0+

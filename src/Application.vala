@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2011-2018 Peter Uithoven (https://peteruithoven.nl)
+* Copyright (c) 2011-2019 Peter Uithoven (https://peteruithoven.nl)
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public

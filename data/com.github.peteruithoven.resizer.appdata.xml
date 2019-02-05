@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2018 Peter Uithoven <peter@peteruithoven.nl> -->
+<!-- Copyright 2019 Peter Uithoven <peter@peteruithoven.nl> -->
 <component type="desktop">
   <id>com.github.peteruithoven.resizer</id>
   <metadata_license>CC0</metadata_license>
