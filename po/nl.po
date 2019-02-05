@@ -21,11 +21,11 @@ msgstr ""
 msgid ""
 "Resizer will never upscale and always maintain the aspect ratio of your "
 "images."
-msgstr ""
+msgstr "Herschaler zal afbeeldingen nooit opschalen en zal altijd de verhouding behouden."
 
 #: src/HeaderBar.vala:43
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: src/Window.vala:31
 msgid "Resizer"
