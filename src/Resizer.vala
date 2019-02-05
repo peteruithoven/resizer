@@ -20,7 +20,7 @@
 */
 
 namespace Resizer {
-    public class Resizer : Object {
+    public class Resizer {
         public int maxWidth = 1000;
         public int maxHeight = 1000;
 
