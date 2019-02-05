@@ -33,7 +33,7 @@ namespace Resizer {
             info_text.max_width_chars = 30;
             info_text.wrap = true;
             info_text.margin_top = info_text.margin_bottom = 10;
-            info_text. margin_start = info_text.margin_end = 6;
+            info_text.margin_start = info_text.margin_end = 6;
             info_text.show_all ();
 
             var infoPopover = new Gtk.Popover (null);
