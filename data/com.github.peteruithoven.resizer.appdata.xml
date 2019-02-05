@@ -39,6 +39,14 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="1.0.8" date="">
+      <description>
+        <ul>
+        <li>Never upscale images</li>
+        <li>Added info box</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.0.7" date="2019-01-31">
       <description>
         <ul>
