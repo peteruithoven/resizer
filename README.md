@@ -24,7 +24,7 @@ Features:
 
 You'll need the following dependencies:
 
-* meson >= 0.43.0
+* meson >= 0.47.0
 * libgranite-dev
 * valac
 
