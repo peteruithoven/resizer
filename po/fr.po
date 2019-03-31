@@ -35,13 +35,13 @@ msgstr "Resizer"
 #. Width input
 #: src/ResizePage.vala:40
 msgid "Max width:"
-msgstr "Largeur maximale :"
+msgstr "Largeur maxi :"
 
 #. Create 3th column, making sure the entry is in the center
 #. height input
 #: src/ResizePage.vala:57
 msgid "Max height:"
-msgstr "Hauteur maximale :"
+msgstr "Hauteur maxi :"
 
 #: src/ResizePage.vala:78
 msgid "Cancel"
@@ -53,16 +53,16 @@ msgstr "Redimensionner"
 
 #: src/ResizePage.vala:120
 msgid "Resize image(s) within:"
-msgstr "Redimensionner la ou les image(s) à :"
+msgstr "Redimensionner la ou les image(s) dans :"
 
 #: src/ResizePage.vala:125
 msgid "Resize image within:"
-msgstr "Redimensionner l'image à :"
+msgstr "Redimensionner l'image dans :"
 
 #: src/ResizePage.vala:127
 #, c-format
 msgid "Resize %i images within:"
-msgstr "Redimensionner %i images à :"
+msgstr "Redimensionner %i images dans :"
 
 #: src/ResizePage.vala:132
 #, c-format
@@ -89,4 +89,4 @@ msgstr "Il y a eu un problème lors du redimensionnement de « %s »"
 
 #: src/DropArea.vala:44
 msgid "Drop Image(s) Here"
-msgstr "Glissez-déposez des images ici"
+msgstr "Déposez des images ici"
