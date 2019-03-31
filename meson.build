@@ -5,6 +5,10 @@ project(
     license: 'GPL-3.0+'
 )
 
+i18n = import('i18n')
+
+add_global_arguments('-DGETTEXT_PACKAGE="@0@"'.format (meson.project_name()), language:'c')
+
 # Create config.vala from config.vala.in,
 # replacing variables like PROJECT_NAME
 conf_data = configuration_data()
@@ -14,8 +18,6 @@ configure_file(
     output : 'config.vala',
     configuration : conf_data
 )
-
-subdir('po')
 
 executable(
     meson.project_name(),
@@ -38,3 +40,4 @@ executable(
 meson.add_install_script('meson/post_install.py')
 
 subdir('data')
+subdir('po')
