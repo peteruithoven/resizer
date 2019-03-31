@@ -1,14 +1,14 @@
 # English translations for com.github.peteruithoven.resizer package.
-# Copyright (C) 2018 THE com.github.peteruithoven.resizer'S COPYRIGHT HOLDER
+# Copyright (C) 2019 THE com.github.peteruithoven.resizer'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the com.github.peteruithoven.resizer package.
-# Automatically generated, 2018.
+# Automatically generated, 2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: com.github.peteruithoven.resizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-05 01:16+0100\n"
-"PO-Revision-Date: 2018-01-31 01:09+0100\n"
+"POT-Creation-Date: 2019-03-31 12:33+0200\n"
+"PO-Revision-Date: 2019-03-31 12:33+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en_GB\n"
@@ -22,24 +22,24 @@ msgid ""
 "Resizer will never upscale and always maintain the aspect ratio of your "
 "images."
 msgstr ""
+"Resizer will never upscale and always maintain the aspect ratio of your "
+"images."
 
 #: src/HeaderBar.vala:43
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: src/Window.vala:31
 msgid "Resizer"
 msgstr "Resizer"
 
 #: src/ResizePage.vala:40
-#, fuzzy
 msgid "Max width:"
-msgstr "Width:"
+msgstr "Max width:"
 
 #: src/ResizePage.vala:57
-#, fuzzy
 msgid "Max height:"
-msgstr "Height:"
+msgstr "Max height:"
 
 #: src/ResizePage.vala:78
 msgid "Cancel"
@@ -50,42 +50,41 @@ msgid "Resize"
 msgstr "Resize"
 
 #: src/ResizePage.vala:120
-#, fuzzy
 msgid "Resize image(s) within:"
-msgstr "Resize image within:"
+msgstr "Resize image(s) within:"
 
 #: src/ResizePage.vala:125
 msgid "Resize image within:"
 msgstr "Resize image within:"
 
 #: src/ResizePage.vala:127
-#, fuzzy, c-format
+#, c-format
 msgid "Resize %i images within:"
-msgstr "Resize image within:"
+msgstr "Resize %i images within:"
 
 #: src/ResizePage.vala:132
 #, c-format
 msgid "Error creating preview: %s"
-msgstr ""
+msgstr "Error creating preview: %s"
 
 #: src/ResizingPage.vala:53
 msgid "All images resized"
-msgstr ""
+msgstr "All images resized"
 
 #: src/ResizingPage.vala:56
 msgid "1 image remaining"
-msgstr ""
+msgstr "1 image remaining"
 
 #: src/ResizingPage.vala:58
-#, fuzzy, c-format
+#, c-format
 msgid "%i images remaining"
-msgstr "Resize image within:"
+msgstr "%i images remaining"
 
 #: src/Resizer.vala:92
 #, c-format
 msgid "There was an issue resizing '%s'"
-msgstr ""
+msgstr "There was an issue resizing '%s'"
 
 #: src/DropArea.vala:44
 msgid "Drop Image(s) Here"
-msgstr ""
+msgstr "Drop Image(s) Here"

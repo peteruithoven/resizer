@@ -1,10 +1,7 @@
 [Desktop Entry]
 Name=Resizer
-Name[lt]=Dydžio keitiklis
 GenericName=Resizer App
-GenericName[lt]=Dydžio keitimo programa
 Comment=Image resizer
-Comment[lt]=Paveikslų dydžio keitiklis
 Categories=Graphics;2DGraphics;RasterGraphics;
 Exec=com.github.peteruithoven.resizer %f
 Icon=com.github.peteruithoven.resizer
@@ -12,4 +9,3 @@ Terminal=false
 Type=Application
 X-GNOME-Gettext-Domain=resizer
 Keywords=Image;resize;
-Keywords[lt]=Paveikslas;keisti dydį;
