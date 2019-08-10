@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 13:06+0200\n"
-"PO-Revision-Date: 2019-08-08 23:27+0300\n"
+"PO-Revision-Date: 2019-08-10 21:52+0300\n"
 "Last-Translator: Igor Gordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <igor_ck@outlook.com>\n"
 "Language: uk\n"
@@ -23,11 +23,11 @@ msgstr ""
 #: data/com.github.peteruithoven.resizer.desktop.in:3
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:7
 msgid "Resizer"
-msgstr "Змінювач розмів"
+msgstr "Resizer"
 
 #: data/com.github.peteruithoven.resizer.desktop.in:4
 msgid "Resizer App"
-msgstr "Додаток Змінювач розмів"
+msgstr "Додаток Resizer"
 
 #: data/com.github.peteruithoven.resizer.desktop.in:5
 msgid "Image resizer"

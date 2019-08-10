@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: com.github.peteruithoven.resizer\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 13:06+0200\n"
-"PO-Revision-Date: 2019-08-08 16:48+0300\n"
+"PO-Revision-Date: 2019-08-10 21:50+0300\n"
 "Last-Translator: Igor Gordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <igor_ck@outlook.com>\n"
 "Language: uk\n"
@@ -25,8 +25,8 @@ msgid ""
 "Resizer will never upscale and always maintain the aspect ratio of your "
 "images."
 msgstr ""
-"Змінювач розмів, ніколи не збільшує масштаб і ніколи не змінює "
-"співвідношення сторін ваших зображень."
+"Resizer, ніколи не збільшує масштаб і ніколи не змінює співвідношення сторін "
+"ваших зображень."
 
 #: src/HeaderBar.vala:43
 msgid "Info"
@@ -34,7 +34,7 @@ msgstr "Довідка"
 
 #: src/Window.vala:31
 msgid "Resizer"
-msgstr "Змінювач розмів"
+msgstr "Resizer"
 
 #. Width input
 #: src/ResizePage.vala:40
