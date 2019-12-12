@@ -25,7 +25,7 @@ msgstr ""
 
 #: src/HeaderBar.vala:43
 msgid "Info"
-msgstr "Info"
+msgstr "Informacje"
 
 #: src/Window.vala:31
 msgid "Resizer"
