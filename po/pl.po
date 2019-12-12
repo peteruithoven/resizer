@@ -1,92 +1,91 @@
-# Polish translations for com.github.peteruithoven.resizer package.
-# Copyright (C) 2018 THE com.github.peteruithoven.resizer'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the com.github.peteruithoven.resizer package.
-# Automatically generated, 2018.
+# Polish translations for Resizer.
+# This file is distributed under the same license as the com.github.peteruithoven.resizer.
+# Translated by Michał Nowakowski <nowakowski@offshore.rocks>, 2019. 
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: com.github.peteruithoven.resizer\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 13:06+0200\n"
-"PO-Revision-Date: 2018-01-31 01:09+0100\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2019-12-12 17:08+0100\n"
+"Last-Translator: Michał Nowakowski <nowakowski@offshore.rocks>\n"
+"Language-Team:\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
 
 #: src/HeaderBar.vala:32
 msgid ""
 "Resizer will never upscale and always maintain the aspect ratio of your "
 "images."
 msgstr ""
+"Resizer nie zwiększy rozdzielczości i utrzyma proporcje obrazu."
 
 #: src/HeaderBar.vala:43
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: src/Window.vala:31
 msgid "Resizer"
-msgstr ""
+msgstr "Resizer"
 
 #. Width input
 #: src/ResizePage.vala:40
 msgid "Max width:"
-msgstr ""
+msgstr "Maks. szerokość:"
 
 #. Create 3th column, making sure the entry is in the center
 #. height input
 #: src/ResizePage.vala:57
 msgid "Max height:"
-msgstr ""
+msgstr "Maks. wysokość:"
 
 #: src/ResizePage.vala:78
 msgid "Cancel"
-msgstr ""
+msgstr "Anuluj"
 
 #: src/ResizePage.vala:82
 msgid "Resize"
-msgstr ""
+msgstr "Zmień rozmiar"
 
 #: src/ResizePage.vala:120
 msgid "Resize image(s) within:"
-msgstr ""
+msgstr "Zmień rozmiar obrazu/ów w granicach:"
 
 #: src/ResizePage.vala:125
 msgid "Resize image within:"
-msgstr ""
+msgstr "Zmień rozmiar obrazu w granicach:"
 
 #: src/ResizePage.vala:127
 #, c-format
 msgid "Resize %i images within:"
-msgstr ""
+msgstr "Zmień rozmiar %i obrazów w granicach:"
 
 #: src/ResizePage.vala:132
 #, c-format
 msgid "Error creating preview: %s"
-msgstr ""
+msgstr "Wystąpił błąd przy tworzeniu podglądu „%s”"
 
 #: src/ResizingPage.vala:53
 msgid "All images resized"
-msgstr ""
+msgstr "Zmieniono rozmiar obrazów."
 
 #: src/ResizingPage.vala:56
 msgid "1 image remaining"
-msgstr ""
+msgstr "Pozostał jeden obraz."
 
 #: src/ResizingPage.vala:58
 #, c-format
 msgid "%i images remaining"
-msgstr ""
+msgstr "Pozostało/y %i obrazy/ów."
 
 #: src/Resizer.vala:92
 #, c-format
 msgid "There was an issue resizing '%s'"
-msgstr ""
+msgstr "Był problem ze zmianą obrazu „%s”"
 
 #: src/DropArea.vala:44
 msgid "Drop Image(s) Here"
-msgstr ""
+msgstr "Przeciągnij obraz/y tutaj"
