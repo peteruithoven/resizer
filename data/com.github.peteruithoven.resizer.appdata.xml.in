@@ -39,6 +39,15 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="1.1.2" date="2020-02-15">
+      <description>
+        <ul>
+          <li>French translation</li>
+          <li>Ukrainian translation</li>
+          <li>Polish translation</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.1.1" date="2019-02-06">
       <description>
         <ul>
