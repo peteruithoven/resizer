@@ -2,91 +2,95 @@
 # Copyright (C) 2018 THE com.github.peteruithoven.resizer'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the com.github.peteruithoven.resizer package.
 # Automatically generated, 2018.
+# Igor Gordiichuk <igor_ck@outlook.com>, 2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: com.github.peteruithoven.resizer\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 13:06+0200\n"
-"PO-Revision-Date: 2018-01-31 01:09+0100\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2019-08-10 21:50+0300\n"
+"Last-Translator: Igor Gordiichuk <igor_ck@outlook.com>\n"
+"Language-Team: Ukrainian <igor_ck@outlook.com>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
+"X-Generator: Gtranslator 3.32.1\n"
 
 #: src/HeaderBar.vala:32
 msgid ""
 "Resizer will never upscale and always maintain the aspect ratio of your "
 "images."
 msgstr ""
+"Resizer, ніколи не збільшує масштаб і ніколи не змінює співвідношення сторін "
+"ваших зображень."
 
 #: src/HeaderBar.vala:43
 msgid "Info"
-msgstr ""
+msgstr "Довідка"
 
 #: src/Window.vala:31
 msgid "Resizer"
-msgstr ""
+msgstr "Resizer"
 
 #. Width input
 #: src/ResizePage.vala:40
 msgid "Max width:"
-msgstr ""
+msgstr "Максимальна ширина:"
 
 #. Create 3th column, making sure the entry is in the center
 #. height input
 #: src/ResizePage.vala:57
 msgid "Max height:"
-msgstr ""
+msgstr "Максимальна висота:"
 
 #: src/ResizePage.vala:78
 msgid "Cancel"
-msgstr ""
+msgstr "Скасувати"
 
 #: src/ResizePage.vala:82
 msgid "Resize"
-msgstr ""
+msgstr "Змінити розмір"
 
 #: src/ResizePage.vala:120
 msgid "Resize image(s) within:"
-msgstr ""
+msgstr "Змінити розмір зображень у межах:"
 
 #: src/ResizePage.vala:125
 msgid "Resize image within:"
-msgstr ""
+msgstr "Змінити розмір зображення у межах:"
 
 #: src/ResizePage.vala:127
 #, c-format
 msgid "Resize %i images within:"
-msgstr ""
+msgstr "Змінити розмір %i зображень у межах:"
 
 #: src/ResizePage.vala:132
 #, c-format
 msgid "Error creating preview: %s"
-msgstr ""
+msgstr "Помилка створення попереднього перегляду зображення: %s"
 
 #: src/ResizingPage.vala:53
 msgid "All images resized"
-msgstr ""
+msgstr "Змінено розмір усіх зображень"
 
 #: src/ResizingPage.vala:56
 msgid "1 image remaining"
-msgstr ""
+msgstr "1 зображення залишилося"
 
 #: src/ResizingPage.vala:58
 #, c-format
 msgid "%i images remaining"
-msgstr ""
+msgstr "Зображень залишилося %i"
 
 #: src/Resizer.vala:92
 #, c-format
 msgid "There was an issue resizing '%s'"
-msgstr ""
+msgstr "Винникла проблема під час зміни розміру '%s'"
 
 #: src/DropArea.vala:44
 msgid "Drop Image(s) Here"
-msgstr ""
+msgstr "Перетягніть зображення Сюди"

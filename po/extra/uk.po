@@ -2,122 +2,131 @@
 # Copyright (C) 2019 THE extra'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the extra package.
 # Automatically generated, 2019.
+# Igor Gordiichuk <igor_ck@outlook.com>, 2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 13:06+0200\n"
-"PO-Revision-Date: 2019-03-31 12:37+0200\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2019-08-10 21:52+0300\n"
+"Last-Translator: Igor Gordiichuk <igor_ck@outlook.com>\n"
+"Language-Team: Ukrainian <igor_ck@outlook.com>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
+"X-Generator: Gtranslator 3.32.1\n"
 
 #: data/com.github.peteruithoven.resizer.desktop.in:3
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:7
 msgid "Resizer"
-msgstr ""
+msgstr "Resizer"
 
 #: data/com.github.peteruithoven.resizer.desktop.in:4
 msgid "Resizer App"
-msgstr ""
+msgstr "Додаток Resizer"
 
 #: data/com.github.peteruithoven.resizer.desktop.in:5
 msgid "Image resizer"
-msgstr ""
+msgstr "Змінювач розмірів зображень"
 
 #: data/com.github.peteruithoven.resizer.desktop.in:8
 msgid "com.github.peteruithoven.resizer"
-msgstr ""
+msgstr "com.github.peteruithoven.resizer"
 
 #: data/com.github.peteruithoven.resizer.desktop.in:11
 msgid "Image;resize;"
-msgstr ""
+msgstr "Image;resize;Змінити;Розмір;Зображення;"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:8
 msgid "Quickly resize images from the context menu"
-msgstr ""
+msgstr "Швидко змінюйте розміри зображень з контекстного меню"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:10
 msgid ""
 "A simple image resizer that resizes one or more images, usable from the "
 "context menu or as a standalone app."
 msgstr ""
+"Простий змінювач розмірів зображень, котрий змінює розмір одного або "
+"декількох зображень. Його можна використовувати за допомогою контекстного "
+"меню або як окремий додаток."
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:13
 msgid "Features:"
-msgstr ""
+msgstr "Особливості:"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:17
 msgid ""
 "Use from context menu: right click on image(s), and select \"Resize images\"."
 msgstr ""
+"Використовуйте за допомогою контекстного меню: клацніть правою кнопкою миші "
+"на зображенні та виберіть \"Змінити розмір зображень\"."
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:18
 msgid "Use from Applications menu: Drag and drop image(s)."
-msgstr ""
+msgstr "Використовуйте з меню додатків: перетягніть зображення."
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:19
 msgid "Maintains aspect ratio."
-msgstr ""
+msgstr "Не змінює співвідношення сторін."
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:20
 msgid ""
 "Keyboard control: Change the sizes using the up and down keys, press enter "
 "to resize."
 msgstr ""
+"Керування клавіатурою: змінюйте розміри за допомогою клавіш вгору та вниз, "
+"натисніть клавішу Enter, щоб змінити розмір."
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:21
 msgid "Settings are stored for next time."
-msgstr ""
+msgstr "Параметри зберігаються для наступного разу."
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:45
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:53
 msgid "Never upscale images"
-msgstr ""
+msgstr "Не збільшує масштаб зображень"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:46
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:54
 msgid "Added info box"
-msgstr ""
+msgstr "Додано довідку"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:61
 msgid "Improved Lithuanian translation (Thanks @welaq)"
-msgstr ""
+msgstr "Покращено литовський переклад (Подяка @welaq)"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:62
 msgid "Added French translation (Thanks @NathanBnm)"
-msgstr ""
+msgstr "Додано французький переклад (Подяка @NathanBnm)"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:63
 msgid "Added more app categories"
-msgstr ""
+msgstr "Додано більше категорій додатків"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:70
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:79
 msgid "Improved page transition"
-msgstr ""
+msgstr "Покращено переходи сторінками"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:71
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:80
 msgid "Added clearer finished state"
-msgstr ""
+msgstr "Додано чіткіший закінчений стан"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:72
 msgid "Republishing for Juno"
-msgstr ""
+msgstr "Перевидання для Juno"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:87
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:96
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:105
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:114
 msgid "Lithuanian translation (Thanks welaq)"
-msgstr ""
+msgstr "Переклад литовською (Подяка welaq)"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:88
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:97
@@ -127,43 +136,45 @@ msgid ""
 "Fixed issue where files with a . in their path couldn't be resized (Thanks "
 "inhji)"
 msgstr ""
+"Виправлено проблему, коли файлам, з a . на шляху до них, не вдавалося "
+"змінити розмір (Подяка inhji)"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:89
 msgid "Release for Loki"
-msgstr ""
+msgstr "Версія для Loki"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:98
 msgid "More appdata file fixes"
-msgstr ""
+msgstr "Додаткові виправленя файла з даними додатку"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:107
 msgid "Appdata file fixes"
-msgstr ""
+msgstr "Виправлено файл з даними додатку"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:122
 msgid "Improved icon thanks to TraumaD"
-msgstr ""
+msgstr "Покращено піктограму завдяки TraumaD"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:123
 msgid "Clarified that it resizes within size using labels"
-msgstr ""
+msgstr "Пояснено, що додаток змінює розміри в межах міток розміру"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:130
 msgid "Progress indication"
-msgstr ""
+msgstr "Індикатор перебігу"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:131
 msgid "Proper error messages"
-msgstr ""
+msgstr "Правильні повідомлення про помилки"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:132
 msgid "Switched to GPL-3.0"
-msgstr ""
+msgstr "Перехід до GPL-3.0"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:138
 msgid "Initial release"
-msgstr ""
+msgstr "Початкова версія"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:142
 msgid "Peter Uithoven"
-msgstr ""
+msgstr "Peter Uithoven"
