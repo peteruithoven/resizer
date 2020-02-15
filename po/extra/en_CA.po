@@ -1,0 +1,175 @@
+# English translations for extra package.
+# Copyright (C) 2019 THE extra'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the extra package.
+# Automatically generated, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: extra\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-03-31 13:06+0200\n"
+"PO-Revision-Date: 2019-03-31 12:37+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: en_CA\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/com.github.peteruithoven.resizer.desktop.in:3
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:7
+msgid "Resizer"
+msgstr "Resizer"
+
+#: data/com.github.peteruithoven.resizer.desktop.in:4
+msgid "Resizer App"
+msgstr "Resizer App"
+
+#: data/com.github.peteruithoven.resizer.desktop.in:5
+msgid "Image resizer"
+msgstr "Image resizer"
+
+#: data/com.github.peteruithoven.resizer.desktop.in:8
+msgid "com.github.peteruithoven.resizer"
+msgstr "com.github.peteruithoven.resizer"
+
+#: data/com.github.peteruithoven.resizer.desktop.in:11
+msgid "Image;resize;"
+msgstr "Image;resize;"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:8
+msgid "Quickly resize images from the context menu"
+msgstr "Quickly resize images from the context menu"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:10
+msgid ""
+"A simple image resizer that resizes one or more images, usable from the "
+"context menu or as a standalone app."
+msgstr ""
+"A simple image resizer that resizes one or more images, usable from the "
+"context menu or as a standalone app."
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:13
+msgid "Features:"
+msgstr "Features:"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:17
+msgid ""
+"Use from context menu: right click on image(s), and select \"Resize images\"."
+msgstr ""
+"Use from context menu: right click on image(s), and select \"Resize images\"."
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:18
+msgid "Use from Applications menu: Drag and drop image(s)."
+msgstr "Use from Applications menu: Drag and drop image(s)."
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:19
+msgid "Maintains aspect ratio."
+msgstr "Maintains aspect ratio."
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:20
+msgid ""
+"Keyboard control: Change the sizes using the up and down keys, press enter "
+"to resize."
+msgstr ""
+"Keyboard control: Change the sizes using the up and down keys, press enter "
+"to resize."
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:21
+msgid "Settings are stored for next time."
+msgstr "Settings are stored for next time."
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:45
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:53
+msgid "Never upscale images"
+msgstr "Never upscale images"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:46
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:54
+msgid "Added info box"
+msgstr "Added info box"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:61
+msgid "Improved Lithuanian translation (Thanks @welaq)"
+msgstr "Improved Lithuanian translation (Thanks @welaq)"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:62
+msgid "Added French translation (Thanks @NathanBnm)"
+msgstr "Added French translation (Thanks @NathanBnm)"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:63
+msgid "Added more app categories"
+msgstr "Added more app categories"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:70
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:79
+msgid "Improved page transition"
+msgstr "Improved page transition"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:71
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:80
+msgid "Added clearer finished state"
+msgstr "Added clearer finished state"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:72
+msgid "Republishing for Juno"
+msgstr "Republishing for Juno"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:87
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:96
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:105
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:114
+msgid "Lithuanian translation (Thanks welaq)"
+msgstr "Lithuanian translation (Thanks welaq)"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:88
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:97
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:106
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:115
+msgid ""
+"Fixed issue where files with a . in their path couldn't be resized (Thanks "
+"inhji)"
+msgstr ""
+"Fixed issue where files with a . in their path couldn't be resized (Thanks "
+"inhji)"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:89
+msgid "Release for Loki"
+msgstr "Release for Loki"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:98
+msgid "More appdata file fixes"
+msgstr "More appdata file fixes"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:107
+msgid "Appdata file fixes"
+msgstr "Appdata file fixes"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:122
+msgid "Improved icon thanks to TraumaD"
+msgstr "Improved icon thanks to TraumaD"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:123
+msgid "Clarified that it resizes within size using labels"
+msgstr "Clarified that it resizes within size using labels"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:130
+msgid "Progress indication"
+msgstr "Progress indication"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:131
+msgid "Proper error messages"
+msgstr "Proper error messages"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:132
+msgid "Switched to GPL-3.0"
+msgstr "Switched to GPL-3.0"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:138
+msgid "Initial release"
+msgstr "Initial release"
+
+#: data/com.github.peteruithoven.resizer.appdata.xml.in:142
+msgid "Peter Uithoven"
+msgstr "Peter Uithoven"
