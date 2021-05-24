@@ -99,7 +99,7 @@ namespace Resizer {
                 // turns "/home/user/Pictures/picture.jpg" into somesthing like:
                 // "/home/user/Pictures/picture-2000.jpg" or
                 // "/home/user/Pictures/picture-2000x1500.jpg" ors
-                var file_regex = new GLib.Regex ("""(\/[^./]+)(\.\w+)$""");
+                var file_regex = new GLib.Regex ("""(\/[^/]+)(\.\w+)$""");
                 var max_size = "";
                 if (width == height) {
                     max_size = width.to_string ();
