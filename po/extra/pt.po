@@ -1,122 +1,129 @@
 # Portuguese translations for extra package.
 # Copyright (C) 2019 THE extra'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the extra package.
-# Automatically generated, 2019.
+# André Barata <andretiagob@protonmail.com>, 2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 13:06+0200\n"
-"PO-Revision-Date: 2019-03-31 12:37+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2020-08-24 14:57+0100\n"
+"Last-Translator: André Barata <andretiagob@protonmail.com>\n"
 "Language-Team: none\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #: data/com.github.peteruithoven.resizer.desktop.in:3
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:7
 msgid "Resizer"
-msgstr ""
+msgstr "Resizer"
 
 #: data/com.github.peteruithoven.resizer.desktop.in:4
 msgid "Resizer App"
-msgstr ""
+msgstr "Aplicação Resizer"
 
 #: data/com.github.peteruithoven.resizer.desktop.in:5
 msgid "Image resizer"
-msgstr ""
+msgstr "Redimensionador de imagem"
 
 #: data/com.github.peteruithoven.resizer.desktop.in:8
 msgid "com.github.peteruithoven.resizer"
-msgstr ""
+msgstr "com.github.peteruithoven.resizer"
 
 #: data/com.github.peteruithoven.resizer.desktop.in:11
 msgid "Image;resize;"
-msgstr ""
+msgstr "Imagem;redimensionar;"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:8
 msgid "Quickly resize images from the context menu"
-msgstr ""
+msgstr "Redimensione rapidamente imagens do menu de contexto"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:10
 msgid ""
 "A simple image resizer that resizes one or more images, usable from the "
 "context menu or as a standalone app."
 msgstr ""
+"Um redimensionador simples que redimensiona uma ou mais imagens, pode usá-lo "
+"partir do menu de contexto ou como uma aplicação autónoma."
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:13
 msgid "Features:"
-msgstr ""
+msgstr "Funcionalidades:"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:17
 msgid ""
 "Use from context menu: right click on image(s), and select \"Resize images\"."
 msgstr ""
+"Usar a partir do menu de contexto: clique no botão direito do rato na(s) "
+"imagem(s) e selecione \"Redimensionar Imagens\"."
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:18
 msgid "Use from Applications menu: Drag and drop image(s)."
-msgstr ""
+msgstr "Usar a partir do menu de Aplicações: Arraste e solte imagem(s)."
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:19
 msgid "Maintains aspect ratio."
-msgstr ""
+msgstr "Mantém o aspeto em proporção."
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:20
 msgid ""
 "Keyboard control: Change the sizes using the up and down keys, press enter "
 "to resize."
 msgstr ""
+"Controlo com o teclado: Altere os tamanhos usando as teclas cima e baixo, "
+"pressione enter para redimensionar."
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:21
 msgid "Settings are stored for next time."
-msgstr ""
+msgstr "As definições serão gravadas para a próxima vez."
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:45
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:53
 msgid "Never upscale images"
-msgstr ""
+msgstr "Nunca altera a escala das imagens"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:46
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:54
 msgid "Added info box"
-msgstr ""
+msgstr "Adicionada uma caixa de informação"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:61
 msgid "Improved Lithuanian translation (Thanks @welaq)"
-msgstr ""
+msgstr "Tradução Lituânia melhorada (Obrigado a @welaq)"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:62
 msgid "Added French translation (Thanks @NathanBnm)"
-msgstr ""
+msgstr "Tradução Francesa adicionada (Obrigado a @NathanBnm)"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:63
 msgid "Added more app categories"
-msgstr ""
+msgstr "Foram adicionadas mais categorias da aplicação"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:70
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:79
 msgid "Improved page transition"
-msgstr ""
+msgstr "Transição da pagina melhorada"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:71
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:80
 msgid "Added clearer finished state"
-msgstr ""
+msgstr "O estado de terminado está mais claro"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:72
 msgid "Republishing for Juno"
-msgstr ""
+msgstr "Republicado para o Juno"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:87
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:96
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:105
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:114
 msgid "Lithuanian translation (Thanks welaq)"
-msgstr ""
+msgstr "Tradução Lituânia Adicionada (Obrigado a @welaq)"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:88
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:97
@@ -126,43 +133,46 @@ msgid ""
 "Fixed issue where files with a . in their path couldn't be resized (Thanks "
 "inhji)"
 msgstr ""
+"Corrigido um problema em que ficheiros com um \".\" no caminho não "
+"conseguiam ser redimensionados (Obrigado inhji))"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:89
 msgid "Release for Loki"
-msgstr ""
+msgstr "Lançamento para o Loki"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:98
 msgid "More appdata file fixes"
-msgstr ""
+msgstr "Mais correções do ficheiro appdata"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:107
 msgid "Appdata file fixes"
-msgstr ""
+msgstr "Correções do ficheiro appdata"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:122
 msgid "Improved icon thanks to TraumaD"
-msgstr ""
+msgstr "Ícone melhorado. Obrigado a TraumaD"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:123
 msgid "Clarified that it resizes within size using labels"
 msgstr ""
+"Clarificada a forma como redimensiona, dentro do tamanho usando rótulos"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:130
 msgid "Progress indication"
-msgstr ""
+msgstr "Indicador de progresso"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:131
 msgid "Proper error messages"
-msgstr ""
+msgstr "Mensagens de erro adequadas"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:132
 msgid "Switched to GPL-3.0"
-msgstr ""
+msgstr "Alteração para GPL-3.0"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:138
 msgid "Initial release"
-msgstr ""
+msgstr "Lançamento inicial"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:142
 msgid "Peter Uithoven"
-msgstr ""
+msgstr "Peter Uithoven"
