@@ -33,7 +33,6 @@ namespace Resizer {
         }
         construct {
             Hdy.init ();
-            //  this.get_style_context ().add_class ("rounded");
 
             var header = new HeaderBar ();
 

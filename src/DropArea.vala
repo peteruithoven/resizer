@@ -28,14 +28,14 @@ namespace Resizer {
 
         construct {
             image = new Gtk.Image ();
-            image.get_style_context ().add_class ("card");
+            image.get_style_context ().add_class (Granite.STYLE_CLASS_CARD);
             image.hexpand = true;
             image.width_request = 300;
             image.height_request = 200;
             image.margin = 6;
 
             image2 = new Gtk.Image ();
-            image2.get_style_context ().add_class ("card");
+            image2.get_style_context ().add_class (Granite.STYLE_CLASS_CARD);
             image2.margin = 6;
             image2.margin_start = 6+6;
             image2.margin_top = 6;
@@ -45,7 +45,7 @@ namespace Resizer {
             drag_label.justify = Gtk.Justification.CENTER;
 
             var drag_label_style_context = drag_label.get_style_context ();
-            drag_label_style_context.add_class ("h2");
+            drag_label_style_context.add_class (Granite.STYLE_CLASS_H2_LABEL);
             drag_label_style_context.add_class (Gtk.STYLE_CLASS_DIM_LABEL);
 
             var images = new Gtk.Fixed();
