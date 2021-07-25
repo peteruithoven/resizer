@@ -30,3 +30,26 @@ modules:
     sources:
       - type: dir
         path: .
+  # Inspiration: https://github.com/ImageMagick/ImageMagick6/releases/tag/6.9.12-19
+  - name: imagemagick
+    config-opts:
+      - --enable-shared
+      - --disable-static
+      - --with-modules
+      - --with-x
+      - --with-threads
+      - --with-magick_plus_plus
+      - --with-gslib
+      - --with-wmf
+      - --with-webp
+      - --with-openexr
+      - --with-rsvg
+      - --with-xml
+      - --with-jbig
+      - --with-openjp2
+    sources:
+      - type: archive
+        url: https://github.com/ImageMagick/ImageMagick6/archive/6.9.12-19.tar.gz
+        sha256: 2f184f1f5c3e19849347b2b4acb6dd074290903d36fa5924956ee06c85ddf783
+    cleanup:
+      - /share/doc
