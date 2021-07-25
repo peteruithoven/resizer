@@ -20,7 +20,7 @@
 */
 
 namespace Resizer {
-    public class HeaderBar : Gtk.HeaderBar {
+    public class HeaderBar : Hdy.HeaderBar {
 
         construct {
             show_close_button = true;

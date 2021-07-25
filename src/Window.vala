@@ -20,7 +20,7 @@
 */
 
 namespace Resizer {
-    public class Window : Gtk.ApplicationWindow {
+    public class Window : Hdy.Window {
 
         private Gtk.Stack pages;
         const Gtk.TargetEntry[] DRAG_TARGETS = { { "text/uri-list", 0, 0 } };
@@ -32,10 +32,10 @@ namespace Resizer {
                          );
         }
         construct {
-            this.get_style_context ().add_class ("rounded");
+            Hdy.init ();
+            //  this.get_style_context ().add_class ("rounded");
 
             var header = new HeaderBar ();
-            this.set_titlebar (header);
 
             var resize_page = new ResizePage (this);
             var resizing_page = new ResizingPage ();
@@ -53,6 +53,7 @@ namespace Resizer {
             var grid = new Gtk.Grid();
             grid.orientation = Gtk.Orientation.VERTICAL;
             grid.row_spacing = 12;
+            grid.add(header);
             grid.add(message_center);
             grid.add(pages);
             this.add(grid);

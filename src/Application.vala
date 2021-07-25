@@ -20,7 +20,7 @@
 */
 
 namespace Resizer {
-    public class Application : Granite.Application {
+    public class Application : Gtk.Application {
         private Window window = null;
 
         public Application () {
