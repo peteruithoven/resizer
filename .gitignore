@@ -2,3 +2,4 @@ build/*
 debian/build/*
 debian/debhelper-build-stamp
 *debhelper.log
+.flatpak-builder

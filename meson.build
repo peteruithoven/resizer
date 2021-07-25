@@ -13,11 +13,13 @@ add_global_arguments('-DGETTEXT_PACKAGE="@0@"'.format (meson.project_name()), la
 # replacing variables like PROJECT_NAME
 conf_data = configuration_data()
 conf_data.set_quoted('PROJECT_NAME', meson.project_name())
-configure_file(
+config_file = configure_file(
     input : 'src/config.vala.in',
     output : 'config.vala',
     configuration : conf_data
 )
+
+meson.build_root()
 
 executable(
     meson.project_name(),
@@ -29,7 +31,7 @@ executable(
     'src/Resizer.vala',
     'src/DropArea.vala',
     'src/MessageCenter.vala',
-    'build/config.vala',
+    config_file,
     dependencies: [
         dependency('gtk+-3.0'),
         dependency('granite')
