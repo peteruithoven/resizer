@@ -50,12 +50,16 @@ namespace Resizer {
 
             var message_center = MessageCenter.get_default();
 
+            var innerGrid = new Gtk.Grid();
+            innerGrid.orientation = Gtk.Orientation.VERTICAL;
+            innerGrid.row_spacing = 12;
+            innerGrid.add(message_center);
+            innerGrid.add(pages);
+
             var grid = new Gtk.Grid();
             grid.orientation = Gtk.Orientation.VERTICAL;
-            grid.row_spacing = 12;
             grid.add(header);
-            grid.add(message_center);
-            grid.add(pages);
+            grid.add(innerGrid);
             this.add(grid);
 
             Resizer.get_default ().state_changed.connect((r, state) => {
