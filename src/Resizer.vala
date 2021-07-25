@@ -68,6 +68,20 @@ namespace Resizer {
 
         public async void resize_images() {
             state = State.RESIZING;
+
+            try {
+                debug ("Check convert's availability");
+                string[] command = new string[] { "convert", "-version" };
+                Subprocess subprocess = new Subprocess.newv (command, SubprocessFlags.NONE);
+                if (yield subprocess.wait_check_async ()) {
+                    debug ("Found convert");
+                }
+            } catch (Error e) {
+                var message = _("Resizer requires Imagemagick");
+                MessageCenter.get_default().add_error(message);
+                return;
+            }
+
             numFiles = files.length;
             numFilesResized = 0;
             foreach (var file in files) {
