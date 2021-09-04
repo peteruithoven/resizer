@@ -5,17 +5,16 @@
   <metadata_license>CC0</metadata_license>
   <project_license>GPL-3.0+</project_license>
   <name>Resizer</name>
-  <summary>Quickly resize images from the context menu</summary>
+  <summary>Quickly resize images</summary>
   <description>
     <p>
-    A simple image resizer that resizes one or more images, usable from the context menu or as a standalone app.
+    A simple image resizer that resizes one or more images.
     </p>
     <p>
     Features:
     </p>
     <ul>
-    <li>Use from context menu: right click on image(s), and select "Resize images".</li>
-    <li>Use from Applications menu: Drag and drop image(s).</li>
+    <li>Open images with Resizer or open Reizer and Drag and drop images</li>
     <li>Maintains aspect ratio.</li>
     <li>Keyboard control: Change the sizes using the up and down keys, press enter to resize.</li>
     <li>Settings are stored for next time.</li>
@@ -33,9 +32,6 @@
     </screenshot>
     <screenshot>
       <image>https://raw.githubusercontent.com/peteruithoven/resizer/master/screenshot4.png</image>
-    </screenshot>
-    <screenshot>
-      <image>https://raw.githubusercontent.com/peteruithoven/resizer/master/screenshot5.png</image>
     </screenshot>
   </screenshots>
   <releases>

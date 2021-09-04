@@ -30,7 +30,7 @@ namespace Resizer {
         private Gtk.Button cancel_btn;
         private Gtk.Button resize_btn;
 
-        public ResizePage (Gtk.ApplicationWindow app) {
+        public ResizePage (Window app) {
             var spacing = 12;
 
             intro_label = new Gtk.Label ("");

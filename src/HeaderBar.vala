@@ -20,13 +20,13 @@
 */
 
 namespace Resizer {
-    public class HeaderBar : Gtk.HeaderBar {
+    public class HeaderBar : Hdy.HeaderBar {
 
         construct {
             show_close_button = true;
             var header_context = get_style_context ();
-            header_context.add_class ("titlebar");
-            header_context.add_class ("default-decoration");
+            header_context.add_class (Gtk.STYLE_CLASS_TITLEBAR);
+            header_context.add_class (Granite.STYLE_CLASS_DEFAULT_DECORATION);
             header_context.add_class (Gtk.STYLE_CLASS_FLAT);
 
             var info_text = new Gtk.Label (_("Resizer will never upscale and always maintain the aspect ratio of your images."));
