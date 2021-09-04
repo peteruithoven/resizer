@@ -6,19 +6,17 @@
     </a>
 </p>
 
-Quickly resize images from the context menu.  
+Quickly resize images.
 Features:
-- Use from context menu: right click on image(s), and select "Resize images".
-- Use from Applications menu: Drag and drop image(s).
+- Open images with Resizer or open Reizer and Drag and drop images
 - Maintains aspect ratio.
 - Keyboard control: Change the sizes using the up and down keys, press enter to resize.
 - Settings are stored for next time.
 
-![Screenshot 1](screenshot.png)
-![Screenshot 2](screenshot2.png)
-![Screenshot 3](screenshot3.png)
-![Screenshot 4](screenshot4.png)
-![Screenshot 5](screenshot5.png)
+![Screenshot resize image](screenshot.png)
+![Screenshot without images](screenshot2.png)
+![Screenshot resize multiple images](screenshot3.png)
+![Screenshot error](screenshot4.png)
 
 ## Building, Testing, and Installation
 
@@ -50,5 +48,5 @@ Generate / update `.po` files:
 
 ## Credits
 
-A lot of the code is inspired by the [elementary Screenshot tool](https://github.com/elementary/screenshot-tool) and Felipe Escoto's  [wallpaperize](https://github.com/Philip-Scott/wallpaperize).  
+A lot of the code is inspired by the [elementary Screenshot tool](https://github.com/elementary/screenshot-tool) and Felipe Escoto's  [wallpaperize](https://github.com/Philip-Scott/wallpaperize).
 The icon is based on the [elementary Photos icon](https://github.com/elementary/icons/blob/master/apps/128/multimedia-photo-manager.svgs) and was greatly improved by [TraumaD](https://github.com/TraumaD).
