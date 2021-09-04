@@ -9,3 +9,4 @@ Terminal=false
 Type=Application
 X-GNOME-Gettext-Domain=resizer
 Keywords=Image;resize;
+MimeType=image/jpeg;image/jpg;image/pjpeg;image/png;image/tiff;image/x-bmp;image/x-png;image/webp;
