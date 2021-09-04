@@ -14,9 +14,9 @@ Features:
 - Settings are stored for next time.
 
 ![Screenshot resize image](screenshot.png)
-![Screenshot without images](screenshot2.png)
-![Screenshot resize multiple images](screenshot3.png)
-![Screenshot error](screenshot4.png)
+![Screenshot without images](screenshot3.png)
+![Screenshot resize multiple images](screenshot4.png)
+![Screenshot error](screenshot5.png)
 
 ## Building, Testing, and Installation
 
