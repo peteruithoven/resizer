@@ -35,6 +35,15 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="2.0.0" date="2021-09-04">
+      <description>
+        <ul>
+          <li>First Flatpak release</li>
+          <li>Check availability convert app</li>
+          <li>Make it available in Open With menu for image files</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.1.4" date="2021-05-25">
       <description>
         <ul>
