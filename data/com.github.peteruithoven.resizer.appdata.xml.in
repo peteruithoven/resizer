@@ -32,6 +32,22 @@
     </screenshot>
   </screenshots>
   <releases>
+   <release version="2.0.2" date="2021-09-05">
+      <description>
+        <ul>
+          <li>Updated screenshots</li>
+        </ul>
+      </description>
+    </release>
+   <release version="2.0.1" date="2021-09-04">
+      <description>
+        <ul>
+          <li>Appdata release notes</li>
+          <li>Maintain old screenshot for juno</li>
+          <li>Setup Continuous Integration</li>
+        </ul>
+      </description>
+    </release>
     <release version="2.0.0" date="2021-09-04">
       <description>
         <ul>
