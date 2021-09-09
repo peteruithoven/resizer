@@ -180,7 +180,7 @@
   <url type="help">https://github.com/peteruithoven/resizer/issues</url>
   <update_contact>peter@peteruithoven.com</update_contact>
   <custom>
-    <value key="x-appcenter-color-primary">#60caee</value>
+    <value key="x-appcenter-color-primary">#007CBF</value>
     <value key="x-appcenter-color-primary-text">#ffffff</value>
   </custom>
   <content_rating type="oars-1.1">
