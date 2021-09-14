@@ -32,14 +32,21 @@
     </screenshot>
   </screenshots>
   <releases>
-   <release version="2.0.2" date="2021-09-05">
+    <release version="2.0.3" date="2021-09-14">
+      <description>
+        <ul>
+          <li>Improved contrast AppCenter color</li>
+        </ul>
+      </description>
+    </release>
+    <release version="2.0.2" date="2021-09-05">
       <description>
         <ul>
           <li>Updated screenshots</li>
         </ul>
       </description>
     </release>
-   <release version="2.0.1" date="2021-09-04">
+    <release version="2.0.1" date="2021-09-04">
       <description>
         <ul>
           <li>Appdata release notes</li>
@@ -180,7 +187,7 @@
   <url type="help">https://github.com/peteruithoven/resizer/issues</url>
   <update_contact>peter@peteruithoven.com</update_contact>
   <custom>
-    <value key="x-appcenter-color-primary">#007CBF</value>
+    <value key="x-appcenter-color-primary">#60caee</value>
     <value key="x-appcenter-color-primary-text">#ffffff</value>
   </custom>
   <content_rating type="oars-1.1">
