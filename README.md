@@ -8,7 +8,7 @@
 
 Quickly resize images.
 Features:
-- Open images with Resizer or open Reizer and Drag and drop images
+- Open images with Resizer or open Resizer and Drag and drop images
 - Maintains aspect ratio.
 - Keyboard control: Change the sizes using the up and down keys, press enter to resize.
 - Settings are stored for next time.
