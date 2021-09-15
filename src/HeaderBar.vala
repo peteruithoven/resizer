@@ -21,6 +21,7 @@
 
 namespace Resizer {
     public class HeaderBar : Hdy.HeaderBar {
+        private Settings settings = new Settings (Constants.PROJECT_NAME);
 
         construct {
             show_close_button = true;
@@ -45,7 +46,17 @@ namespace Resizer {
             info_menu.valign = Gtk.Align.CENTER;
             info_menu.popover = infoPopover;
 
+            var gtk_settings = Gtk.Settings.get_default ();
+            var mode_toggle = new Granite.ModeSwitch.from_icon_name ("display-brightness-symbolic",
+                                                                     "weather-clear-night-symbolic");
+            mode_toggle.valign = Gtk.Align.CENTER;
+            mode_toggle.primary_icon_tooltip_text = _("Light background");
+            mode_toggle.secondary_icon_tooltip_text = _("Dark background");
+            mode_toggle.bind_property ("active", gtk_settings, "gtk_application_prefer_dark_theme");
+            settings.bind("dark-mode-on", mode_toggle, "active", GLib.SettingsBindFlags.DEFAULT);
+
             pack_end (info_menu);
+            pack_end (mode_toggle);
         }
     }
 }
