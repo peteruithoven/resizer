@@ -32,6 +32,13 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="2.0.4" date="2021-09-15">
+      <description>
+        <ul>
+          <li>Fixed features typo (Thanks @Adithyan-KV)</li>
+        </ul>
+      </description>
+    </release>
     <release version="2.0.3" date="2021-09-14">
       <description>
         <ul>
