@@ -8,13 +8,5 @@
             <range min="1" max="10000"/>
             <default>1000</default>
         </key>
-        <key name="dark-mode-on" type="b">
-            <default>false</default>
-            <summary>dark theme activated</summary>
-            <description>
-                To toggle between system dark theme and light theme.
-                True if dark theme is to be used
-            </description>
-        </key>
     </schema>
 </schemalist>

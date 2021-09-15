@@ -46,10 +46,29 @@ namespace Resizer {
         }
 
         protected override void activate () {
+            set_theme();
+
             window = new Window ();
             window.set_application (this);
             window.show_all ();
         }
+
+        private void set_theme (){
+            var sys_settings = Granite.Settings.get_default ();
+            var settings = Gtk.Settings.get_default ();
+
+            settings.gtk_application_prefer_dark_theme = is_dark_theme_prefered(sys_settings, settings);
+
+            /* be notified when system theme is changed and change accordingly */
+            sys_settings.notify["prefers-color-scheme"].connect (() => {
+                settings.gtk_application_prefer_dark_theme = is_dark_theme_prefered(sys_settings, settings);
+            });
+        }
+
+        private bool is_dark_theme_prefered (Granite.Settings sys_settings, Gtk.Settings settings){
+                return (sys_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK);
+        }
+
 
         public static int main (string[] args) {
             var app = new Application ();
