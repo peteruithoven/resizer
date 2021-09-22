@@ -57,8 +57,6 @@ namespace Resizer {
             this.add_overlay (drag_label);
         }
         public void show_preview(File[] files) throws Error {
-            drag_label.visible = false;
-            drag_label.no_show_all = true;
 
             var file = files[0];
             var pixbuf = new Gdk.Pixbuf.from_file_at_scale (
@@ -67,6 +65,10 @@ namespace Resizer {
                 500,
                 true
             );
+
+            drag_label.no_show_all = true;
+            drag_label.visible = false;
+
             image.set_from_pixbuf (pixbuf);
             image.height_request = pixbuf.height;
             image.width_request = pixbuf.width;
