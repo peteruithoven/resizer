@@ -8,115 +8,122 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 13:06+0200\n"
-"PO-Revision-Date: 2019-03-31 12:37+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2021-10-05 15:37+0200\n"
+"Last-Translator: Tomáš Branda\n"
 "Language-Team: none\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Poedit 2.2.4\n"
 
 #: data/com.github.peteruithoven.resizer.desktop.in:3
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:7
 msgid "Resizer"
-msgstr ""
+msgstr "Resizer"
 
 #: data/com.github.peteruithoven.resizer.desktop.in:4
 msgid "Resizer App"
-msgstr ""
+msgstr "Aplikace Resizer"
 
 #: data/com.github.peteruithoven.resizer.desktop.in:5
 msgid "Image resizer"
-msgstr ""
+msgstr "Změna velikosti obrázku"
 
 #: data/com.github.peteruithoven.resizer.desktop.in:8
 msgid "com.github.peteruithoven.resizer"
-msgstr ""
+msgstr "com.github.peteruithoven.resizer"
 
 #: data/com.github.peteruithoven.resizer.desktop.in:11
 msgid "Image;resize;"
-msgstr ""
+msgstr "Obrázek;změna velikosti;"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:8
 msgid "Quickly resize images from the context menu"
-msgstr ""
+msgstr "Změňte rychle velikosti obrázků z kontextové nabídky"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:10
 msgid ""
 "A simple image resizer that resizes one or more images, usable from the "
 "context menu or as a standalone app."
 msgstr ""
+"Jednoduchý nástroj pro změnu velikosti jednoho nebo více obrázků, který lze "
+"použít z kontextové nabídky nebo jako samostatnou aplikaci."
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:13
 msgid "Features:"
-msgstr ""
+msgstr "Funkce:"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:17
 msgid ""
 "Use from context menu: right click on image(s), and select \"Resize images\"."
 msgstr ""
+"Použití z kontextové nabídky: klikněte pravým tlačítkem myši na obrázek/"
+"obrázky a vyberte možnost „Změnit velikost obrázků“."
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:18
 msgid "Use from Applications menu: Drag and drop image(s)."
-msgstr ""
+msgstr "Použití z nabídky aplikace: přetáhněte obrázek/obrázky."
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:19
 msgid "Maintains aspect ratio."
-msgstr ""
+msgstr "Zachovává poměr stran."
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:20
 msgid ""
 "Keyboard control: Change the sizes using the up and down keys, press enter "
 "to resize."
 msgstr ""
+"Ovládání přes klávesnici: pomocí horní a dolní šipky nastavíte velikost, "
+"stisknutím klávesy enter změníte velikost."
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:21
 msgid "Settings are stored for next time."
-msgstr ""
+msgstr "Nastavení jsou zachována pro příště."
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:45
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:53
 msgid "Never upscale images"
-msgstr ""
+msgstr "Nikdy nezvětší velikost obrázků"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:46
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:54
 msgid "Added info box"
-msgstr ""
+msgstr "Přidán informační rámeček"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:61
 msgid "Improved Lithuanian translation (Thanks @welaq)"
-msgstr ""
+msgstr "Vylepšený překlad do litevštiny (díky @welaq)"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:62
 msgid "Added French translation (Thanks @NathanBnm)"
-msgstr ""
+msgstr "Přidán překlad do francouzštiny (díky @NathanBnm)"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:63
 msgid "Added more app categories"
-msgstr ""
+msgstr "Přidáno aplikaci více kategorií"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:70
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:79
 msgid "Improved page transition"
-msgstr ""
+msgstr "Vylepšený přechod mezi stránkami"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:71
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:80
 msgid "Added clearer finished state"
-msgstr ""
+msgstr "Přidán lepší stav při dokončení"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:72
 msgid "Republishing for Juno"
-msgstr ""
+msgstr "Opětovná publikace pro Juno"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:87
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:96
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:105
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:114
 msgid "Lithuanian translation (Thanks welaq)"
-msgstr ""
+msgstr "Překlad do litevštiny (díky welaq)"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:88
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:97
@@ -126,43 +133,45 @@ msgid ""
 "Fixed issue where files with a . in their path couldn't be resized (Thanks "
 "inhji)"
 msgstr ""
+"Opraven problém, kdy nebylo možné změnit velikost souborů, pokud mají v "
+"cestě . (díky inhji)"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:89
 msgid "Release for Loki"
-msgstr ""
+msgstr "Vydání pro Loki"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:98
 msgid "More appdata file fixes"
-msgstr ""
+msgstr "Dodatečné opravy souboru appdata"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:107
 msgid "Appdata file fixes"
-msgstr ""
+msgstr "Opravy souboru appdata"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:122
 msgid "Improved icon thanks to TraumaD"
-msgstr ""
+msgstr "Vylepšená ikona díky TraumaD"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:123
 msgid "Clarified that it resizes within size using labels"
-msgstr ""
+msgstr "Objasněno, že se velikost mění v rámci velikosti pomocí štítků"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:130
 msgid "Progress indication"
-msgstr ""
+msgstr "Ukazatel postupu"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:131
 msgid "Proper error messages"
-msgstr ""
+msgstr "Správné chybové hlášky"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:132
 msgid "Switched to GPL-3.0"
-msgstr ""
+msgstr "Přepnuto na GPL-3.0"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:138
 msgid "Initial release"
-msgstr ""
+msgstr "První vydání"
 
 #: data/com.github.peteruithoven.resizer.appdata.xml.in:142
 msgid "Peter Uithoven"
-msgstr ""
+msgstr "Peter Uithoven"
