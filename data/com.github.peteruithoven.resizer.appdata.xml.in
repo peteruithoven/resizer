@@ -32,6 +32,15 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="2.1.1" date="2021-10-11">
+      <description>
+        <ul>
+          <li>Fixed disappearing label when dragging in an invalid filetype (Thanks @Adithyan-KV)</li>
+          <li>Italian translation (Thanks @Sav22999)</li>
+          <li>Czech translation (Thanks @PapuleX)</li>
+        </ul>
+      </description>
+    </release>
     <release version="2.1.0" date="2021-09-21">
       <description>
         <ul>
