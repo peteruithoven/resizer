@@ -41,18 +41,18 @@ namespace Resizer {
             image2.margin_top = 6;
             image2.visible = false;
 
-            overlay_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
+            overlay_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             overlay_box.valign = Gtk.Align.CENTER;
             overlay_box.halign = Gtk.Align.CENTER;
 
-            var or_label = new Gtk.Label(_("or"));
-            var or_label_style_context = or_label.get_style_context();
-            or_label_style_context.add_class(Granite.STYLE_CLASS_H2_LABEL);
-            or_label_style_context.add_class(Gtk.STYLE_CLASS_DIM_LABEL);
+            var or_label = new Gtk.Label (_("or"));
+            var or_label_style_context = or_label.get_style_context ();
+            or_label_style_context.add_class (Granite.STYLE_CLASS_H2_LABEL);
+            or_label_style_context.add_class (Gtk.STYLE_CLASS_DIM_LABEL);
 
-            var select_button = new Gtk.Button.with_label(_("Select image"));
-            select_button.get_style_context().add_class(Gtk.STYLE_CLASS_SUGGESTED_ACTION);
-            select_button.clicked.connect(open_files_using_file_chooser);
+            var select_button = new Gtk.Button.with_label (_("Select image"));
+            select_button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+            select_button.clicked.connect (open_files_using_file_chooser);
 
             var drag_label = new Gtk.Label (_("Drop Image(s) Here"));
             drag_label.justify = Gtk.Justification.CENTER;
@@ -67,10 +67,10 @@ namespace Resizer {
             images.put (image2, 0, 0);
             images.put (image, 0, 0);
 
-            overlay_box.pack_start(drag_label);
-            overlay_box.pack_start(or_label);
-            overlay_box.pack_start(select_button);
-            this.add(images);
+            overlay_box.pack_start (drag_label);
+            overlay_box.pack_start (or_label);
+            overlay_box.pack_start (select_button);
+            this.add (images);
             this.add_overlay (overlay_box);
         }
         public void show_preview(File[] files) throws Error {
@@ -109,7 +109,7 @@ namespace Resizer {
             }
         }
 
-        private void open_files_using_file_chooser() {
+        private void open_files_using_file_chooser () {
             var file_chooser = new Gtk.FileChooserNative (_("Open Image(s)"), 
                                                           null,
                                                           Gtk.FileChooserAction.OPEN,
@@ -118,14 +118,14 @@ namespace Resizer {
 
             var files = new GenericArray<File> ();
             file_chooser.select_multiple = true;
-            var response = file_chooser.run();
+            var response = file_chooser.run ();
             if (response == Gtk.ResponseType.ACCEPT) {
-                var uris = file_chooser.get_uris();
+                var uris = file_chooser.get_uris ();
                 foreach (var uri in uris) {
                     stdout.printf ("opening: %s\n", uri);
                     var file = File.new_for_uri (uri);
-                    files.add(file);
-                    Resizer.get_default().files = files.data;
+                    files.add (file);
+                    Resizer.get_default ().files = files.data;
                 }
             }
         }
