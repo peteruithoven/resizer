@@ -32,6 +32,13 @@
     </screenshot>
   </screenshots>
   <releases>
+  <release version="2.2.0" date="2021-11-25">
+      <description>
+        <ul>
+          <li>Selecting images through file chooser (Thanks @Adithyan-KV)</li>
+        </ul>
+      </description>
+    </release>
     <release version="2.1.1" date="2021-10-11">
       <description>
         <ul>
