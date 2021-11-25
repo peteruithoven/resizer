@@ -29,8 +29,11 @@ namespace Resizer {
         private DropArea drop_area;
         private Gtk.Button cancel_btn;
         private Gtk.Button resize_btn;
+        private Window app;
 
         public ResizePage (Window app) {
+            this.app = app;
+
             var spacing = 12;
 
             intro_label = new Gtk.Label ("");
@@ -88,8 +91,6 @@ namespace Resizer {
                 resizer.maxHeight = height_entry.get_value_as_int ();
                 resizer.resize_images.begin();
             });
-            // when pressing enter, activate the resize button
-            app.set_default (resize_btn);
 
             var buttons = new Gtk.Grid ();
             buttons.column_spacing = spacing/2;
@@ -118,6 +119,8 @@ namespace Resizer {
                 cancel_btn.sensitive = false;
                 resize_btn.sensitive = false;
                 intro_label.label = _("Resize image(s) within:");
+                // when pressing enter, activate the select images button
+                app.set_default (drop_area.select_button);
             } else {
                 cancel_btn.sensitive = true;
                 resize_btn.sensitive = true;
@@ -132,6 +135,8 @@ namespace Resizer {
                     var message = _("Error creating preview: %s").printf(e.message);
                     MessageCenter.get_default().add_error(message);
                 }
+                // when pressing enter, activate the resize button
+                app.set_default (resize_btn);
             }
         }
     }

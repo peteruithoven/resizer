@@ -25,6 +25,7 @@ namespace Resizer {
         private Gtk.Image image;
         private Gtk.Image image2;
         private Gtk.Box overlay_box;
+        public Gtk.Button select_button;
 
         construct {
             image = new Gtk.Image ();
@@ -50,7 +51,8 @@ namespace Resizer {
             or_label_style_context.add_class (Granite.STYLE_CLASS_H2_LABEL);
             or_label_style_context.add_class (Gtk.STYLE_CLASS_DIM_LABEL);
 
-            var select_button = new Gtk.Button.with_label (_("Select image(s)"));
+            select_button = new Gtk.Button.with_label (_("Select image(s)"));
+            select_button.can_default = true;
             select_button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
             select_button.clicked.connect (open_files_using_file_chooser);
 
