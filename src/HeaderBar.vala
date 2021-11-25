@@ -45,7 +45,35 @@ namespace Resizer {
             info_menu.valign = Gtk.Align.CENTER;
             info_menu.popover = infoPopover;
 
+            var insert_button = new Gtk.Button.from_icon_name ("insert-image",
+                                                               Gtk.IconSize.SMALL_TOOLBAR);
+            insert_button.tooltip_text = _("Insert image(s)");
+            insert_button.valign = Gtk.Align.CENTER;
+            insert_button.clicked.connect (open_files_using_file_chooser);
+
             pack_end (info_menu);
+            pack_end (insert_button);
+        }
+    }
+
+    private void open_files_using_file_chooser() {
+        var file_chooser = new Gtk.FileChooserNative (_("Open Image(s)"), 
+                                                      null,
+                                                      Gtk.FileChooserAction.OPEN,
+                                                      _("Open"),
+                                                      _("Cancel"));
+
+        var files = new GenericArray<File> ();
+        file_chooser.select_multiple = true;
+        var response = file_chooser.run();
+        if (response == Gtk.ResponseType.ACCEPT) {
+            var uris = file_chooser.get_uris();
+            foreach (var uri in uris) {
+                stdout.printf ("opening: %s\n", uri);
+                var file = File.new_for_uri (uri);
+                files.add(file);
+                Resizer.get_default().files = files.data;
+            }
         }
     }
 }
