@@ -50,11 +50,11 @@ namespace Resizer {
             or_label_style_context.add_class (Granite.STYLE_CLASS_H2_LABEL);
             or_label_style_context.add_class (Gtk.STYLE_CLASS_DIM_LABEL);
 
-            var select_button = new Gtk.Button.with_label (_("Select image"));
+            var select_button = new Gtk.Button.with_label (_("Select image(s)"));
             select_button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
             select_button.clicked.connect (open_files_using_file_chooser);
 
-            var drag_label = new Gtk.Label (_("Drop Image(s) Here"));
+            var drag_label = new Gtk.Label (_("Drop image(s) here"));
             drag_label.justify = Gtk.Justification.CENTER;
 
             var drag_label_style_context = drag_label.get_style_context ();
@@ -110,7 +110,7 @@ namespace Resizer {
         }
 
         private void open_files_using_file_chooser () {
-            var file_chooser = new Gtk.FileChooserNative (_("Open Image(s)"), 
+            var file_chooser = new Gtk.FileChooserNative (_("Open Image(s)"),
                                                           null,
                                                           Gtk.FileChooserAction.OPEN,
                                                           _("Open"),
