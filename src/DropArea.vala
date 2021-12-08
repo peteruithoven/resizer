@@ -119,6 +119,10 @@ namespace Resizer {
                                                           _("Cancel"));
 
             var files = new GenericArray<File> ();
+            var image_files_filter = new Gtk.FileFilter ();
+            image_files_filter.set_filter_name(_("Image files"));
+            image_files_filter.add_mime_type("image/*");
+            file_chooser.add_filter(image_files_filter);
             file_chooser.select_multiple = true;
             var response = file_chooser.run ();
             if (response == Gtk.ResponseType.ACCEPT) {
