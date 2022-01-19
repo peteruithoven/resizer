@@ -121,6 +121,7 @@ namespace Resizer {
                 intro_label.label = _("Resize image(s) within:");
                 // when pressing enter, activate the select images button
                 app.set_default (drop_area.select_button);
+                app.set_focus (drop_area.select_button);
             } else {
                 cancel_btn.sensitive = true;
                 resize_btn.sensitive = true;
@@ -137,6 +138,7 @@ namespace Resizer {
                 }
                 // when pressing enter, activate the resize button
                 app.set_default (resize_btn);
+                app.set_focus (resize_btn);
             }
         }
     }
