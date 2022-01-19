@@ -32,6 +32,15 @@
     </screenshot>
   </screenshots>
   <releases>
+  <release version="2.3.0" date="2022-01-19">
+      <description>
+        <ul>
+          <li>Auto focus relevant buttons</li>
+          <li>Image files filter in file chooser (Thanks @adithyankv)</li>
+          <li>Small text improvements</li>
+        </ul>
+      </description>
+    </release>
   <release version="2.2.0" date="2021-11-25">
       <description>
         <ul>
