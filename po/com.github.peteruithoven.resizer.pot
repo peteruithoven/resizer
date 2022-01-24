@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.peteruithoven.resizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-24 16:54+0100\n"
+"POT-Creation-Date: 2022-01-24 17:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,7 +37,7 @@ msgstr ""
 msgid "Open"
 msgstr ""
 
-#: src/DropArea.vala:119 src/ResizePage.vala:81
+#: src/DropArea.vala:119 src/ResizePage.vala:78
 msgid "Cancel"
 msgstr ""
 
@@ -55,35 +55,32 @@ msgstr ""
 msgid "Info"
 msgstr ""
 
-#. Width input
-#: src/ResizePage.vala:43
+#: src/ResizePage.vala:42
 msgid "Max width:"
 msgstr ""
 
-#. Create 3th column, making sure the entry is in the center
-#. height input
-#: src/ResizePage.vala:60
+#: src/ResizePage.vala:57
 msgid "Max height:"
 msgstr ""
 
-#: src/ResizePage.vala:85
+#: src/ResizePage.vala:82
 msgid "Resize"
 msgstr ""
 
-#: src/ResizePage.vala:121
+#: src/ResizePage.vala:118
 msgid "Resize image(s) within:"
 msgstr ""
 
-#: src/ResizePage.vala:129
+#: src/ResizePage.vala:126
 msgid "Resize image within:"
 msgstr ""
 
-#: src/ResizePage.vala:131
+#: src/ResizePage.vala:128
 #, c-format
 msgid "Resize %i images within:"
 msgstr ""
 
-#: src/ResizePage.vala:136
+#: src/ResizePage.vala:133
 #, c-format
 msgid "Error creating preview: %s"
 msgstr ""

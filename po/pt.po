@@ -1,5 +1,5 @@
 # Portuguese translations for com.github.peteruithoven.resizer package.
-# Copyright (C) 2018 THE com.github.peteruithoven.resizer'S COPYRIGHT HOLDER
+# Copyright (C) 2022 THE com.github.peteruithoven.resizer'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the com.github.peteruithoven.resizer package.
 # André Barata <andretiagob@protonmail.com>, 2020.
 #
@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.peteruithoven.resizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-31 13:06+0200\n"
-"PO-Revision-Date: 2020-08-24 14:46+0100\n"
+"POT-Creation-Date: 2022-01-24 17:30+0100\n"
+"PO-Revision-Date: 2022-01-24 17:02+0100\n"
 "Last-Translator: André Barata <andretiagob@protonmail.com>\n"
 "Language-Team: none\n"
 "Language: pt\n"
@@ -16,7 +16,36 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.1\n"
+
+#: src/DropArea.vala:49
+msgid "or"
+msgstr ""
+
+#: src/DropArea.vala:54
+msgid "Select image(s)"
+msgstr ""
+
+#: src/DropArea.vala:59
+#, fuzzy
+msgid "Drop image(s) here"
+msgstr "Largue a(s) Imagem(s) Aqui"
+
+#: src/DropArea.vala:115
+#, fuzzy
+msgid "Open Image(s)"
+msgstr "Largue a(s) Imagem(s) Aqui"
+
+#: src/DropArea.vala:118
+msgid "Open"
+msgstr ""
+
+#: src/DropArea.vala:119 src/ResizePage.vala:78
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: src/DropArea.vala:123
+msgid "Image files"
+msgstr ""
 
 #: src/HeaderBar.vala:32
 msgid ""
@@ -30,43 +59,32 @@ msgstr ""
 msgid "Info"
 msgstr "Informação"
 
-#: src/Window.vala:31
-msgid "Resizer"
-msgstr "Resizer"
-
-#. Width input
-#: src/ResizePage.vala:40
+#: src/ResizePage.vala:42
 msgid "Max width:"
 msgstr "Largura máxima:"
 
-#. Create 3th column, making sure the entry is in the center
-#. height input
 #: src/ResizePage.vala:57
 msgid "Max height:"
 msgstr "Altura máxima:"
-
-#: src/ResizePage.vala:78
-msgid "Cancel"
-msgstr "Cancelar"
 
 #: src/ResizePage.vala:82
 msgid "Resize"
 msgstr "Redimensionar"
 
-#: src/ResizePage.vala:120
+#: src/ResizePage.vala:118
 msgid "Resize image(s) within:"
 msgstr "Redimensionar imagem(s) em:"
 
-#: src/ResizePage.vala:125
+#: src/ResizePage.vala:126
 msgid "Resize image within:"
 msgstr "Redimensionar imagem em:"
 
-#: src/ResizePage.vala:127
+#: src/ResizePage.vala:128
 #, c-format
 msgid "Resize %i images within:"
 msgstr "Redimensionar % imagens em:"
 
-#: src/ResizePage.vala:132
+#: src/ResizePage.vala:133
 #, c-format
 msgid "Error creating preview: %s"
 msgstr "Erro ao criar antevisão: %s"
@@ -84,11 +102,15 @@ msgstr "1 imagem restante"
 msgid "%i images remaining"
 msgstr "%i imagens restantes"
 
-#: src/Resizer.vala:92
+#: src/Resizer.vala:80
+msgid "Resizer requires Imagemagick"
+msgstr ""
+
+#: src/Resizer.vala:106
 #, c-format
 msgid "There was an issue resizing '%s'"
 msgstr "Ocorreu um problema ao redimensionar '%s'"
 
-#: src/DropArea.vala:44
-msgid "Drop Image(s) Here"
-msgstr "Largue a(s) Imagem(s) Aqui"
+#: src/Window.vala:31
+msgid "Resizer"
+msgstr "Resizer"

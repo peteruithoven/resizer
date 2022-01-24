@@ -39,7 +39,6 @@ namespace Resizer {
             intro_label = new Gtk.Label ("");
             intro_label.margin_bottom = spacing/2;
 
-            // Width input
             var width_label = new Gtk.Label (_("Max width:"));
             width_label.halign = Gtk.Align.END;
 
@@ -53,10 +52,8 @@ namespace Resizer {
             width_input.column_homogeneous = true;
             width_input.add(width_label);
             width_input.add(width_entry);
-            // Create 3th column, making sure the entry is in the center
             width_input.add(new Gtk.Label (""));
 
-            // height input
             var height_label = new Gtk.Label (_("Max height:"));
             height_label.halign = Gtk.Align.START;
 
