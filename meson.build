@@ -1,46 +1,49 @@
-project(
+# Project name, programming language and version
+project (
     'com.github.peteruithoven.resizer',
-    ['vala', 'c'],
-    meson_version : '>= 0.47',
-    license: 'GPL-3.0+'
+    'c', 'vala',
+    version: '1.0.1'
 )
 
-i18n = import('i18n')
+# Translation module
+i18n = import ('i18n')
 
-add_global_arguments('-DGETTEXT_PACKAGE="@0@"'.format (meson.project_name()), language:'c')
+# Project arguments
+add_project_arguments (
+    '-DGETTEXT_PACKAGE="@0@"'.format (meson.project_name ()),
+    language: 'c'
+)
 
-# Create config.vala from config.vala.in,
-# replacing variables like PROJECT_NAME
-conf_data = configuration_data()
-conf_data.set_quoted('PROJECT_NAME', meson.project_name())
-config_file = configure_file(
-    input : 'src/config.vala.in',
-    output : 'config.vala',
+# Config file
+conf_data = configuration_data ()
+
+conf_data.set_quoted ('PROJECT_NAME', meson.project_name ())
+
+config_file = configure_file (
+    input : 'src/Config.vala.in',
+    output : 'Config.vala',
     configuration : conf_data
 )
 
-meson.build_root()
+# Listing dependencies
+dependencies = [
+    dependency ('gtk+-3.0'),
+    dependency ('granite'),
+    dependency ('libhandy-1')
+]
 
-executable(
-    meson.project_name(),
-    'src/Application.vala',
-    'src/HeaderBar.vala',
-    'src/Window.vala',
-    'src/ResizePage.vala',
-    'src/ResizingPage.vala',
-    'src/Resizer.vala',
-    'src/DropArea.vala',
-    'src/MessageCenter.vala',
+subdir ('src')
+
+# Defining executable
+executable (
+    meson.project_name (),
+    sources,
     config_file,
-    dependencies: [
-        dependency('gtk+-3.0'),
-        dependency('granite'),
-        dependency('libhandy-1', version: '>=1.0.0')
-    ],
-    install : true
+    dependencies: dependencies,
+    install: true
 )
-
-meson.add_install_script('meson/post_install.py')
 
 subdir('data')
 subdir('po')
+
+meson.add_install_script('meson/post_install.py')

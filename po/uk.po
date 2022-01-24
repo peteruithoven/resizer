@@ -1,24 +1,52 @@
 # Ukrainian translations for com.github.peteruithoven.resizer package.
-# Copyright (C) 2018 THE com.github.peteruithoven.resizer'S COPYRIGHT HOLDER
+# Copyright (C) 2022 THE com.github.peteruithoven.resizer'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the com.github.peteruithoven.resizer package.
-# Automatically generated, 2018.
 # Igor Gordiichuk <igor_ck@outlook.com>, 2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: com.github.peteruithoven.resizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-31 13:06+0200\n"
-"PO-Revision-Date: 2019-08-10 21:50+0300\n"
+"POT-Creation-Date: 2022-01-24 17:30+0100\n"
+"PO-Revision-Date: 2022-01-24 17:02+0100\n"
 "Last-Translator: Igor Gordiichuk <igor_ck@outlook.com>\n"
-"Language-Team: Ukrainian <igor_ck@outlook.com>\n"
+"Language-Team: none\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
-"X-Generator: Gtranslator 3.32.1\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: src/DropArea.vala:49
+msgid "or"
+msgstr ""
+
+#: src/DropArea.vala:54
+msgid "Select image(s)"
+msgstr ""
+
+#: src/DropArea.vala:59
+#, fuzzy
+msgid "Drop image(s) here"
+msgstr "Перетягніть зображення Сюди"
+
+#: src/DropArea.vala:115
+#, fuzzy
+msgid "Open Image(s)"
+msgstr "Перетягніть зображення Сюди"
+
+#: src/DropArea.vala:118
+msgid "Open"
+msgstr ""
+
+#: src/DropArea.vala:119 src/ResizePage.vala:78
+msgid "Cancel"
+msgstr "Скасувати"
+
+#: src/DropArea.vala:123
+msgid "Image files"
+msgstr ""
 
 #: src/HeaderBar.vala:32
 msgid ""
@@ -32,43 +60,32 @@ msgstr ""
 msgid "Info"
 msgstr "Довідка"
 
-#: src/Window.vala:31
-msgid "Resizer"
-msgstr "Resizer"
-
-#. Width input
-#: src/ResizePage.vala:40
+#: src/ResizePage.vala:42
 msgid "Max width:"
 msgstr "Максимальна ширина:"
 
-#. Create 3th column, making sure the entry is in the center
-#. height input
 #: src/ResizePage.vala:57
 msgid "Max height:"
 msgstr "Максимальна висота:"
-
-#: src/ResizePage.vala:78
-msgid "Cancel"
-msgstr "Скасувати"
 
 #: src/ResizePage.vala:82
 msgid "Resize"
 msgstr "Змінити розмір"
 
-#: src/ResizePage.vala:120
+#: src/ResizePage.vala:118
 msgid "Resize image(s) within:"
 msgstr "Змінити розмір зображень у межах:"
 
-#: src/ResizePage.vala:125
+#: src/ResizePage.vala:126
 msgid "Resize image within:"
 msgstr "Змінити розмір зображення у межах:"
 
-#: src/ResizePage.vala:127
+#: src/ResizePage.vala:128
 #, c-format
 msgid "Resize %i images within:"
 msgstr "Змінити розмір %i зображень у межах:"
 
-#: src/ResizePage.vala:132
+#: src/ResizePage.vala:133
 #, c-format
 msgid "Error creating preview: %s"
 msgstr "Помилка створення попереднього перегляду зображення: %s"
@@ -86,11 +103,15 @@ msgstr "1 зображення залишилося"
 msgid "%i images remaining"
 msgstr "Зображень залишилося %i"
 
-#: src/Resizer.vala:92
+#: src/Resizer.vala:80
+msgid "Resizer requires Imagemagick"
+msgstr ""
+
+#: src/Resizer.vala:106
 #, c-format
 msgid "There was an issue resizing '%s'"
 msgstr "Винникла проблема під час зміни розміру '%s'"
 
-#: src/DropArea.vala:44
-msgid "Drop Image(s) Here"
-msgstr "Перетягніть зображення Сюди"
+#: src/Window.vala:31
+msgid "Resizer"
+msgstr "Resizer"
