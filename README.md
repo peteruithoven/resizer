@@ -13,9 +13,9 @@ Features:
 - Keyboard control: Change the sizes using the up and down keys, press enter to resize.
 - Settings are stored for next time.
 
-![Screenshot resize image](screenshot-6-image.png)
-![Screenshot empty](screenshot-6-empty.png)
-![Screenshot resize multiple images](screenshot-6-images.png)
+![Screenshot resize image](data/screenshots/screenshot-6-image.png)
+![Screenshot empty](data/screenshots/screenshot-6-empty.png)
+![Screenshot resize multiple images](data/screenshots/screenshot-6-images.png)
 
 ## Building, Testing, and Installation
 

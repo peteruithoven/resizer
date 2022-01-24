@@ -14,25 +14,25 @@
     Features:
     </p>
     <ul>
-    <li>Open images with Resizer or open Resizer and Drag and drop images</li>
-    <li>Maintains aspect ratio.</li>
-    <li>Keyboard control: Change the sizes using the up and down keys, press enter to resize.</li>
-    <li>Settings are stored for next time.</li>
+      <li>Open images with Resizer or open Resizer and Drag and drop images</li>
+      <li>Maintains aspect ratio.</li>
+      <li>Keyboard control: Change the sizes using the up and down keys, press enter to resize.</li>
+      <li>Settings are stored for next time.</li>
     </ul>
   </description>
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/peteruithoven/resizer/master/screenshot-6-image.png</image>
+      <image>https://raw.githubusercontent.com/peteruithoven/resizer/master/data/screenshots/screenshot-6-image.png</image>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/peteruithoven/resizer/master/screenshot-6-empty.png</image>
+      <image>https://raw.githubusercontent.com/peteruithoven/resizer/master/data/screenshots/screenshot-6-empty.png</image>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/peteruithoven/resizer/master/screenshot-6-images.png</image>
+      <image>https://raw.githubusercontent.com/peteruithoven/resizer/master/data/screenshots/screenshot-6-images.png</image>
     </screenshot>
   </screenshots>
   <releases>
-  <release version="2.3.0" date="2022-01-19">
+    <release version="2.3.0" date="2022-01-19">
       <description>
         <ul>
           <li>Auto focus relevant buttons</li>
@@ -41,7 +41,7 @@
         </ul>
       </description>
     </release>
-  <release version="2.2.0" date="2021-11-25">
+    <release version="2.2.0" date="2021-11-25">
       <description>
         <ul>
           <li>Selecting images through file chooser (Thanks @Adithyan-KV)</li>
@@ -130,94 +130,94 @@
     <release version="1.1.1" date="2019-02-06">
       <description>
         <ul>
-        <li>Never upscale images</li>
-        <li>Added info box</li>
+          <li>Never upscale images</li>
+          <li>Added info box</li>
         </ul>
       </description>
     </release>
     <release version="1.1.0" date="2019-02-06">
       <description>
         <ul>
-        <li>Never upscale images</li>
-        <li>Added info box</li>
+          <li>Never upscale images</li>
+          <li>Added info box</li>
         </ul>
       </description>
     </release>
     <release version="1.0.7" date="2019-01-31">
       <description>
         <ul>
-        <li>Improved Lithuanian translation (Thanks @welaq)</li>
-        <li>Added French translation (Thanks @NathanBnm)</li>
-        <li>Added more app categories</li>
+          <li>Improved Lithuanian translation (Thanks @welaq)</li>
+          <li>Added French translation (Thanks @NathanBnm)</li>
+          <li>Added more app categories</li>
         </ul>
       </description>
     </release>
     <release version="1.0.6" date="2018-09-14">
       <description>
         <ul>
-        <li>Improved page transition</li>
-        <li>Added clearer finished state</li>
-        <li>Republishing for Juno</li>
+          <li>Improved page transition</li>
+          <li>Added clearer finished state</li>
+          <li>Republishing for Juno</li>
         </ul>
       </description>
     </release>
     <release version="1.0.5" date="2018-09-14">
       <description>
         <ul>
-        <li>Improved page transition</li>
-        <li>Added clearer finished state</li>
+          <li>Improved page transition</li>
+          <li>Added clearer finished state</li>
         </ul>
       </description>
     </release>
     <release version="1.0.4" date="2018-07-24">
       <description>
         <ul>
-        <li>Lithuanian translation (Thanks welaq)</li>
-        <li>Fixed issue where files with a . in their path couldn't be resized (Thanks inhji)</li>
-        <li>Release for Loki</li>
+          <li>Lithuanian translation (Thanks welaq)</li>
+          <li>Fixed issue where files with a . in their path couldn't be resized (Thanks inhji)</li>
+          <li>Release for Loki</li>
         </ul>
       </description>
     </release>
     <release version="1.0.3" date="2018-07-23">
       <description>
         <ul>
-        <li>Lithuanian translation (Thanks welaq)</li>
-        <li>Fixed issue where files with a . in their path couldn't be resized (Thanks inhji)</li>
-        <li>More appdata file fixes</li>
+          <li>Lithuanian translation (Thanks welaq)</li>
+          <li>Fixed issue where files with a . in their path couldn't be resized (Thanks inhji)</li>
+          <li>More appdata file fixes</li>
         </ul>
       </description>
     </release>
     <release version="1.0.2" date="2018-07-21">
       <description>
         <ul>
-        <li>Lithuanian translation (Thanks welaq)</li>
-        <li>Fixed issue where files with a . in their path couldn't be resized (Thanks inhji)</li>
-        <li>Appdata file fixes</li>
+          <li>Lithuanian translation (Thanks welaq)</li>
+          <li>Fixed issue where files with a . in their path couldn't be resized (Thanks inhji)</li>
+          <li>Appdata file fixes</li>
         </ul>
       </description>
     </release>
     <release version="1.0.1" date="2018-07-21">
       <description>
         <ul>
-        <li>Lithuanian translation (Thanks welaq)</li>
-        <li>Fixed issue where files with a . in their path couldn't be resized (Thanks inhji)</li>
+          <li>Lithuanian translation (Thanks welaq)</li>
+          <li>Fixed issue where files with a . in their path couldn't be resized (Thanks inhji)</li>
         </ul>
       </description>
     </release>
     <release version="1.0.0" date="2018-02-09">
       <description>
         <ul>
-        <li>Improved icon thanks to TraumaD</li>
-        <li>Clarified that it resizes within size using labels</li>
+          <li>Improved icon thanks to TraumaD</li>
+          <li>Clarified that it resizes within size using labels</li>
         </ul>
       </description>
     </release>
     <release version="0.10.0" date="2018-02-07">
       <description>
         <ul>
-        <li>Progress indication</li>
-        <li>Proper error messages</li>
-        <li>Switched to GPL-3.0</li>
+          <li>Progress indication</li>
+          <li>Proper error messages</li>
+          <li>Switched to GPL-3.0</li>
         </ul>
       </description>
     </release>
