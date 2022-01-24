@@ -1,14 +1,14 @@
 # Dutch translations for com.github.peteruithoven.resizer package.
-# Copyright (C) 2018 THE com.github.peteruithoven.resizer'S COPYRIGHT HOLDER
+# Copyright (C) 2022 THE com.github.peteruithoven.resizer'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the com.github.peteruithoven.resizer package.
-# Automatically generated, 2018.
+# Automatically generated, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: com.github.peteruithoven.resizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-31 13:06+0200\n"
-"PO-Revision-Date: 2018-01-31 01:09+0100\n"
+"POT-Creation-Date: 2022-01-24 17:30+0100\n"
+"PO-Revision-Date: 2022-01-24 17:02+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: nl\n"
@@ -16,6 +16,36 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/DropArea.vala:49
+msgid "or"
+msgstr ""
+
+#: src/DropArea.vala:54
+msgid "Select image(s)"
+msgstr ""
+
+#: src/DropArea.vala:59
+#, fuzzy
+msgid "Drop image(s) here"
+msgstr "Sleep afbeelding(en) hierheen"
+
+#: src/DropArea.vala:115
+#, fuzzy
+msgid "Open Image(s)"
+msgstr "Sleep afbeelding(en) hierheen"
+
+#: src/DropArea.vala:118
+msgid "Open"
+msgstr ""
+
+#: src/DropArea.vala:119 src/ResizePage.vala:78
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: src/DropArea.vala:123
+msgid "Image files"
+msgstr ""
 
 #: src/HeaderBar.vala:32
 msgid ""
@@ -29,43 +59,32 @@ msgstr ""
 msgid "Info"
 msgstr "Info"
 
-#: src/Window.vala:31
-msgid "Resizer"
-msgstr "Herschaler"
-
-#. Width input
-#: src/ResizePage.vala:40
+#: src/ResizePage.vala:42
 msgid "Max width:"
 msgstr "Max breedte:"
 
-#. Create 3th column, making sure the entry is in the center
-#. height input
 #: src/ResizePage.vala:57
 msgid "Max height:"
 msgstr "Max hoogte:"
-
-#: src/ResizePage.vala:78
-msgid "Cancel"
-msgstr "Annuleren"
 
 #: src/ResizePage.vala:82
 msgid "Resize"
 msgstr "Herschaal"
 
-#: src/ResizePage.vala:120
+#: src/ResizePage.vala:118
 msgid "Resize image(s) within:"
 msgstr "Herschaal de afbeelding(en) binnen:"
 
-#: src/ResizePage.vala:125
+#: src/ResizePage.vala:126
 msgid "Resize image within:"
 msgstr "Herschaal de afbeelding binnen:"
 
-#: src/ResizePage.vala:127
+#: src/ResizePage.vala:128
 #, c-format
 msgid "Resize %i images within:"
 msgstr "Herschaal %i afbeeldingen binnen:"
 
-#: src/ResizePage.vala:132
+#: src/ResizePage.vala:133
 #, c-format
 msgid "Error creating preview: %s"
 msgstr "Probleem bij het maken van voorbeeld: %s"
@@ -83,11 +102,15 @@ msgstr "1 afbeelding over"
 msgid "%i images remaining"
 msgstr "%i afbeeldingen over:"
 
-#: src/Resizer.vala:92
+#: src/Resizer.vala:80
+msgid "Resizer requires Imagemagick"
+msgstr ""
+
+#: src/Resizer.vala:106
 #, c-format
 msgid "There was an issue resizing '%s'"
 msgstr "Er was een probleem bij herschalen: '%s'"
 
-#: src/DropArea.vala:44
-msgid "Drop Image(s) Here"
-msgstr "Sleep afbeelding(en) hierheen"
+#: src/Window.vala:31
+msgid "Resizer"
+msgstr "Herschaler"
