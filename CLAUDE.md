@@ -45,9 +45,6 @@ syntax (`desktop-file-validate`), XML well-formedness of `appdata.xml.in`/`gsche
   always review its diff before trusting it.
 - `desktop-file-validate` rejects files by extension, so the script/CI copy
   `com.github.peteruithoven.resizer.desktop.in` to a temp `*.desktop` file before checking it.
-- `data/com.github.peteruithoven.resizer.contract` (elementary's Contractor format, not a
-  `.desktop` file) has no linter — don't run `desktop-file-validate` on it, it'll just complain
-  about the format itself.
 
 ## GUI testing
 
