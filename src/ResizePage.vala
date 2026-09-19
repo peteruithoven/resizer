@@ -121,7 +121,7 @@ namespace Resizer {
                 app.set_focus (drop_area.select_button);
             } else {
                 cancel_btn.sensitive = true;
-                resize_btn.sensitive = true;
+                resize_btn.sensitive = all_files_supported (files);
                 if (files.length == 1) {
                     intro_label.label = _("Resize image within:");
                 } else {
@@ -137,6 +137,22 @@ namespace Resizer {
                 app.set_default (resize_btn);
                 app.set_focus (resize_btn);
             }
+        }
+        // Uses ImageGeometry.pixbuf_type_for_path, the same format check applied
+        // when actually saving, so unsupported files (e.g. svg) are caught before
+        // resizing starts instead of failing partway through.
+        private bool all_files_supported (File[] files) {
+            bool supported = true;
+            foreach (var file in files) {
+                try {
+                    ImageGeometry.pixbuf_type_for_path (file.get_path ());
+                } catch (Error e) {
+                    supported = false;
+                    var message = _("Can't resize, does not support file format of '%s'").printf (file.get_path ());
+                    MessageCenter.get_default ().add_error (message);
+                }
+            }
+            return supported;
         }
     }
 }
