@@ -1,36 +1,31 @@
 project(
     'com.github.peteruithoven.resizer',
     ['vala', 'c'],
-    meson_version : '>= 0.47',
+    meson_version: '>= 0.59.0',
+    version: '2.3.0',
     license: 'GPL-3.0+'
 )
 
 i18n = import('i18n')
+gnome = import('gnome')
 
-add_global_arguments('-DGETTEXT_PACKAGE="@0@"'.format (meson.project_name()), language:'c')
+add_project_arguments('-DGETTEXT_PACKAGE="@0@"'.format (meson.project_name()), language: 'c')
 
-# Create config.vala from config.vala.in,
+# Create Config.vala from Config.vala.in,
 # replacing variables like PROJECT_NAME
 conf_data = configuration_data()
 conf_data.set_quoted('PROJECT_NAME', meson.project_name())
 config_file = configure_file(
-    input : 'src/config.vala.in',
-    output : 'config.vala',
+    input : 'src/Config.vala.in',
+    output : 'Config.vala',
     configuration : conf_data
 )
 
-meson.build_root()
+subdir('src')
 
 executable(
     meson.project_name(),
-    'src/Application.vala',
-    'src/HeaderBar.vala',
-    'src/Window.vala',
-    'src/ResizePage.vala',
-    'src/ResizingPage.vala',
-    'src/Resizer.vala',
-    'src/DropArea.vala',
-    'src/MessageCenter.vala',
+    sources,
     config_file,
     dependencies: [
         dependency('gtk+-3.0'),
@@ -40,7 +35,10 @@ executable(
     install : true
 )
 
-meson.add_install_script('meson/post_install.py')
-
 subdir('data')
 subdir('po')
+
+gnome.post_install(
+    glib_compile_schemas: true,
+    update_desktop_database: true
+)
