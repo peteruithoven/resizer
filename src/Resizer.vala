@@ -30,11 +30,27 @@ namespace Resizer {
                 return _files;
             }
             set {
-                _files = value;
+                _files = drop_unsupported (value);
                 changed ();
             }
         }
         public signal void changed ();
+
+        // Drops files the app can't actually resize (e.g. svg) up front, so the
+        // rest of the app only ever has to deal with files it can act on.
+        private File[] drop_unsupported (File[] candidates) {
+            File[] supported = {};
+            foreach (var file in candidates) {
+                try {
+                    ImageGeometry.pixbuf_type_for_path (file.get_path ());
+                    supported += file;
+                } catch (Error e) {
+                    var message = _("Removed unsupported file: '%s'").printf (file.get_path ());
+                    MessageCenter.get_default ().add_error (message);
+                }
+            }
+            return supported;
+        }
 
         public enum State {
             IDLE,

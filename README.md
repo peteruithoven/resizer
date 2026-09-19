@@ -37,6 +37,16 @@ To install, use `ninja install`, then execute with `com.github.peteruithoven.res
     sudo ninja install
     com.github.peteruithoven.resizer
 
+### Running without installing
+
+To try out changes without `sudo ninja install`, `scripts/run.sh` builds the app into
+`_build/meson-native` and runs it straight from there:
+
+    ./scripts/run.sh
+    ./scripts/run.sh photo.png   # opens a file directly, skipping drag-and-drop
+
+Handy when working in a git worktree, since each one gets its own isolated build.
+
 ### Tests
 
 Unit tests cover the resize/naming logic in `src/ImageGeometry.vala` and run via meson:
