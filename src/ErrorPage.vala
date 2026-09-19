@@ -31,10 +31,10 @@ namespace Resizer {
 
             this.margin = spacing;
             this.margin_top = 0;
-            this.add(error_label);
+            this.add (error_label);
 
-            Resizer.get_default ().resize_error.connect((r, filename) => {
-                error_label.label = _("There was an issue resizing '%s'").printf(filename);
+            Resizer.get_default ().resize_error.connect ((r, filename) => {
+                error_label.label = _("There was an issue resizing '%s'").printf (filename);
             });
         }
     }

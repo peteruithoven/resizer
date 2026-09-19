@@ -26,6 +26,29 @@ flatpak run --filesystem=host org.flatpak.Builder --force-clean \
   `meson.build`. Prefer `(int)(x + 0.5)` for positive values instead of adding
   the dependency.
 
+## Linting
+
+`./scripts/lint.sh` runs the same checks as CI: Vala style (`io.elementary.vala-lint`),
+`meson.build` formatting (`meson format`), `.po` syntax (`msgfmt --check`), `.desktop.in`
+syntax (`desktop-file-validate`), XML well-formedness of `appdata.xml.in`/`gschema.xml`/icons
+(`xmllint --noout`), and AppStream metadata (`appstreamcli validate`).
+
+- `io.elementary.vala-lint` isn't in Ubuntu's default apt repos; install it with
+  `sudo apt-get install io.elementary.vala-lint` (available via the elementary-os PPA/AppCenter
+  repo) or via Docker: `docker run --rm -v "$PWD":/github/workspace -w /github/workspace
+  valalang/lint:latest io.elementary.vala-lint -d src`. The script falls back to Docker
+  automatically if the binary isn't found.
+- `meson format` needs meson >= 1.5; apt's meson on Ubuntu 24.04 is older, so CI installs a
+  recent one via pip.
+- vala-lint's `-f`/`--fix` flag is unreliable on lines with nested parens (e.g. it turned
+  `add(new Gtk.Label (""))` into `add( new Gtk.Label (""))` instead of `add (new ...)`) —
+  always review its diff before trusting it.
+- `desktop-file-validate` rejects files by extension, so the script/CI copy
+  `com.github.peteruithoven.resizer.desktop.in` to a temp `*.desktop` file before checking it.
+- `data/com.github.peteruithoven.resizer.contract` (elementary's Contractor format, not a
+  `.desktop` file) has no linter — don't run `desktop-file-validate` on it, it'll just complain
+  about the format itself.
+
 ## GUI testing
 
 - Desktop session is Wayland-native (pantheon-wayland). `xdotool`/`import` only see

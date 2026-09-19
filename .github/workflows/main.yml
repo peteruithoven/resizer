@@ -5,6 +5,57 @@ on: [push, pull_request]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  vala-lint:
+    name: Vala Lint
+    runs-on: ubuntu-latest
+    container: valalang/lint:latest
+    steps:
+    - uses: actions/checkout@v5
+    - name: Lint
+      run: io.elementary.vala-lint -d src
+
+  meson-format:
+    name: Meson Format
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v5
+    - name: Install meson
+      run: pip install --user --break-system-packages "meson>=1.5"
+    - name: Check formatting
+      run: |
+        export PATH="$HOME/.local/bin:$PATH"
+        meson format --check-only -r .
+
+  po-lint:
+    name: PO Files
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v5
+    - name: Install gettext
+      run: sudo apt-get update && sudo apt-get install -y gettext
+    - name: Check .po files
+      run: |
+        for po in po/*.po; do
+          msgfmt --check --check-format --check-domain -o /dev/null "$po"
+        done
+
+  data-lint:
+    name: Data Files
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v5
+    - name: Install validators
+      run: sudo apt-get update && sudo apt-get install -y desktop-file-utils libxml2-utils appstream
+    - name: Check .desktop syntax
+      run: |
+        tmp_desktop=$(mktemp --suffix=.desktop)
+        cp data/com.github.peteruithoven.resizer.desktop.in "$tmp_desktop"
+        desktop-file-validate "$tmp_desktop"
+    - name: Check XML well-formedness
+      run: xmllint --noout data/*.xml.in data/*.xml data/icons/*.svg
+    - name: Validate AppStream metadata
+      run: appstreamcli validate data/com.github.peteruithoven.resizer.appdata.xml.in
+
   # This workflow contains a single job called "flatpak"
   flatpak:
     # The type of runner that the job will run on

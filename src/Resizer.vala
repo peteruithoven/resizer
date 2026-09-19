@@ -21,8 +21,8 @@
 
 namespace Resizer {
     public class Resizer {
-        public int maxWidth = 1000;
-        public int maxHeight = 1000;
+        public int max_width = 1000;
+        public int max_height = 1000;
 
         private File[] _files;
         public File[] files {
@@ -31,10 +31,10 @@ namespace Resizer {
             }
             set {
                 _files = value;
-                changed();
+                changed ();
             }
         }
-        public signal void changed();
+        public signal void changed ();
 
         public enum State {
             IDLE,
@@ -46,43 +46,43 @@ namespace Resizer {
             _state = value;
             state_changed (value);
         }
-        public signal void state_changed(State state);
+        public signal void state_changed (State state);
 
-        private int numFiles;
-        private int _numFilesResized;
-        private int numFilesResized {
+        private int num_files;
+        private int _num_files_resized;
+        private int num_files_resized {
             get {
-                return _numFilesResized;
+                return _num_files_resized;
             }
             set {
-                _numFilesResized = value;
-                progress_changed(numFiles, _numFilesResized);
+                _num_files_resized = value;
+                progress_changed (num_files, _num_files_resized);
             }
         }
-        public signal void progress_changed(int numFiles, int numFilesResized);
+        public signal void progress_changed (int num_files, int num_files_resized);
 
-        public async void resize_images() {
+        public async void resize_images () {
             set_state (State.RESIZING);
 
-            numFiles = files.length;
-            numFilesResized = 0;
+            num_files = files.length;
+            num_files_resized = 0;
             foreach (var file in files) {
                 stdout.printf ("resizing: %s\n", file.get_path ());
 
                 var input_name = file.get_path ();
-                var output_name = get_output_name (input_name, maxWidth, maxHeight);
+                var output_name = get_output_name (input_name, max_width, max_height);
 
                 try {
-                    yield resize_image (input_name, output_name, maxWidth, maxHeight);
+                    yield resize_image (input_name, output_name, max_width, max_height);
                     stdout.printf ("Successfully resized: %s\n", output_name);
-                    numFilesResized++;
-                    if (numFilesResized == numFiles) {
+                    num_files_resized++;
+                    if (num_files_resized == num_files) {
                         stdout.printf ("All successfully resized\n");
                         set_state (State.SUCCESS);
                     }
                 } catch (Error e) {
-                    var message = _("There was an issue resizing '%s'").printf(input_name);
-                    MessageCenter.get_default().add_error(message);
+                    var message = _("There was an issue resizing '%s'").printf (input_name);
+                    MessageCenter.get_default ().add_error (message);
                 }
             }
         }
@@ -113,7 +113,9 @@ namespace Resizer {
         }
         // Mirrors ImageMagick's "-resize WxH>" geometry: fit within max_width x
         // max_height while preserving aspect ratio, but never enlarge.
-        private void get_bounded_size (int width, int height, int max_width, int max_height, out int new_width, out int new_height) {
+        private void get_bounded_size (
+            int width, int height, int max_width, int max_height, out int new_width, out int new_height
+        ) {
             double scale = double.min (1.0, double.min ((double) max_width / width, (double) max_height / height));
             new_width = int.max (1, (int) (width * scale + 0.5));
             new_height = int.max (1, (int) (height * scale + 0.5));
@@ -135,7 +137,7 @@ namespace Resizer {
                     throw new IOError.NOT_SUPPORTED ("Unsupported image format: .%s".printf (extension));
             }
         }
-        public string get_output_name(string input, int width, int height) {
+        public string get_output_name (string input, int width, int height) {
             try {
                 // turns "/home/user/Pictures/picture.jpg" into somesthing like:
                 // "/home/user/Pictures/picture-2000.jpg" or
@@ -145,7 +147,7 @@ namespace Resizer {
                 if (width == height) {
                     max_size = width.to_string ();
                 } else {
-                    max_size = width.to_string () +  "x" + height.to_string ();
+                    max_size = width.to_string () + "x" + height.to_string ();
                 }
                 string output_name = file_regex.replace (input, input.length, 0, """\1-""" + max_size + """\2""");
                 return output_name;

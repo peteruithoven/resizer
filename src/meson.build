@@ -1,4 +1,4 @@
-sources = files (
+sources = files(
     'Application.vala',
     'DropArea.vala',
     'HeaderBar.vala',
@@ -6,5 +6,5 @@ sources = files (
     'ResizePage.vala',
     'Resizer.vala',
     'ResizingPage.vala',
-    'Window.vala'
+    'Window.vala',
 )
