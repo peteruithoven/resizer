@@ -1,8 +1,6 @@
-src/Application.vala
+src/DropArea.vala
 src/HeaderBar.vala
-src/Window.vala
 src/ResizePage.vala
 src/ResizingPage.vala
 src/Resizer.vala
-src/DropArea.vala
-src/MessageCenter.vala
+src/Window.vala

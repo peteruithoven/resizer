@@ -1,14 +1,14 @@
 # Czech translations for com.github.peteruithoven.resizer package.
-# Copyright (C) 2018 THE com.github.peteruithoven.resizer'S COPYRIGHT HOLDER
+# Copyright (C) 2022 THE com.github.peteruithoven.resizer'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the com.github.peteruithoven.resizer package.
-# Automatically generated, 2018.
+# Tomáš Branda, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: com.github.peteruithoven.resizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-31 13:06+0200\n"
-"PO-Revision-Date: 2021-10-05 15:10+0200\n"
+"POT-Creation-Date: 2022-01-24 17:30+0100\n"
+"PO-Revision-Date: 2022-01-24 17:02+0100\n"
 "Last-Translator: Tomáš Branda\n"
 "Language-Team: none\n"
 "Language: cs\n"
@@ -16,57 +16,75 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Poedit 2.2.4\n"
+
+#: src/DropArea.vala:49
+msgid "or"
+msgstr ""
+
+#: src/DropArea.vala:54
+msgid "Select image(s)"
+msgstr ""
+
+#: src/DropArea.vala:59
+#, fuzzy
+msgid "Drop image(s) here"
+msgstr "Sem přetáhněte obrázek/obrázky"
+
+#: src/DropArea.vala:115
+#, fuzzy
+msgid "Open Image(s)"
+msgstr "Sem přetáhněte obrázek/obrázky"
+
+#: src/DropArea.vala:118
+msgid "Open"
+msgstr ""
+
+#: src/DropArea.vala:119 src/ResizePage.vala:78
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: src/DropArea.vala:123
+msgid "Image files"
+msgstr ""
 
 #: src/HeaderBar.vala:32
 msgid ""
 "Resizer will never upscale and always maintain the aspect ratio of your "
 "images."
 msgstr ""
-"Resizer nikdy nezvětší velikost vašich obrázků a vždy zachová jejich "
-"poměr stran."
+"Resizer nikdy nezvětší velikost vašich obrázků a vždy zachová jejich poměr "
+"stran."
 
 #: src/HeaderBar.vala:43
 msgid "Info"
 msgstr "Informace"
 
-#: src/Window.vala:31
-msgid "Resizer"
-msgstr "Resizer"
-
-#. Width input
-#: src/ResizePage.vala:40
+#: src/ResizePage.vala:42
 msgid "Max width:"
 msgstr "Max. šířka:"
 
-#. Create 3th column, making sure the entry is in the center
-#. height input
 #: src/ResizePage.vala:57
 msgid "Max height:"
 msgstr "Max. výška:"
-
-#: src/ResizePage.vala:78
-msgid "Cancel"
-msgstr "Zrušit"
 
 #: src/ResizePage.vala:82
 msgid "Resize"
 msgstr "Změnit velikost"
 
-#: src/ResizePage.vala:120
+#: src/ResizePage.vala:118
 msgid "Resize image(s) within:"
 msgstr "Změnit velikost obrázku/obrázků v rámci:"
 
-#: src/ResizePage.vala:125
+#: src/ResizePage.vala:126
 msgid "Resize image within:"
 msgstr "Změnit velikost obrázku v rámci:"
 
-#: src/ResizePage.vala:127
+#: src/ResizePage.vala:128
 #, c-format
 msgid "Resize %i images within:"
 msgstr "Změnit velikost %i obrázků v rámci:"
 
-#: src/ResizePage.vala:132
+#: src/ResizePage.vala:133
 #, c-format
 msgid "Error creating preview: %s"
 msgstr "Při vytváření náhledu se vyskytla chyba: %s"
@@ -84,11 +102,15 @@ msgstr "Zbývá 1 obrázek"
 msgid "%i images remaining"
 msgstr "Zbývá %i obrázků"
 
-#: src/Resizer.vala:92
+#: src/Resizer.vala:80
+msgid "Resizer requires Imagemagick"
+msgstr ""
+
+#: src/Resizer.vala:106
 #, c-format
 msgid "There was an issue resizing '%s'"
 msgstr "Při změně velikost obrázku „%s“ se vyskytla chyba"
 
-#: src/DropArea.vala:44
-msgid "Drop Image(s) Here"
-msgstr "Sem přetáhněte obrázek/obrázky"
+#: src/Window.vala:31
+msgid "Resizer"
+msgstr "Resizer"
