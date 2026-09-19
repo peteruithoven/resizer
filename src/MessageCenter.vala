@@ -29,7 +29,23 @@ namespace Resizer {
             stdout.printf ("adding message: %s\n", message);
             var bar = new Gtk.InfoBar ();
             bar.message_type = type;
-            bar.get_content_area ().add (new Gtk.Label (message));
+            var label = new Gtk.Label (message);
+            label.wrap = true;
+            label.wrap_mode = Pango.WrapMode.WORD_CHAR;
+            label.max_width_chars = 1;
+            label.xalign = 0;
+            // Pin the label's width instead of the usual wrap/hexpand trick:
+            // adding a wrapping label to an already-visible, non-resizable
+            // window makes GTK compute the new height using the label's
+            // near-zero minimum width instead of its real allocated width,
+            // ballooning the window height until the window is refocused.
+            // A fixed width sidesteps that renegotiation entirely.
+            int width = this.get_allocated_width ();
+            if (width <= 0) {
+                width = 260;
+            }
+            label.set_size_request (width - 100, -1);
+            bar.get_content_area ().add (label);
             bar.show_close_button = true;
             bar.response.connect (() => {
                 bar.hide ();
