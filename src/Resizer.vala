@@ -69,19 +69,6 @@ namespace Resizer {
         public async void resize_images() {
             state = State.RESIZING;
 
-            try {
-                debug ("Check convert's availability");
-                string[] command = new string[] { "convert", "-version" };
-                Subprocess subprocess = new Subprocess.newv (command, SubprocessFlags.NONE);
-                if (yield subprocess.wait_check_async ()) {
-                    debug ("Found convert");
-                }
-            } catch (Error e) {
-                var message = _("Resizer requires Imagemagick");
-                MessageCenter.get_default().add_error(message);
-                return;
-            }
-
             numFiles = files.length;
             numFilesResized = 0;
             foreach (var file in files) {
@@ -91,21 +78,66 @@ namespace Resizer {
                 var output_name = get_output_name (input_name, maxWidth, maxHeight);
 
                 try {
-                    string[] command = get_command(input_name, output_name, maxWidth, maxHeight);
-                    debug ("command: %s", string.joinv (" ", command));
-                    Subprocess subprocess = new Subprocess.newv (command, SubprocessFlags.NONE);
-                    if (yield subprocess.wait_check_async ()) {
-                        stdout.printf ("Successfully resized: %s\n", output_name);
-                        numFilesResized++;
-                        if (numFilesResized == numFiles) {
-                            stdout.printf ("All successfully resized\n");
-                            state = State.SUCCESS;
-                        }
+                    yield resize_image (input_name, output_name, maxWidth, maxHeight);
+                    stdout.printf ("Successfully resized: %s\n", output_name);
+                    numFilesResized++;
+                    if (numFilesResized == numFiles) {
+                        stdout.printf ("All successfully resized\n");
+                        state = State.SUCCESS;
                     }
                 } catch (Error e) {
                     var message = _("There was an issue resizing '%s'").printf(input_name);
                     MessageCenter.get_default().add_error(message);
                 }
+            }
+        }
+        // Loads, scales and saves the image on a worker thread so the UI thread
+        // stays responsive between files.
+        private async void resize_image (string input, string output, int max_width, int max_height) throws Error {
+            SourceFunc callback = resize_image.callback;
+            Error? thread_error = null;
+            new Thread<void*> ("resize-image", () => {
+                try {
+                    var pixbuf = new Gdk.Pixbuf.from_file (input);
+                    int width, height;
+                    get_bounded_size (pixbuf.width, pixbuf.height, max_width, max_height, out width, out height);
+                    if (width != pixbuf.width || height != pixbuf.height) {
+                        pixbuf = pixbuf.scale_simple (width, height, Gdk.InterpType.BILINEAR);
+                    }
+                    pixbuf.savev (output, get_pixbuf_type (output), {}, {});
+                } catch (Error e) {
+                    thread_error = e;
+                }
+                Idle.add ((owned) callback);
+                return null;
+            });
+            yield;
+            if (thread_error != null) {
+                throw thread_error;
+            }
+        }
+        // Mirrors ImageMagick's "-resize WxH>" geometry: fit within max_width x
+        // max_height while preserving aspect ratio, but never enlarge.
+        private void get_bounded_size (int width, int height, int max_width, int max_height, out int new_width, out int new_height) {
+            double scale = double.min (1.0, double.min ((double) max_width / width, (double) max_height / height));
+            new_width = int.max (1, (int) (width * scale + 0.5));
+            new_height = int.max (1, (int) (height * scale + 0.5));
+        }
+        private string get_pixbuf_type (string path) throws Error {
+            var extension = path.slice (path.last_index_of_char ('.') + 1, path.length).down ();
+            switch (extension) {
+                case "jpg":
+                case "jpeg":
+                    return "jpeg";
+                case "png":
+                    return "png";
+                case "bmp":
+                    return "bmp";
+                case "tif":
+                case "tiff":
+                    return "tiff";
+                default:
+                    throw new IOError.NOT_SUPPORTED ("Unsupported image format: .%s".printf (extension));
             }
         }
         public string get_output_name(string input, int width, int height) {
@@ -127,17 +159,6 @@ namespace Resizer {
                 return "";
             }
         }
-        public string[] get_command (string input, string output, int width, int height) {
-            // Use ImageMagick's convert utility to resize image
-            var array = new GenericArray<string> ();
-            array.add ("convert");
-            array.add (input);
-            array.add ("-resize");
-            array.add (width.to_string () +  "x" + height.to_string () + ">");
-            array.add (output);
-            return array.data;
-        }
-
         private static GLib.Once<Resizer> instance;
         public static unowned Resizer get_default () {
             return instance.once (() => { return new Resizer (); });
