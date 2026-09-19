@@ -103,6 +103,17 @@ valalang/lint:latest io.elementary.vala-lint -d src`. The script falls back to D
   appeared", only the 20x20 helper window present) — some activation attempt
   was blocking startup entirely. With the addresses blackholed, it's a
   consistent ~1.2s.
+- `scripts/run.sh` is the equivalent for interactive manual testing: builds
+  (if needed) and runs straight out of `_build/meson-native`, no
+  `ninja install`, same D-Bus-blackholed isolation as `smoke-test.sh` (so
+  concurrent worktrees/sessions can't collide via the single-instance
+  GApplication id). Since that also blocks the appearance portal Granite
+  would use for dark-mode detection, it separately reads the real
+  `gtk-theme`/`color-scheme` via `gsettings` (run unsandboxed, so it's
+  instant) and passes it through `$GTK_THEME`, which GTK reads directly with
+  no D-Bus round trip — confirmed via `dbus-run-session` that a real bus
+  gets dark mode right too, but cost ~30s to first window on this machine,
+  so it's not worth it just for that.
 - Reproducing CI-only failures locally with `docker run` needs `--init`
   (without it, your entrypoint is PID 1, which has broken signal-handling
   semantics — this is why `xvfb-run` hung forever once, never receiving the
