@@ -27,6 +27,7 @@ finish-args:
 modules:
   - name: resizer
     buildsystem: meson
+    run-tests: true
     sources:
       - type: dir
         path: .

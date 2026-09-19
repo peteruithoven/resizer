@@ -56,6 +56,24 @@ jobs:
     - name: Validate AppStream metadata
       run: appstreamcli validate data/com.github.peteruithoven.resizer.appdata.xml.in
 
+  smoke-test:
+    name: Smoke Test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v5
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y meson ninja-build valac libgtk-3-dev libgranite-dev \
+          libhandy-1-dev gettext desktop-file-utils xvfb xdotool imagemagick
+    - name: Build and install
+      run: |
+        meson setup build --prefix=/usr
+        ninja -C build
+        sudo ninja -C build install
+    - name: Run smoke test
+      run: xvfb-run -a ./scripts/smoke-test.sh
+
   # This workflow contains a single job called "flatpak"
   flatpak:
     # The type of runner that the job will run on

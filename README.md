@@ -26,7 +26,7 @@ You'll need the following dependencies:
 - libgranite-dev
 - valac
 
-Run `meson` to configure the build environment and then `ninja` to build and run automated tests
+Run `meson` to configure the build environment and then `ninja` to build
 
     meson setup build --prefix=/usr
     cd build
@@ -36,6 +36,19 @@ To install, use `ninja install`, then execute with `com.github.peteruithoven.res
 
     sudo ninja install
     com.github.peteruithoven.resizer
+
+### Tests
+
+Unit tests cover the resize/naming logic in `src/ImageGeometry.vala` and run via meson:
+
+    meson test -C build
+
+There's also a headless smoke test that launches the installed app and checks it
+renders a real image, useful for catching packaging/dependency regressions. It
+needs `xvfb`, `xdotool`, and ImageMagick:
+
+    sudo apt install xvfb xdotool imagemagick
+    xvfb-run -a ./scripts/smoke-test.sh
 
 ## translations
 

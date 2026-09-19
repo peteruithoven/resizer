@@ -44,8 +44,73 @@ valalang/lint:latest io.elementary.vala-lint -d src`. The script falls back to D
 - `desktop-file-validate` rejects files by extension, so the script/CI copy
   `com.github.peteruithoven.resizer.desktop.in` to a temp `*.desktop` file before checking it.
 
+## Automated tests
+
+- Business logic (bounded-size math, extension→format mapping, output-filename
+  generation) lives in `src/ImageGeometry.vala`, kept free of GTK so it's
+  unit-testable in isolation. Tests: `tests/test-image-geometry.vala`
+  (GLib.Test/TAP), run via `meson test`.
+- Sharing a Vala source across sibling meson subdirs via a relative path string
+  (e.g. `'../src/Foo.vala'`) breaks meson's generated C file paths
+  (`tests/src/Foo.c: No such file or directory`). Export it as a `files()`
+  variable from the owning subdir's `meson.build`
+  (`image_geometry_sources = files(...)`) and reference that variable instead.
+- flatpak-builder only runs `ninja test` for a module if that module has
+  `run-tests: true` in the manifest — the GH Action's own `run-tests: true`
+  input alone doesn't do it. `--disable-tests` on the flatpak-builder CLI is
+  the opt-*out*, not opt-in.
+- `ninja install` builds *all* targets regardless of `build_by_default: false`
+  (used on the test binary to keep it out of a plain `ninja`).
+- CI builds the app twice, deliberately: the `flatpak` job builds it inside
+  the Flatpak sandbox and runs `meson test` there (via `run-tests: true`
+  above); the `smoke-test` job builds it *natively* on the bare runner,
+  because the Flatpak sandbox has no display to run the GUI smoke test
+  against. Don't try to consolidate these into one build.
+
 ## GUI testing
 
 - Desktop session is Wayland-native (pantheon-wayland). `xdotool`/`import` only see
   the window if the app is launched with `GDK_BACKEND=x11` (forces XWayland).
-- No Xvfb installed — GUI testing happens on the live desktop session (`DISPLAY=:0`).
+- Synthetic keyboard input (`xdotool key`/`type`) does not reach the app in that
+  XWayland session — mouse clicks work, keyboard doesn't. Don't rely on keyboard
+  shortcuts (e.g. Enter-to-resize) for local interactive testing; real Xvfb (no
+  window manager) may behave differently.
+- The app has a hidden 20x20 helper window whose title is the app ID, not
+  "Resizer" — `xdotool search --name` must anchor with `^Resizer$`, or a loose
+  match can grab the wrong window.
+- `scripts/smoke-test.sh` is a headless smoke test: launches the app, opens a
+  generated test image via CLI (`HANDLES_OPEN`), and checks the preview
+  thumbnail actually rendered it — deliberately no button-clicking, to avoid
+  the input fragility above. Run with `xvfb-run -a ./scripts/smoke-test.sh`
+  once the app is installed and on PATH.
+- `xvfb-run` only sets `DISPLAY`; it does **not** unset `WAYLAND_DISPLAY`. On
+  a real Wayland desktop session, GTK3 prefers Wayland when both are set, so
+  without forcing `GDK_BACKEND=x11` the app silently connects to the real
+  desktop instead of the virtual display — it visibly pops up on screen while
+  `xdotool`, which only ever looks at the virtual X server, finds nothing.
+  `smoke-test.sh` exports `GDK_BACKEND=x11` itself for exactly this reason.
+- No Xvfb installed locally — interactive GUI testing happens on the live
+  desktop session (`DISPLAY=:0`).
+- `smoke-test.sh` deliberately points `DBUS_SESSION_BUS_ADDRESS` and
+  `DBUS_SYSTEM_BUS_ADDRESS` at `unix:path=/dev/null`, so every D-Bus call the
+  app makes at startup (GSettings, Granite's dark-mode/portal lookup, AT-SPI)
+  fails instantly instead of triggering bus discovery or service activation.
+  **Don't remove this or "fix" it with a real bus** (e.g. `dbus-run-session`):
+  that was tried first and made things worse, since a fresh session bus makes
+  `xdg-desktop-portal` cold-activate its backends on demand, and one backend
+  (secrets/keyring) took the full ~25s D-Bus call timeout to fail. It also
+  explains the original CI failure this was added for ("app window never
+  appeared", only the 20x20 helper window present) — some activation attempt
+  was blocking startup entirely. With the addresses blackholed, it's a
+  consistent ~1.2s.
+- Reproducing CI-only failures locally with `docker run` needs `--init`
+  (without it, your entrypoint is PID 1, which has broken signal-handling
+  semantics — this is why `xvfb-run` hung forever once, never receiving the
+  `SIGUSR1` "Xvfb is ready" signal it waits for) and `git archive HEAD | tar
+  -x` into the container rather than a bind mount (so you test exactly what's
+  committed, not local working-tree state, including any stray `build/` dir).
+  Also don't assume a tool is covered by the apt packages already listed —
+  check with `apt-cache depends <pkg>` (e.g. `glib-compile-schemas` comes via
+  `libgtk-3-dev` → `libglib2.0-dev` → `libglib2.0-bin`, but `gettext` and
+  `desktop-file-utils` don't come from anywhere in that chain and were missing
+  from CI until they caused a build failure).
