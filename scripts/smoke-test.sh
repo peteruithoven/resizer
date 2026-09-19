@@ -26,6 +26,13 @@ fi
 # virtual X server, never finds it.
 export GDK_BACKEND=x11
 
+# Skip ATK's attempt to reach the AT-SPI accessibility bus. On CI runners
+# that have a D-Bus session but no accessibility bus service registered,
+# this lookup logs a "ServiceUnknown" warning and can measurably slow down
+# startup; disabling it is the standard fix (same env var GNOME/Electron/etc
+# use in CI) and costs nothing since a smoke test doesn't need accessibility.
+export NO_AT_BRIDGE=1
+
 if ! command -v com.github.peteruithoven.resizer >/dev/null 2>&1; then
     echo "com.github.peteruithoven.resizer not found on PATH. Install it first (e.g. 'sudo ninja -C build install')." >&2
     exit 1
@@ -49,7 +56,7 @@ com.github.peteruithoven.resizer "$test_image" &
 app_pid=$!
 
 window_id=""
-for _ in $(seq 1 20); do
+for _ in $(seq 1 60); do
     if ! kill -0 "$app_pid" 2>/dev/null; then
         echo "App exited before its window appeared" >&2
         exit 1
@@ -64,7 +71,10 @@ for _ in $(seq 1 20); do
     sleep 0.5
 done
 if [ -z "$window_id" ]; then
-    echo "App window never appeared" >&2
+    echo "App window never appeared after 30s. All windows currently on the display:" >&2
+    xdotool search --name "." 2>&1 | while read -r w; do
+        echo "  $w: $(xdotool getwindowname "$w" 2>&1)" >&2
+    done
     exit 1
 fi
 
