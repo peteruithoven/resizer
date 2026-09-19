@@ -42,14 +42,9 @@ namespace Resizer {
             SUCCESS
         }
         private State _state = State.IDLE;
-        private State state {
-            get {
-                return _state;
-            }
-            set {
-                _state = value;
-                state_changed(_state);
-            }
+        private void set_state (State value) {
+            _state = value;
+            state_changed (value);
         }
         public signal void state_changed(State state);
 
@@ -67,7 +62,7 @@ namespace Resizer {
         public signal void progress_changed(int numFiles, int numFilesResized);
 
         public async void resize_images() {
-            state = State.RESIZING;
+            set_state (State.RESIZING);
 
             numFiles = files.length;
             numFilesResized = 0;
@@ -83,7 +78,7 @@ namespace Resizer {
                     numFilesResized++;
                     if (numFilesResized == numFiles) {
                         stdout.printf ("All successfully resized\n");
-                        state = State.SUCCESS;
+                        set_state (State.SUCCESS);
                     }
                 } catch (Error e) {
                     var message = _("There was an issue resizing '%s'").printf(input_name);
