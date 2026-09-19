@@ -47,21 +47,21 @@ namespace Resizer {
             pages.add_named (resize_page, "resize");
             pages.add_named (resizing_page, "resizing");
 
-            var message_center = MessageCenter.get_default();
+            var message_center = MessageCenter.get_default ();
 
-            var innerGrid = new Gtk.Grid();
-            innerGrid.orientation = Gtk.Orientation.VERTICAL;
-            innerGrid.row_spacing = 12;
-            innerGrid.add(message_center);
-            innerGrid.add(pages);
+            var inner_grid = new Gtk.Grid ();
+            inner_grid.orientation = Gtk.Orientation.VERTICAL;
+            inner_grid.row_spacing = 12;
+            inner_grid.add (message_center);
+            inner_grid.add (pages);
 
-            var grid = new Gtk.Grid();
+            var grid = new Gtk.Grid ();
             grid.orientation = Gtk.Orientation.VERTICAL;
-            grid.add(header);
-            grid.add(innerGrid);
-            this.add(grid);
+            grid.add (header);
+            grid.add (inner_grid);
+            this.add (grid);
 
-            Resizer.get_default ().state_changed.connect((r, state) => {
+            Resizer.get_default ().state_changed.connect ((r, state) => {
                 switch (state) {
                     case Resizer.State.IDLE:
                         pages.visible_child_name = "resize";
@@ -81,10 +81,14 @@ namespace Resizer {
             });
 
             // set whole window as drag target
-            Gtk.drag_dest_set (this, Gtk.DestDefaults.MOTION | Gtk.DestDefaults.DROP, DRAG_TARGETS, Gdk.DragAction.COPY);
+            Gtk.drag_dest_set (
+                this, Gtk.DestDefaults.MOTION | Gtk.DestDefaults.DROP, DRAG_TARGETS, Gdk.DragAction.COPY
+            );
             drag_data_received.connect (on_drag_data_received);
         }
-        private void on_drag_data_received (Gdk.DragContext drag_context, int x, int y, Gtk.SelectionData data, uint info, uint time) {
+        private void on_drag_data_received (
+            Gdk.DragContext drag_context, int x, int y, Gtk.SelectionData data, uint info, uint time
+        ) {
             var files = new GenericArray<File> ();
             foreach (var uri in data.get_uris ()) {
                 stdout.printf ("received: %s\n", uri);

@@ -3,13 +3,16 @@ project(
     ['vala', 'c'],
     meson_version: '>= 0.59.0',
     version: '2.3.0',
-    license: 'GPL-3.0+'
+    license: 'GPL-3.0+',
 )
 
 i18n = import('i18n')
 gnome = import('gnome')
 
-add_project_arguments('-DGETTEXT_PACKAGE="@0@"'.format (meson.project_name()), language: 'c')
+add_project_arguments(
+    '-DGETTEXT_PACKAGE="@0@"'.format(meson.project_name()),
+    language: 'c',
+)
 
 # All C sources here are Vala-generated, so these warnings come from glib
 # headers / valac codegen rather than from our own code:
@@ -28,9 +31,9 @@ add_project_arguments(
         '-Wno-incompatible-pointer-types',
         '-Wno-unused-but-set-variable',
         '-Wno-unused-variable',
-        '-Wno-deprecated-declarations'
+        '-Wno-deprecated-declarations',
     ),
-    language: 'c'
+    language: 'c',
 )
 
 # Create Config.vala from Config.vala.in,
@@ -38,9 +41,9 @@ add_project_arguments(
 conf_data = configuration_data()
 conf_data.set_quoted('PROJECT_NAME', meson.project_name())
 config_file = configure_file(
-    input : 'src/Config.vala.in',
-    output : 'Config.vala',
-    configuration : conf_data
+    input: 'src/Config.vala.in',
+    output: 'Config.vala',
+    configuration: conf_data,
 )
 
 subdir('src')
@@ -52,15 +55,12 @@ executable(
     dependencies: [
         dependency('gtk+-3.0'),
         dependency('granite'),
-        dependency('libhandy-1', version: '>=1.0.0')
+        dependency('libhandy-1', version: '>=1.0.0'),
     ],
-    install : true
+    install: true,
 )
 
 subdir('data')
 subdir('po')
 
-gnome.post_install(
-    glib_compile_schemas: true,
-    update_desktop_database: true
-)
+gnome.post_install(glib_compile_schemas: true, update_desktop_database: true)

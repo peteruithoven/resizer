@@ -37,7 +37,7 @@ namespace Resizer {
             var spacing = 12;
 
             intro_label = new Gtk.Label ("");
-            intro_label.margin_bottom = spacing/2;
+            intro_label.margin_bottom = spacing / 2;
 
             var width_label = new Gtk.Label (_("Max width:"));
             width_label.halign = Gtk.Align.END;
@@ -48,11 +48,11 @@ namespace Resizer {
             settings.bind ("width", width_entry, "value", GLib.SettingsBindFlags.DEFAULT);
 
             var width_input = new Gtk.Grid ();
-            width_input.column_spacing = spacing/2;
+            width_input.column_spacing = spacing / 2;
             width_input.column_homogeneous = true;
-            width_input.add(width_label);
-            width_input.add(width_entry);
-            width_input.add(new Gtk.Label (""));
+            width_input.add (width_label);
+            width_input.add (width_entry);
+            width_input.add (new Gtk.Label (""));
 
             var height_label = new Gtk.Label (_("Max height:"));
             height_label.halign = Gtk.Align.START;
@@ -63,17 +63,17 @@ namespace Resizer {
             settings.bind ("height", height_entry, "value", GLib.SettingsBindFlags.DEFAULT);
 
             var height_input = new Gtk.Grid ();
-            height_input.row_spacing = spacing/2;
+            height_input.row_spacing = spacing / 2;
             height_input.margin_end = spacing;
             height_input.valign = Gtk.Align.CENTER;
             height_input.orientation = Gtk.Orientation.VERTICAL;
-            height_input.add(height_label);
-            height_input.add(height_entry);
+            height_input.add (height_label);
+            height_input.add (height_entry);
             // Create 3th row, making sure the entry is in the center
-            height_input.add(new Gtk.Label (""));
+            height_input.add (new Gtk.Label (""));
 
-            drop_area = new DropArea();
-            drop_area.margin_start = spacing/2;
+            drop_area = new DropArea ();
+            drop_area.margin_start = spacing / 2;
 
             cancel_btn = new Gtk.Button.with_label (_("Cancel"));
             cancel_btn.clicked.connect (() => {
@@ -84,31 +84,31 @@ namespace Resizer {
             resize_btn.can_default = true;
             resize_btn.clicked.connect (() => {
                 var resizer = Resizer.get_default ();
-                resizer.maxWidth = width_entry.get_value_as_int ();
-                resizer.maxHeight = height_entry.get_value_as_int ();
-                resizer.resize_images.begin();
+                resizer.max_width = width_entry.get_value_as_int ();
+                resizer.max_height = height_entry.get_value_as_int ();
+                resizer.resize_images.begin ();
             });
 
             var buttons = new Gtk.Grid ();
-            buttons.column_spacing = spacing/2;
+            buttons.column_spacing = spacing / 2;
             buttons.halign = Gtk.Align.END;
             buttons.valign = Gtk.Align.END;
             buttons.margin = spacing;
             buttons.margin_top = 0;
-            buttons.add(cancel_btn);
-            buttons.add(resize_btn);
+            buttons.add (cancel_btn);
+            buttons.add (resize_btn);
 
-            this.column_spacing = spacing/2;
-            this.row_spacing = spacing/2;
-            this.attach(intro_label, 0, 0, 2, 1);
-            this.attach(width_input, 0, 1, 1, 1);
-            this.attach(drop_area, 0, 2, 1, 1);
-            this.attach(height_input, 1, 2, 1, 1);
-            this.attach(buttons, 0, 3, 2, 1);
+            this.column_spacing = spacing / 2;
+            this.row_spacing = spacing / 2;
+            this.attach (intro_label, 0, 0, 2, 1);
+            this.attach (width_input, 0, 1, 1, 1);
+            this.attach (drop_area, 0, 2, 1, 1);
+            this.attach (height_input, 1, 2, 1, 1);
+            this.attach (buttons, 0, 3, 2, 1);
 
             update ({});
-            Resizer.get_default ().changed.connect(() => {
-                update(Resizer.get_default ().files);
+            Resizer.get_default ().changed.connect (() => {
+                update (Resizer.get_default ().files);
             });
         }
         public void update (File[] files) {
@@ -130,8 +130,8 @@ namespace Resizer {
                 try {
                     drop_area.show_preview (files);
                 } catch (Error e) {
-                    var message = _("Error creating preview: %s").printf(e.message);
-                    MessageCenter.get_default().add_error(message);
+                    var message = _("Error creating preview: %s").printf (e.message);
+                    MessageCenter.get_default ().add_error (message);
                 }
                 // when pressing enter, activate the resize button
                 app.set_default (resize_btn);

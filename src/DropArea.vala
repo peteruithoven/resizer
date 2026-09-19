@@ -38,7 +38,7 @@ namespace Resizer {
             image2 = new Gtk.Image ();
             image2.get_style_context ().add_class (Granite.STYLE_CLASS_CARD);
             image2.margin = 6;
-            image2.margin_start = 6+6;
+            image2.margin_start = 6 + 6;
             image2.margin_top = 6;
             image2.visible = false;
 
@@ -63,7 +63,7 @@ namespace Resizer {
             drag_label_style_context.add_class (Granite.STYLE_CLASS_H2_LABEL);
             drag_label_style_context.add_class (Gtk.STYLE_CLASS_DIM_LABEL);
 
-            var images = new Gtk.Fixed();
+            var images = new Gtk.Fixed ();
             images.valign = Gtk.Align.CENTER;
             images.halign = Gtk.Align.CENTER;
             images.put (image2, 0, 0);
@@ -75,7 +75,7 @@ namespace Resizer {
             this.add (images);
             this.add_overlay (overlay_box);
         }
-        public void show_preview(File[] files) throws Error {
+        public void show_preview (File[] files) throws Error {
 
             var file = files[0];
             var pixbuf = new Gdk.Pixbuf.from_file_at_scale (
@@ -103,7 +103,7 @@ namespace Resizer {
                 image2.set_from_pixbuf (pixbuf2);
                 image2.visible = true;
 
-                image.margin_top = 6+6;
+                image.margin_top = 6 + 6;
             } else {
                 image2.visible = false;
 
@@ -120,13 +120,13 @@ namespace Resizer {
 
             var files = new GenericArray<File> ();
             var image_files_filter = new Gtk.FileFilter ();
-            image_files_filter.set_filter_name(_("Image files"));
+            image_files_filter.set_filter_name (_("Image files"));
             /* some image types like webp, svg are not supported */
             string[] supported_mimetypes = {"image/png", "image/jpeg", "image/bmp", "image/tiff"};
             foreach (var mimetype in supported_mimetypes) {
-                image_files_filter.add_mime_type(mimetype);
+                image_files_filter.add_mime_type (mimetype);
             }
-            file_chooser.add_filter(image_files_filter);
+            file_chooser.add_filter (image_files_filter);
             file_chooser.select_multiple = true;
             var response = file_chooser.run ();
             if (response == Gtk.ResponseType.ACCEPT) {

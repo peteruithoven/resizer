@@ -1,10 +1,11 @@
-i18n.gettext(meson.project_name(),
-  args: [
-    '--directory=' + meson.project_source_root(),
-    '--from-code=UTF-8',
-    '-cTRANSLATORS'
-  ],
-  preset: 'glib'
+i18n.gettext(
+    meson.project_name(),
+    args: [
+        '--directory=' + meson.project_source_root(),
+        '--from-code=UTF-8',
+        '-cTRANSLATORS',
+    ],
+    preset: 'glib',
 )
 
 subdir('extra')
