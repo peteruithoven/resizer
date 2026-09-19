@@ -88,3 +88,28 @@ syntax (`desktop-file-validate`), XML well-formedness of `appdata.xml.in`/`gsche
   `smoke-test.sh` exports `GDK_BACKEND=x11` itself for exactly this reason.
 - No Xvfb installed locally — interactive GUI testing happens on the live
   desktop session (`DISPLAY=:0`).
+- D-Bus/portal activation is a real hang risk under Xvfb and was the cause of
+  a CI failure ("app window never appeared" after 30s, only the 20x20 helper
+  window present). Don't try to fix this by providing a *working* D-Bus
+  session (e.g. `dbus-run-session`) — that was tried and made things worse: on
+  a machine with real portal backends installed, a fresh session bus
+  triggered on-demand activation of `xdg-desktop-portal`, and one backend
+  (secrets/keyring) took the full ~25s D-Bus call timeout before giving up.
+  The fix `smoke-test.sh` uses instead is to point both
+  `DBUS_SESSION_BUS_ADDRESS` and `DBUS_SYSTEM_BUS_ADDRESS` at
+  `unix:path=/dev/null`, so every D-Bus call fails immediately with no
+  autolaunch/activation attempted at all. Consistently ~1.2s end to end this
+  way, vs. up to 26s+ or an outright hang otherwise.
+- Reproducing CI-only failures locally: a bare `docker run` isn't equivalent
+  to a GitHub Actions runner. Two gotchas hit while investigating the above:
+  (1) `docker run` without `--init` makes your entrypoint PID 1, which gets
+  special (broken) signal-handling semantics in Linux — `xvfb-run` hung
+  forever because it never received the `SIGUSR1` "Xvfb is ready" signal it
+  waits for. Always use `docker run --init` for this kind of repro.
+  (2) Package availability isn't just about what's in the apt list — verify
+  transitively-pulled tools too (e.g. `glib-compile-schemas` comes via
+  `libgtk-3-dev` → `libglib2.0-dev` → `libglib2.0-bin`, but `gettext` and
+  `desktop-file-utils` don't come from anywhere in that chain and must be
+  installed explicitly). Use `apt-cache depends <pkg>` to check before
+  assuming, and `git archive HEAD | tar -x` (not a bind mount) to test
+  against exactly what's committed, not local working-tree state.

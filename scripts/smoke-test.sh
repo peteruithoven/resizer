@@ -13,6 +13,19 @@
 # ImageMagick (`convert`/`import`).
 set -euo pipefail
 
+# Point D-Bus at an address nothing is listening on, for both buses. This
+# makes every D-Bus call the app makes during startup (GSettings,
+# Granite.Settings' dark-mode/portal lookup, AT-SPI) fail immediately instead
+# of trying to discover or activate a real bus/portal. That discovery path is
+# the actual danger here: on one CI run the app hung before its window was
+# ever created (no crash, no error, it just never got there), and separately,
+# routing it through a *real* freshly-started session bus was observed to
+# take 25+ seconds - a slow xdg-desktop-portal backend (secrets/keyring)
+# timing out during on-demand activation. A smoke test needs none of this, so
+# the fastest and most deterministic option is to not have a bus at all.
+export DBUS_SESSION_BUS_ADDRESS="unix:path=/dev/null"
+export DBUS_SYSTEM_BUS_ADDRESS="unix:path=/dev/null"
+
 if [ -z "${DISPLAY:-}" ]; then
     echo "DISPLAY is not set. Run this under a real or virtual X server, e.g. 'xvfb-run -a $0'." >&2
     exit 1
