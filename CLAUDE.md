@@ -46,8 +46,45 @@ syntax (`desktop-file-validate`), XML well-formedness of `appdata.xml.in`/`gsche
 - `desktop-file-validate` rejects files by extension, so the script/CI copy
   `com.github.peteruithoven.resizer.desktop.in` to a temp `*.desktop` file before checking it.
 
+## Automated tests
+
+- Business logic (bounded-size math, extension→format mapping, output-filename
+  generation) lives in `src/ImageGeometry.vala`, kept free of GTK so it's
+  unit-testable in isolation. Tests: `tests/test-image-geometry.vala`
+  (GLib.Test/TAP), run via `meson test`.
+- Sharing a Vala source across sibling meson subdirs via a relative path string
+  (e.g. `'../src/Foo.vala'`) breaks meson's generated C file paths
+  (`tests/src/Foo.c: No such file or directory`). Export it as a `files()`
+  variable from the owning subdir's `meson.build`
+  (`image_geometry_sources = files(...)`) and reference that variable instead.
+- flatpak-builder only runs `ninja test` for a module if that module has
+  `run-tests: true` in the manifest — the GH Action's own `run-tests: true`
+  input alone doesn't do it. `--disable-tests` on the flatpak-builder CLI is
+  the opt-*out*, not opt-in.
+- `ninja install` builds *all* targets regardless of `build_by_default: false`
+  (used on the test binary to keep it out of a plain `ninja`).
+
 ## GUI testing
 
 - Desktop session is Wayland-native (pantheon-wayland). `xdotool`/`import` only see
   the window if the app is launched with `GDK_BACKEND=x11` (forces XWayland).
-- No Xvfb installed — GUI testing happens on the live desktop session (`DISPLAY=:0`).
+- Synthetic keyboard input (`xdotool key`/`type`) does not reach the app in that
+  XWayland session — mouse clicks work, keyboard doesn't. Don't rely on keyboard
+  shortcuts (e.g. Enter-to-resize) for local interactive testing; real Xvfb (no
+  window manager) may behave differently.
+- The app has a hidden 20x20 helper window whose title is the app ID, not
+  "Resizer" — `xdotool search --name` must anchor with `^Resizer$`, or a loose
+  match can grab the wrong window.
+- `scripts/smoke-test.sh` is a headless smoke test: launches the app, opens a
+  generated test image via CLI (`HANDLES_OPEN`), and checks the preview
+  thumbnail actually rendered it — deliberately no button-clicking, to avoid
+  the input fragility above. Run with `xvfb-run -a ./scripts/smoke-test.sh`
+  once the app is installed and on PATH.
+- `xvfb-run` only sets `DISPLAY`; it does **not** unset `WAYLAND_DISPLAY`. On
+  a real Wayland desktop session, GTK3 prefers Wayland when both are set, so
+  without forcing `GDK_BACKEND=x11` the app silently connects to the real
+  desktop instead of the virtual display — it visibly pops up on screen while
+  `xdotool`, which only ever looks at the virtual X server, finds nothing.
+  `smoke-test.sh` exports `GDK_BACKEND=x11` itself for exactly this reason.
+- No Xvfb installed locally — interactive GUI testing happens on the live
+  desktop session (`DISPLAY=:0`).
