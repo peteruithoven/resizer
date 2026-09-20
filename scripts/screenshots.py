@@ -322,14 +322,14 @@ def capture_static(variant, state, args):
 def capture_resizing_error(variant):
     tmp = Path(tempfile.mkdtemp())
     try:
-        shutil.copy(EXAMPLES_DIR / "blue.jpg", tmp)
-        shutil.copy(EXAMPLES_DIR / "purple.jpg", tmp)
+        shutil.copy(EXAMPLES_DIR / "example1.jpg", tmp)
+        shutil.copy(EXAMPLES_DIR / "example2.jpg", tmp)
         # Read-only dir: the app can load these files fine but can't write
         # the resized output next to them, which is a reliable, fast way to
         # trigger ResizeFailureMessage without needing a slow/huge image.
         tmp.chmod(0o555)
 
-        proc = launch_app(variant, [str(tmp / "blue.jpg"), str(tmp / "purple.jpg")])
+        proc = launch_app(variant, [str(tmp / "example1.jpg"), str(tmp / "example2.jpg")])
         try:
             window_id = wait_for_window(proc)
             time.sleep(0.3)
@@ -350,9 +350,9 @@ def capture_resizing_error(variant):
 def capture_resizing(variant):
     with tempfile.TemporaryDirectory() as tmp_str:
         tmp = Path(tmp_str)
-        big_blue = tmp / "blue.jpg"
-        big_purple = tmp / "purple.jpg"
-        # blue.jpg/purple.jpg are tiny (300x200) - resizing them is too fast
+        big_example1 = tmp / "example1.jpg"
+        big_example2 = tmp / "example2.jpg"
+        # example1.jpg/example2.jpg are tiny (300x200) - resizing them is too fast
         # to ever catch a "1 image remaining" mid-progress moment, so use
         # heavily upscaled copies just to slow the decode/scale down enough
         # to give the poll loop above a real window to land in. Same
@@ -364,13 +364,13 @@ def capture_resizing(variant):
         # transition has actually finished animating in, which used to
         # produce a screenshot with the label clipped at the bottom.
         subprocess.run(
-            ["convert", str(EXAMPLES_DIR / "blue.jpg"), "-resize", "15000x11000!", str(big_blue)], check=True
+            ["convert", str(EXAMPLES_DIR / "example1.jpg"), "-resize", "15000x11000!", str(big_example1)], check=True
         )
         subprocess.run(
-            ["convert", str(EXAMPLES_DIR / "purple.jpg"), "-resize", "15000x11000!", str(big_purple)], check=True
+            ["convert", str(EXAMPLES_DIR / "example2.jpg"), "-resize", "15000x11000!", str(big_example2)], check=True
         )
 
-        proc = launch_app(variant, [str(big_blue), str(big_purple)])
+        proc = launch_app(variant, [str(big_example1), str(big_example2)])
         try:
             window_id = wait_for_window(proc)
             time.sleep(0.3)
@@ -407,9 +407,9 @@ def main():
 
     for variant in ("light", "dark"):
         print(f"==> Capturing {variant} screenshots")
-        capture_static(variant, "image", [str(EXAMPLES_DIR / "blue.jpg")])
+        capture_static(variant, "image", [str(EXAMPLES_DIR / "example1.jpg")])
         capture_static(variant, "empty", [])
-        capture_static(variant, "images", [str(EXAMPLES_DIR / "blue.jpg"), str(EXAMPLES_DIR / "purple.jpg")])
+        capture_static(variant, "images", [str(EXAMPLES_DIR / "example1.jpg"), str(EXAMPLES_DIR / "example2.jpg")])
         capture_static(variant, "format-issues", [str(EXAMPLES_DIR / "example.pdf"), str(EXAMPLES_DIR / "example.svg")])
         capture_resizing(variant)
         capture_resizing_error(variant)
