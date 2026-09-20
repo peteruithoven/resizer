@@ -22,6 +22,8 @@
 namespace Resizer {
     public class MessageCenter : Gtk.Grid {
 
+        private int num_messages = 0;
+
         public MessageCenter () {
             this.orientation = Gtk.Orientation.VERTICAL;
         }
@@ -45,18 +47,18 @@ namespace Resizer {
                 width = 260;
             }
             label.set_size_request (width - 100, -1);
-            bar.get_content_area ().add (label);
+            bar.add_child (label);
             bar.show_close_button = true;
             bar.response.connect (() => {
-                bar.hide ();
+                bar.set_revealed (false);
                 // TODO: find a better way
                 GLib.Timeout.add (1000, () => {
-                    bar.destroy ();
+                    this.remove (bar);
                     return false;
                 });
             });
-            this.add (bar);
-            bar.show_all ();
+            this.attach (bar, 0, num_messages, 1, 1);
+            num_messages++;
         }
         public void add_error (string message) {
             this.add_message (Gtk.MessageType.ERROR, message);
