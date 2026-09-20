@@ -19,22 +19,17 @@
 * Authored by: Peter Uithoven <peter@peteruithoven.nl>
 */
 
-namespace Resizer {
-    public class MessageCenter : GLib.Object {
+void test_output_name_uses_a_single_number_for_square_sizes () {
+    var name = Resizer.Core.FileNaming.output_name ("/home/user/Pictures/picture.jpg", 1000, 1000);
+    assert (name == "/home/user/Pictures/picture-1000.jpg");
+}
 
-        // Set once by Window right after it creates the overlay that hosts
-        // toasts. Assigned before any drop/resize/preview code path can run,
-        // so it's never used unset.
-        public Adw.ToastOverlay toast_overlay { get; set; }
+void test_output_name_uses_wxh_for_non_square_sizes () {
+    var name = Resizer.Core.FileNaming.output_name ("/home/user/Pictures/picture.jpg", 2000, 1500);
+    assert (name == "/home/user/Pictures/picture-2000x1500.jpg");
+}
 
-        public void add_error (string message) {
-            stdout.printf ("adding message: %s\n", message);
-            toast_overlay.add_toast (new Adw.Toast (message));
-        }
-
-        private static GLib.Once<MessageCenter> instance;
-        public static unowned MessageCenter get_default () {
-            return instance.once (() => { return new MessageCenter (); });
-        }
-    }
+void test_output_name_preserves_directory_and_extension_with_dots_in_the_filename () {
+    var name = Resizer.Core.FileNaming.output_name ("/home/user/Pictures/sub dir/my.photo.png", 500, 500);
+    assert (name == "/home/user/Pictures/sub dir/my.photo-500.png");
 }

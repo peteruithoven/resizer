@@ -42,13 +42,9 @@ namespace Resizer {
             pages.add_named (resize_page, "resize");
             pages.add_named (resizing_page, "resizing");
 
-            var message_center = MessageCenter.get_default ();
-
-            var inner_grid = new Gtk.Grid ();
-            inner_grid.orientation = Gtk.Orientation.VERTICAL;
-            inner_grid.row_spacing = 12;
-            inner_grid.attach (message_center, 0, 0, 1, 1);
-            inner_grid.attach (pages, 0, 1, 1, 1);
+            var toast_overlay = new Adw.ToastOverlay ();
+            toast_overlay.child = pages;
+            MessageCenter.get_default ().toast_overlay = toast_overlay;
 
             // Adw.ToolbarView (rather than just packing the header bar as a
             // regular content row) is what makes the header bar visually
@@ -56,7 +52,7 @@ namespace Resizer {
             var toolbar_view = new Adw.ToolbarView ();
             toolbar_view.add_top_bar (header);
             toolbar_view.top_bar_style = Adw.ToolbarStyle.FLAT;
-            toolbar_view.content = inner_grid;
+            toolbar_view.content = toast_overlay;
             this.set_content (toolbar_view);
 
             Resizer.get_default ().state_changed.connect ((r, state) => {

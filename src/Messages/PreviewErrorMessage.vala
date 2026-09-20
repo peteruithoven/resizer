@@ -19,22 +19,10 @@
 * Authored by: Peter Uithoven <peter@peteruithoven.nl>
 */
 
-namespace Resizer {
-    public class MessageCenter : GLib.Object {
-
-        // Set once by Window right after it creates the overlay that hosts
-        // toasts. Assigned before any drop/resize/preview code path can run,
-        // so it's never used unset.
-        public Adw.ToastOverlay toast_overlay { get; set; }
-
-        public void add_error (string message) {
-            stdout.printf ("adding message: %s\n", message);
-            toast_overlay.add_toast (new Adw.Toast (message));
-        }
-
-        private static GLib.Once<MessageCenter> instance;
-        public static unowned MessageCenter get_default () {
-            return instance.once (() => { return new MessageCenter (); });
+namespace Resizer.Messages {
+    public class PreviewErrorMessage {
+        public static string format (string error_message) {
+            return _("Error creating preview: %s").printf (error_message);
         }
     }
 }

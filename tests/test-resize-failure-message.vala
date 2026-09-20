@@ -19,22 +19,24 @@
 * Authored by: Peter Uithoven <peter@peteruithoven.nl>
 */
 
-namespace Resizer {
-    public class MessageCenter : GLib.Object {
+void test_resize_failure_message_drops_the_total_for_a_single_failure () {
+    string[] failed_names = {"photo.jpg"};
+    assert (
+        Resizer.Messages.ResizeFailureMessage.format (failed_names, 5)
+        == "1 image couldn't be resized: photo.jpg"
+    );
+}
 
-        // Set once by Window right after it creates the overlay that hosts
-        // toasts. Assigned before any drop/resize/preview code path can run,
-        // so it's never used unset.
-        public Adw.ToastOverlay toast_overlay { get; set; }
+void test_resize_failure_message_includes_the_total_for_multiple_failures () {
+    string[] failed_names = {"a.jpg", "b.jpg"};
+    assert (
+        Resizer.Messages.ResizeFailureMessage.format (failed_names, 5)
+        == "2 of 5 images couldn't be resized: a.jpg, b.jpg"
+    );
+}
 
-        public void add_error (string message) {
-            stdout.printf ("adding message: %s\n", message);
-            toast_overlay.add_toast (new Adw.Toast (message));
-        }
-
-        private static GLib.Once<MessageCenter> instance;
-        public static unowned MessageCenter get_default () {
-            return instance.once (() => { return new MessageCenter (); });
-        }
-    }
+void test_resize_failure_message_truncates_long_name_lists () {
+    string[] failed_names = {"AAAAAAAAAAAAAAAAAAAAAAAAAAAA.jpg", "BBBBBBBBBBBBBBBBBBBBBBBBBBBB.jpg"};
+    var message = Resizer.Messages.ResizeFailureMessage.format (failed_names, 5);
+    assert (message.has_suffix ("…"));
 }

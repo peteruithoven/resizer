@@ -23,6 +23,19 @@ flatpak run --filesystem=host org.flatpak.Builder --force-clean \
 - `Math.round()` in Vala needs libm, which isn't linked by the current
   `meson.build`. Prefer `(int)(x + 0.5)` for positive values instead of adding
   the dependency.
+- GTK4 CSS has no `max-width`/`max-height` property (only `min-width`/
+  `min-height` exist and affect measurement) — setting one via
+  `Gtk.CssProvider` fails silently with a `Theme parser error: ... No
+  property named "max-width"` warning and, worse, seems to break that node's
+  rendering entirely rather than just ignoring the bad declaration. There's
+  no way to cap `Adw.Toast`'s width via CSS, and its API only takes a plain
+  string (no custom widget to wrap in `Adw.Clamp`, which is what
+  `DropArea.vala` uses to cap the placeholder text's width instead). Window
+  is `resizable: false` but still auto-grows to fit a child's natural-size
+  request (same root cause as the old `Gtk.InfoBar` bug, see
+  `MessageCenter.vala`), so an unbounded toast message balloons the window.
+  `ImageGeometry.truncated_join()` pre-truncates the message text itself as
+  the practical workaround.
 
 ## Linting
 
@@ -46,15 +59,40 @@ valalang/lint:latest io.elementary.vala-lint -d src`. The script falls back to D
 
 ## Automated tests
 
-- Business logic (bounded-size math, extension→format mapping, output-filename
-  generation) lives in `src/ImageGeometry.vala`, kept free of GTK so it's
-  unit-testable in isolation. Tests: `tests/test-image-geometry.vala`
-  (GLib.Test/TAP), run via `meson test`.
+- Business logic is kept free of GTK so it's unit-testable in isolation, in
+  two namespaces mirroring `elementary/calculator`'s and
+  `elementary/appcenter`'s own `src/Core/` convention for framework-independent
+  logic:
+  - `src/Core/` — generic reusable logic, one class per file (`ImageGeometry`:
+    bounded-size math; `ImageFormat`: extension→pixbuf-type mapping and
+    extension display labels; `FileNaming`: output-filename generation;
+    `Strings`: truncate-with-ellipsis and dedup-preserving-order helpers).
+  - `src/Messages/` — one class per toast message, composing `Core/` helpers
+    plus `ngettext`/`_()` into the final localized string
+    (`UnsupportedFileTypesMessage`, `ResizeFailureMessage`,
+    `PreviewErrorMessage`). `MessageCenter` only ever receives an
+    already-formatted string from these.
+  - Tests mirror this 1:1 (`tests/test-image-geometry.vala`,
+    `tests/test-image-format.vala`, etc.), but are wired into just two
+    GLib.Test/TAP binaries — `tests/test-core-main.vala` and
+    `tests/test-messages-main.vala` hold the `Test.add_func` calls for every
+    test file in their group, since only one file per executable can define
+    `main()`. Run via `meson test`.
+- `_()`/`ngettext()` work in the test binaries with no extra setup: they're
+  Vala/GLib built-ins that just pass strings through untranslated without a
+  bound catalog, and `add_project_arguments('-DGETTEXT_PACKAGE=...')` in the
+  root `meson.build` already applies to every target, tests included.
 - Sharing a Vala source across sibling meson subdirs via a relative path string
   (e.g. `'../src/Foo.vala'`) breaks meson's generated C file paths
   (`tests/src/Foo.c: No such file or directory`). Export it as a `files()`
   variable from the owning subdir's `meson.build`
-  (`image_geometry_sources = files(...)`) and reference that variable instead.
+  (`core_sources = files(...)`) and reference that variable instead.
+- `ninja -C build -t targets` (no args) only lists targets reachable from the
+  default build, so a `build_by_default: false` test executable like
+  `tests/test-core` won't show up there even though it exists — use
+  `ninja -C build -t targets all` to see it, and build/run it by its full
+  path (`ninja -C build tests/test-core`), not just the bare name passed to
+  `executable()`.
 - flatpak-builder only runs `ninja test` for a module if that module has
   `run-tests: true` in the manifest — the GH Action's own `run-tests: true`
   input alone doesn't do it. `--disable-tests` on the flatpak-builder CLI is
@@ -92,6 +130,12 @@ valalang/lint:latest io.elementary.vala-lint -d src`. The script falls back to D
 - Xvfb (`xvfb-run`) is available on this machine, so `smoke-test.sh` can be
   run locally the same way CI does; use the live desktop session
   (`DISPLAY=:0`) for interactive GUI testing instead.
+- For visual/screenshot testing on `DISPLAY=:0`, launch via `scripts/run.sh`
+  (or otherwise replicate its `$GTK_THEME` handling), not the raw binary
+  directly. Without it GTK falls back to plain GNOME Adwaita instead of the
+  actual elementary OS theme, which looks close enough to pass a quick glance
+  but isn't what users actually see (undermines any screenshot-based
+  comparison, e.g. of colors or the real theme's widget metrics).
 - `smoke-test.sh` deliberately points `DBUS_SESSION_BUS_ADDRESS` and
   `DBUS_SYSTEM_BUS_ADDRESS` at `unix:path=/dev/null`, so every D-Bus call the
   app makes at startup (GSettings, Granite's dark-mode/portal lookup, AT-SPI)
