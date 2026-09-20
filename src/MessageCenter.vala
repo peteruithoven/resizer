@@ -42,7 +42,7 @@ namespace Resizer {
             // near-zero minimum width instead of its real allocated width,
             // ballooning the window height until the window is refocused.
             // A fixed width sidesteps that renegotiation entirely.
-            int width = this.get_allocated_width ();
+            int width = this.get_width ();
             if (width <= 0) {
                 width = 260;
             }
