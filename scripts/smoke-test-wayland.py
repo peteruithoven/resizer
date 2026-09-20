@@ -96,6 +96,10 @@ EXPECTED_OUTPUT_WIDTH = 1000
 EXPECTED_OUTPUT_HEIGHT = 750
 
 t_start = time.monotonic()
+# Set once known in main(), so fail() can dump gala's own log for
+# diagnostics - a fail() deep in AT-SPI/app-launch code has no other way to
+# surface *why* gala might be unreachable (crashed, wedged, ...).
+_gala_log_path = None
 
 
 def log(msg):
@@ -104,6 +108,11 @@ def log(msg):
 
 def fail(msg):
     log(f"FAIL: {msg}")
+    if _gala_log_path is not None and _gala_log_path.exists():
+        tail = _gala_log_path.read_text(errors="replace").splitlines()[-40:]
+        print("--- gala.log (last 40 lines) ---", flush=True)
+        print("\n".join(tail), flush=True)
+        print("--- end gala.log ---", flush=True)
     sys.exit(1)
 
 
@@ -223,7 +232,7 @@ def find_polling(app, role_name, name, deadline):
 # ---- launching the app ----
 
 
-def launch_app_with_retry(binary, args, env, deadline):
+def launch_app_with_retry(binary, args, env, gala_proc, deadline):
     # A raw connect() to gala's Wayland socket succeeding (wait_for_gala_ready)
     # doesn't guarantee gala is actually ready to service a real client's
     # full Wayland protocol handshake yet - observed in CI (not locally,
@@ -233,9 +242,20 @@ def launch_app_with_retry(binary, args, env, deadline):
     # heuristic on the gala side, treat the app's own connection attempt as
     # the actual readiness signal and retry launching it - the most direct
     # thing that can fail is the thing being retried here.
+    #
+    # One CI run showed this going wrong in a different way: the first
+    # attempt got "Connection reset by peer" (a real handshake, then
+    # dropped), and every one of the next 35 retries failed instantly with
+    # "Failed to open display" for the rest of the 20s budget - a socket
+    # that's permanently refusing connections looks like gala itself died
+    # or wedged after that first attempt, not a transient timing race that
+    # more retrying would clear. Checking gala_proc.poll() here turns that
+    # into a fast, clear failure instead of 35 useless retries.
     attempt = 0
     while True:
         attempt += 1
+        if gala_proc.poll() is not None:
+            fail(f"gala exited (code {gala_proc.returncode}) during app launch attempt {attempt}")
         proc = subprocess.Popen([binary, *args], env=env)
         settle_deadline = time.monotonic() + 1.5
         while time.monotonic() < settle_deadline:
@@ -275,9 +295,11 @@ def cleanup(app_proc, gala_proc, gala_log_file, runtime_dir):
 
 
 def main():
+    global _gala_log_path
     check_requirements()
     runtime_dir = os.environ["XDG_RUNTIME_DIR"]
     work_dir = Path(runtime_dir)
+    _gala_log_path = work_dir / "gala.log"
 
     test_image = work_dir / "smoke-test.png"
     subprocess.run(
@@ -294,7 +316,7 @@ def main():
     # easy to misread which width/height each stage uses.
     expected_output = work_dir / f"smoke-test-{DEFAULT_MAX_SIZE}.png"
 
-    gala_proc, gala_log_file = start_gala(work_dir / "gala.log")
+    gala_proc, gala_log_file = start_gala(_gala_log_path)
     app_proc = None
     try:
         wait_for_gala_ready(gala_proc, time.monotonic() + 15)
@@ -321,7 +343,7 @@ def main():
         # software-only cairo renderer and skip GPU rendering altogether
         # rather than trying to get software EGL/Mesa working in CI.
         env["GSK_RENDERER"] = "cairo"
-        app_proc = launch_app_with_retry(BINARY, [str(test_image)], env, time.monotonic() + 15)
+        app_proc = launch_app_with_retry(BINARY, [str(test_image)], env, gala_proc, time.monotonic() + 15)
 
         # A fresh deadline, not shared with launch_app_with_retry's above:
         # that one may have already spent most of its 15s on retries, which
