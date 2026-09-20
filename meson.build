@@ -55,7 +55,7 @@ executable(
     dependencies: [
         dependency('gtk4', version: '>=4.14.0'),
         dependency('libadwaita-1', version: '>=1.5.0'),
-        dependency('granite-7', version: '>=7.6.0'),
+        dependency('granite-7', version: '>=7.4.0'),
     ],
     install: true,
 )
