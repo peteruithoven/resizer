@@ -1,7 +1,17 @@
 name: CI
 
-# This workflow will run for any pull request or pushed commit
-on: [push, pull_request]
+# Runs on pushes to main and on PR lifecycle events, but not both for the same
+# commit: a push to a branch with an open PR would otherwise fire `push` *and*
+# `pull_request:synchronize` for the identical SHA, running every job twice.
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
