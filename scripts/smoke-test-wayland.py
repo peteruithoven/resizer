@@ -138,7 +138,15 @@ def check_requirements():
 def start_gala(log_path):
     log_file = open(log_path, "wb")
     proc = subprocess.Popen(
-        ["gala", "--headless", "--virtual-monitor", VIRTUAL_MONITOR],
+        # --no-x11: without it gala tries to spawn Xwayland for X11 client
+        # compat, which this smoke test never needs (resizer is pure
+        # GTK4/Wayland) and which isn't installed in the minimal CI image
+        # anyway ("Failed to init X11 display: ... Xwayland: No such file
+        # or directory" - a CRITICAL in gala.log, seen right before gala
+        # segfaulted in one CI run, alongside a separate missing
+        # org.freedesktop.Accounts D-Bus assertion failure - see the CI
+        # apt install step for that one).
+        ["gala", "--headless", "--no-x11", "--virtual-monitor", VIRTUAL_MONITOR],
         stdout=log_file, stderr=subprocess.STDOUT,
     )
     return proc, log_file
