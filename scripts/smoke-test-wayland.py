@@ -324,6 +324,15 @@ def main():
         env = dict(os.environ)
         env["GDK_BACKEND"] = "wayland"
         env["WAYLAND_DISPLAY"] = "wayland-0"
+        # A CI runner has no GPU device at all (unlike a dev machine, where
+        # gala picks up a real /dev/dri node) - GTK4's GL, NGL and Vulkan
+        # renderers all fail to initialize there ("Could not initialize EGL
+        # display" / VK_ERROR_INCOMPATIBLE_DRIVER), which kills the Wayland
+        # connection entirely before a window ever appears. This smoke test
+        # only needs correct pixels, not GPU acceleration, so force GTK4's
+        # software-only 2D (cairo) renderer and skip GPU rendering
+        # altogether rather than trying to get software EGL/Mesa working.
+        env["GSK_RENDERER"] = "cairo"
         app_proc = subprocess.Popen([BINARY, str(test_image)], env=env)
         log(f"app launched (pid {app_proc.pid})")
 
