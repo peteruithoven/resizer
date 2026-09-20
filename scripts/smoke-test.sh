@@ -103,16 +103,32 @@ eval "$(xdotool getwindowgeometry --shell "$window_id")"
 sample_x=$((WIDTH * 28 / 100))
 sample_y=$((HEIGHT * 46 / 100))
 pixel=""
+last_error=""
+# Both `import` and `convert` are run inside an `if` here, not as bare
+# commands - under `set -e`, a bare command failing anywhere aborts the
+# whole script immediately, which would defeat this retry loop for the
+# exact case it exists to absorb: `import -window` occasionally fails
+# outright with "unable to read X window image ... Resource temporarily
+# unavailable" (a transient X11 race, seen in CI) rather than just
+# returning a stale/blank frame. Only a wrong-pixel result was being
+# retried before; a hard `import` failure wasn't.
 for _ in $(seq 1 20); do
-    import -window "$window_id" "$screenshot"
-    pixel=$(convert "$screenshot" -format "%[pixel:p{$sample_x,$sample_y}]" info:)
-    if [ "$pixel" = "srgb(135,206,235)" ]; then
-        break
+    if last_error=$(import -window "$window_id" "$screenshot" 2>&1); then
+        if convert_output=$(convert "$screenshot" -format "%[pixel:p{$sample_x,$sample_y}]" info: 2>&1); then
+            pixel="$convert_output"
+            if [ "$pixel" = "srgb(135,206,235)" ]; then
+                break
+            fi
+        else
+            last_error="$convert_output"
+            pixel=""
+        fi
     fi
     sleep 0.5
 done
 if [ "$pixel" != "srgb(135,206,235)" ]; then
     echo "Preview thumbnail did not show the test image at (${sample_x},${sample_y}): got '$pixel', expected 'srgb(135,206,235)'" >&2
+    [ -n "$last_error" ] && echo "Last capture error: $last_error" >&2
     exit 1
 fi
 
