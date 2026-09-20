@@ -10,8 +10,9 @@ Usage: ./scripts/screenshots.py [os-version]
 
 Requires a real desktop session (DISPLAY=:0, not xvfb-run - this wants the
 actual elementary OS theme rendered, not a headless render) with xdotool,
-ImageMagick (import/convert/identify) and accessibility (AT-SPI) enabled.
-See CLAUDE.md "GUI testing" for why GDK_BACKEND=x11 is needed on this
+ImageMagick (convert/identify), accessibility (AT-SPI) enabled, and a
+compositor that implements org.gnome.Shell.Screenshot (gala, Pantheon's own,
+does). See CLAUDE.md "GUI testing" for why GDK_BACKEND=x11 is needed on this
 Wayland desktop.
 """
 import argparse
@@ -36,7 +37,7 @@ except ImportError:
     raise
 
 gi.require_version("Atspi", "2.0")
-from gi.repository import Atspi, GLib  # noqa: E402
+from gi.repository import Atspi, Gio, GLib  # noqa: E402
 
 # Otherwise fully buffered (not line-buffered) whenever stdout isn't a tty -
 # e.g. when a wrapper script or task runner captures this script's output to
@@ -181,7 +182,7 @@ def click_and_wait_for_mid_progress(button_name, find_timeout=5.0, mid_timeout=2
 
 
 def check_requirements():
-    for cmd in ("xdotool", "import", "convert", "identify", "gsettings"):
+    for cmd in ("xdotool", "convert", "identify", "gsettings"):
         if shutil.which(cmd) is None:
             sys.exit(f"Required tool '{cmd}' not found on PATH.")
     if not os.environ.get("DISPLAY"):
@@ -196,6 +197,20 @@ def check_requirements():
             "Accessibility (AT-SPI) is switched off, so this script can't find/click the app's buttons.\n"
             "Enable it with: gsettings set org.gnome.desktop.interface toolkit-accessibility true"
         )
+    bus = Gio.bus_get_sync(Gio.BusType.SESSION, None)
+    has_owner, = bus.call_sync(
+        "org.freedesktop.DBus",
+        "/org/freedesktop/DBus",
+        "org.freedesktop.DBus",
+        "NameHasOwner",
+        GLib.Variant("(s)", ("org.gnome.Shell",)),
+        GLib.VariantType("(b)"),
+        Gio.DBusCallFlags.NONE,
+        -1,
+        None,
+    ).unpack()
+    if not has_owner:
+        sys.exit("org.gnome.Shell isn't available on the session bus - is this compositor Pantheon's gala?")
     # The app is single-instance (GApplication): if a real instance is
     # already running, our launches below would just hand it their file
     # args instead of starting their own process, and every AT-SPI/window
@@ -285,19 +300,51 @@ def color_count(path):
         return None
 
 
+# Lazily created, reused for every capture in the run.
+_screenshot_proxy = None
+
+
+def capture_window(window_id, out_path):
+    """Screenshots window_id to out_path with a real alpha channel, via the
+    compositor's own org.gnome.Shell.Screenshot D-Bus interface (gala
+    implements this)
+    """
+    global _screenshot_proxy
+    subprocess.run(["xdotool", "windowactivate", window_id], capture_output=True)
+    time.sleep(0.05)
+    if _screenshot_proxy is None:
+        _screenshot_proxy = Gio.DBusProxy.new_for_bus_sync(
+            Gio.BusType.SESSION,
+            Gio.DBusProxyFlags.NONE,
+            None,
+            "org.gnome.Shell",
+            "/org/gnome/Shell/Screenshot",
+            "org.gnome.Shell.Screenshot",
+            None,
+        )
+    try:
+        result = _screenshot_proxy.call_sync(
+            "ScreenshotWindow",
+            GLib.Variant("(bbbs)", (True, False, False, str(out_path))),
+            Gio.DBusCallFlags.NONE,
+            2000,
+            None,
+        )
+    except GLib.Error as e:
+        print(f"ScreenshotWindow failed: {e}", file=sys.stderr)
+        return False
+    success, _filename_used = result.unpack()
+    return success
+
+
 def capture_when_painted(window_id, out_path):
     # Retries for a couple seconds if the frame comes back as a single flat
     # color - the window can report as mapped before GTK has actually
     # painted anything into it yet, and a fixed sleep before the first
     # capture isn't always enough (same issue and fix as smoke-test.sh's
-    # pixel retry loop, see CLAUDE.md "GUI testing"). The timeout on
-    # `import` guards against it hanging instead of failing fast on an
-    # already-closed window.
+    # pixel retry loop, see CLAUDE.md "GUI testing").
     for _ in range(20):
-        try:
-            subprocess.run(["import", "-window", window_id, str(out_path)], timeout=1, stderr=subprocess.DEVNULL)
-        except subprocess.TimeoutExpired:
-            pass
+        capture_window(window_id, out_path)
         colors = color_count(out_path)
         if colors is not None and colors > 20:
             return
@@ -383,10 +430,7 @@ def capture_resizing(variant):
                 # updated frame that still shows the previous value.
                 time.sleep(0.08)
                 out_path = OUT_DIR / f"screenshot-{OS_VERSION}-{variant}-resizing.png"
-                try:
-                    subprocess.run(["import", "-window", window_id, str(out_path)], timeout=1, stderr=subprocess.DEVNULL)
-                except subprocess.TimeoutExpired:
-                    pass
+                capture_window(window_id, out_path)
                 print(f"  wrote screenshot-{OS_VERSION}-{variant}-resizing.png")
             else:
                 print(f"warning: never caught a mid-progress frame for {variant}, skipping", file=sys.stderr)
