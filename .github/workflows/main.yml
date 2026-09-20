@@ -99,6 +99,20 @@ jobs:
         meson setup build --prefix=/usr
         ninja -C build
         sudo ninja -C build install
+    - name: Load vkms (virtual GPU) for headless gala rendering
+      # GH Actions runners have no GPU/DRM device at all, which forces gala
+      # into a "surfaceless renderer" fallback that (per a gdb backtrace
+      # from an earlier run of this job) segfaults the moment any window
+      # plays its open animation - a Clutter timeline started on an actor
+      # with no working frame clock. vkms is a virtual KMS/DRM driver
+      # (used by Mesa's own CI and IGT GPU Tools for exactly this) that
+      # gives the runner a real, if fake, /dev/dri device with proper
+      # vblank timing, so gala can use its normal GPU-backed rendering path
+      # instead of that broken fallback.
+      run: |
+        sudo modprobe vkms
+        sudo chmod 666 /dev/dri/card* /dev/dri/renderD* 2>/dev/null || true
+        ls -la /dev/dri/
     - name: Run smoke test (Wayland)
       run: |
         rt=$(mktemp -d /tmp/rsz-rt-XXXXXX)
