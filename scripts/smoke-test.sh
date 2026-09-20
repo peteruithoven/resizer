@@ -91,17 +91,26 @@ if [ -z "$window_id" ]; then
     exit 1
 fi
 
-sleep 0.5 # let the preview finish rendering
-screenshot="$work_dir/window.png"
-import -window "$window_id" "$screenshot"
-
 # Sample a point inside the preview thumbnail (roughly a quarter across,
 # just under halfway down the dialog) and check it matches the test image's
-# fill color, confirming the app actually decoded and rendered it.
+# fill color, confirming the app actually decoded and rendered it. Retried
+# rather than a single fixed sleep-then-sample: the first frame or two can
+# still be mid-paint (e.g. texture upload for the preview image) on a slow
+# or contended CI runner even after the window itself exists, and a single
+# snapshot taken right then would sample stale/blank content.
+screenshot="$work_dir/window.png"
 eval "$(xdotool getwindowgeometry --shell "$window_id")"
 sample_x=$((WIDTH * 28 / 100))
 sample_y=$((HEIGHT * 46 / 100))
-pixel=$(convert "$screenshot" -format "%[pixel:p{$sample_x,$sample_y}]" info:)
+pixel=""
+for _ in $(seq 1 20); do
+    import -window "$window_id" "$screenshot"
+    pixel=$(convert "$screenshot" -format "%[pixel:p{$sample_x,$sample_y}]" info:)
+    if [ "$pixel" = "srgb(135,206,235)" ]; then
+        break
+    fi
+    sleep 0.5
+done
 if [ "$pixel" != "srgb(135,206,235)" ]; then
     echo "Preview thumbnail did not show the test image at (${sample_x},${sample_y}): got '$pixel', expected 'srgb(135,206,235)'" >&2
     exit 1

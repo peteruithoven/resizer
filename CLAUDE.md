@@ -89,8 +89,9 @@ valalang/lint:latest io.elementary.vala-lint -d src`. The script falls back to D
   desktop instead of the virtual display — it visibly pops up on screen while
   `xdotool`, which only ever looks at the virtual X server, finds nothing.
   `smoke-test.sh` exports `GDK_BACKEND=x11` itself for exactly this reason.
-- No Xvfb installed locally — interactive GUI testing happens on the live
-  desktop session (`DISPLAY=:0`).
+- Xvfb (`xvfb-run`) is available on this machine, so `smoke-test.sh` can be
+  run locally the same way CI does; use the live desktop session
+  (`DISPLAY=:0`) for interactive GUI testing instead.
 - `smoke-test.sh` deliberately points `DBUS_SESSION_BUS_ADDRESS` and
   `DBUS_SYSTEM_BUS_ADDRESS` at `unix:path=/dev/null`, so every D-Bus call the
   app makes at startup (GSettings, Granite's dark-mode/portal lookup, AT-SPI)
@@ -114,6 +115,15 @@ valalang/lint:latest io.elementary.vala-lint -d src`. The script falls back to D
   no D-Bus round trip — confirmed via `dbus-run-session` that a real bus
   gets dark mode right too, but cost ~30s to first window on this machine,
   so it's not worth it just for that.
+- `smoke-test.sh` retries the pixel sample (up to ~10s) instead of a single
+  fixed sleep-then-sample: on GTK4, a CI run once failed with the sampled
+  pixel reading pure black even though the window had already appeared —
+  the first frame or two can still be mid-paint (e.g. texture upload for the
+  preview image) on a slow/contended runner. Reproduced the exact CI
+  environment via Docker (versions, window size, sample coordinates all
+  matched) but couldn't reproduce the actual failure after several runs,
+  meaning it's a rare timing race rather than a deterministic bug - the retry
+  loop is a cheap way to absorb it without weakening the assertion itself.
 - Reproducing CI-only failures locally with `docker run` needs `--init`
   (without it, your entrypoint is PID 1, which has broken signal-handling
   semantics — this is why `xvfb-run` hung forever once, never receiving the
