@@ -50,9 +50,9 @@ namespace Resizer {
             var width_input = new Gtk.Grid ();
             width_input.column_spacing = spacing / 2;
             width_input.column_homogeneous = true;
-            width_input.add (width_label);
-            width_input.add (width_entry);
-            width_input.add (new Gtk.Label (""));
+            width_input.attach (width_label, 0, 0, 1, 1);
+            width_input.attach (width_entry, 1, 0, 1, 1);
+            width_input.attach (new Gtk.Label (""), 2, 0, 1, 1);
 
             var height_label = new Gtk.Label (_("Max height:"));
             height_label.halign = Gtk.Align.START;
@@ -67,10 +67,10 @@ namespace Resizer {
             height_input.margin_end = spacing;
             height_input.valign = Gtk.Align.CENTER;
             height_input.orientation = Gtk.Orientation.VERTICAL;
-            height_input.add (height_label);
-            height_input.add (height_entry);
+            height_input.attach (height_label, 0, 0, 1, 1);
+            height_input.attach (height_entry, 0, 1, 1, 1);
             // Create 3th row, making sure the entry is in the center
-            height_input.add (new Gtk.Label (""));
+            height_input.attach (new Gtk.Label (""), 0, 2, 1, 1);
 
             drop_area = new DropArea ();
             drop_area.margin_start = spacing / 2;
@@ -80,8 +80,7 @@ namespace Resizer {
                 app.destroy ();
             });
             resize_btn = new Gtk.Button.with_label (_("Resize"));
-            resize_btn.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
-            resize_btn.can_default = true;
+            resize_btn.add_css_class ("suggested-action");
             resize_btn.clicked.connect (() => {
                 var resizer = Resizer.get_default ();
                 resizer.max_width = width_entry.get_value_as_int ();
@@ -93,10 +92,10 @@ namespace Resizer {
             buttons.column_spacing = spacing / 2;
             buttons.halign = Gtk.Align.END;
             buttons.valign = Gtk.Align.END;
-            buttons.margin = spacing;
+            buttons.margin_start = buttons.margin_end = buttons.margin_bottom = spacing;
             buttons.margin_top = 0;
-            buttons.add (cancel_btn);
-            buttons.add (resize_btn);
+            buttons.attach (cancel_btn, 0, 0, 1, 1);
+            buttons.attach (resize_btn, 1, 0, 1, 1);
 
             this.column_spacing = spacing / 2;
             this.row_spacing = spacing / 2;
@@ -117,7 +116,7 @@ namespace Resizer {
                 resize_btn.sensitive = false;
                 intro_label.label = _("Resize image(s) within:");
                 // when pressing enter, activate the select images button
-                app.set_default (drop_area.select_button);
+                app.set_default_widget (drop_area.select_button);
                 app.set_focus (drop_area.select_button);
             } else {
                 cancel_btn.sensitive = true;
@@ -134,7 +133,7 @@ namespace Resizer {
                     MessageCenter.get_default ().add_error (message);
                 }
                 // when pressing enter, activate the resize button
-                app.set_default (resize_btn);
+                app.set_default_widget (resize_btn);
                 app.set_focus (resize_btn);
             }
         }

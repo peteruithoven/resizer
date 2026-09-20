@@ -34,24 +34,17 @@ namespace Resizer {
             remaining_label.halign = Gtk.Align.START;
 
             this.orientation = Gtk.Orientation.VERTICAL;
-            this.margin = spacing;
+            this.margin_start = this.margin_end = this.margin_bottom = spacing;
             this.margin_top = 0;
-            this.add (bar);
-            this.add (remaining_label);
-
-            var green_bar_provider = new Gtk.CssProvider ();
-            try {
-                green_bar_provider.load_from_data ("@define-color selected_bg_color @success_color;");
-            } catch (Error e) {
-                warning ("Failed to load custom CSS to make green progress bars. Error: %s", e.message);
-            }
+            this.attach (bar, 0, 0, 1, 1);
+            this.attach (remaining_label, 0, 1, 1, 1);
 
             Resizer.get_default ().progress_changed.connect ((r, num_files, num_files_resized) => {
                 bar.fraction = ((double) num_files_resized) / ((double) num_files);
                 var images_remaining = num_files - num_files_resized;
                 if (images_remaining == 0) {
                     remaining_label.label = _("All images resized");
-                    bar.get_style_context ().add_provider (green_bar_provider, Gtk.STYLE_PROVIDER_PRIORITY_USER);
+                    bar.add_css_class ("success");
                 } else if (images_remaining == 1) {
                     remaining_label.label = _("1 image remaining");
                 } else {

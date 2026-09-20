@@ -20,28 +20,23 @@
 */
 
 namespace Resizer {
-    public class Window : Hdy.Window {
+    public class Window : Adw.ApplicationWindow {
 
         private Gtk.Stack pages;
-        const Gtk.TargetEntry[] DRAG_TARGETS = { { "text/uri-list", 0, 0 } };
 
-        public Window () {
-            Object (border_width: 0,
-                            resizable: false,
-                            title: _("Resizer")
-                         );
+        public Window (Application app) {
+            Object (application: app, resizable: false, title: _("Resizer"));
         }
         construct {
-            Hdy.init ();
-
-            var header = new HeaderBar ();
+            var header = HeaderBar.create ();
 
             var resize_page = new ResizePage (this);
             var resizing_page = new ResizingPage ();
 
             // Pages stack
             pages = new Gtk.Stack ();
-            pages.homogeneous = false;
+            pages.hhomogeneous = false;
+            pages.vhomogeneous = false;
             pages.transition_duration = 500;
             pages.transition_type = Gtk.StackTransitionType.SLIDE_UP;
             pages.add_named (resize_page, "resize");
@@ -52,14 +47,17 @@ namespace Resizer {
             var inner_grid = new Gtk.Grid ();
             inner_grid.orientation = Gtk.Orientation.VERTICAL;
             inner_grid.row_spacing = 12;
-            inner_grid.add (message_center);
-            inner_grid.add (pages);
+            inner_grid.attach (message_center, 0, 0, 1, 1);
+            inner_grid.attach (pages, 0, 1, 1, 1);
 
-            var grid = new Gtk.Grid ();
-            grid.orientation = Gtk.Orientation.VERTICAL;
-            grid.add (header);
-            grid.add (inner_grid);
-            this.add (grid);
+            // Adw.ToolbarView (rather than just packing the header bar as a
+            // regular content row) is what makes the header bar visually
+            // merge into the content below it, with no separating shadow.
+            var toolbar_view = new Adw.ToolbarView ();
+            toolbar_view.add_top_bar (header);
+            toolbar_view.top_bar_style = Adw.ToolbarStyle.FLAT;
+            toolbar_view.content = inner_grid;
+            this.set_content (toolbar_view);
 
             Resizer.get_default ().state_changed.connect ((r, state) => {
                 switch (state) {
@@ -81,23 +79,19 @@ namespace Resizer {
             });
 
             // set whole window as drag target
-            Gtk.drag_dest_set (
-                this, Gtk.DestDefaults.MOTION | Gtk.DestDefaults.DROP, DRAG_TARGETS, Gdk.DragAction.COPY
-            );
-            drag_data_received.connect (on_drag_data_received);
+            var drop_target = new Gtk.DropTarget (typeof (Gdk.FileList), Gdk.DragAction.COPY);
+            drop_target.drop.connect (on_drop);
+            ((Gtk.Widget) this).add_controller (drop_target);
         }
-        private void on_drag_data_received (
-            Gdk.DragContext drag_context, int x, int y, Gtk.SelectionData data, uint info, uint time
-        ) {
+        private bool on_drop (GLib.Value value, double x, double y) {
+            var file_list = (Gdk.FileList) value.get_boxed ();
             var files = new GenericArray<File> ();
-            foreach (var uri in data.get_uris ()) {
-                stdout.printf ("received: %s\n", uri);
-                var file = File.new_for_uri (uri);
+            foreach (unowned var file in file_list.get_files ()) {
+                stdout.printf ("received: %s\n", file.get_uri ());
                 files.add (file);
-            };
+            }
             Resizer.get_default ().files = files.data;
-            // inform drag source that drop is finished successfully
-            Gtk.drag_finish (drag_context, true, false, time);
+            return true;
         }
     }
 }

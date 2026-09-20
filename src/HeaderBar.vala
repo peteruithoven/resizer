@@ -20,14 +20,10 @@
 */
 
 namespace Resizer {
-    public class HeaderBar : Hdy.HeaderBar {
-
-        construct {
-            show_close_button = true;
-            var header_context = get_style_context ();
-            header_context.add_class (Gtk.STYLE_CLASS_TITLEBAR);
-            header_context.add_class (Granite.STYLE_CLASS_DEFAULT_DECORATION);
-            header_context.add_class (Gtk.STYLE_CLASS_FLAT);
+    public class HeaderBar {
+        public static Adw.HeaderBar create () {
+            var header = new Adw.HeaderBar ();
+            header.add_css_class (Granite.STYLE_CLASS_DEFAULT_DECORATION);
 
             var info_text = new Gtk.Label (
                 _("Resizer will never upscale and always maintain the aspect ratio of your images.")
@@ -36,18 +32,18 @@ namespace Resizer {
             info_text.wrap = true;
             info_text.margin_top = info_text.margin_bottom = 10;
             info_text.margin_start = info_text.margin_end = 6;
-            info_text.show_all ();
 
-            var info_popover = new Gtk.Popover (null);
-            info_popover.add (info_text);
+            var info_popover = new Gtk.Popover ();
+            info_popover.set_child (info_text);
 
             var info_menu = new Gtk.MenuButton ();
             info_menu.tooltip_text = _("Info");
-            info_menu.image = new Gtk.Image.from_icon_name ("dialog-information", Gtk.IconSize.SMALL_TOOLBAR);
+            info_menu.icon_name = "dialog-information";
             info_menu.valign = Gtk.Align.CENTER;
             info_menu.popover = info_popover;
 
-            pack_end (info_menu);
+            header.pack_end (info_menu);
+            return header;
         }
     }
 }

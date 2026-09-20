@@ -20,60 +20,87 @@
 */
 
 namespace Resizer {
-    public class DropArea : Gtk.Overlay {
+    public class DropArea : Gtk.Box {
 
-        private Gtk.Image image;
-        private Gtk.Image image2;
-        private Gtk.Box overlay_box;
+        private Gtk.Picture image;
+        private Gtk.Picture image2;
+        private Gtk.Widget placeholder_box;
         public Gtk.Button select_button;
 
+        public DropArea () {
+            Object (orientation: Gtk.Orientation.HORIZONTAL, spacing: 0);
+        }
         construct {
-            image = new Gtk.Image ();
-            image.get_style_context ().add_class (Granite.STYLE_CLASS_CARD);
+            image = new Gtk.Picture ();
+            image.content_fit = Gtk.ContentFit.CONTAIN;
+            image.add_css_class (Granite.STYLE_CLASS_CARD);
             image.hexpand = true;
+            image.vexpand = true;
+            image.halign = Gtk.Align.FILL;
+            image.valign = Gtk.Align.FILL;
             image.width_request = 300;
             image.height_request = 200;
-            image.margin = 6;
+            image.margin_top = image.margin_bottom = image.margin_start = image.margin_end = 6;
 
-            image2 = new Gtk.Image ();
-            image2.get_style_context ().add_class (Granite.STYLE_CLASS_CARD);
-            image2.margin = 6;
-            image2.margin_start = 6 + 6;
-            image2.margin_top = 6;
+            image2 = new Gtk.Picture ();
+            image2.content_fit = Gtk.ContentFit.CONTAIN;
+            image2.add_css_class (Granite.STYLE_CLASS_CARD);
+            image2.hexpand = true;
+            image2.vexpand = true;
+            image2.halign = Gtk.Align.FILL;
+            image2.valign = Gtk.Align.FILL;
+            // Same total margin on each axis as `image` (6+6=12 either way),
+            // just redistributed - this shifts image2's box up and to the
+            // right by 6px while keeping it exactly the same size as image's
+            // box, so both end up with an identical aspect ratio and CONTAIN
+            // doesn't have to crop or letterbox either one.
+            image2.margin_top = 0;
+            image2.margin_bottom = 12;
+            image2.margin_start = 12;
+            image2.margin_end = 0;
             image2.visible = false;
 
-            overlay_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-            overlay_box.valign = Gtk.Align.CENTER;
-            overlay_box.halign = Gtk.Align.CENTER;
-
-            var or_label = new Gtk.Label (_("or"));
-            var or_label_style_context = or_label.get_style_context ();
-            or_label_style_context.add_class (Granite.STYLE_CLASS_H2_LABEL);
-            or_label_style_context.add_class (Gtk.STYLE_CLASS_DIM_LABEL);
+            var placeholder = new Granite.Placeholder (_("Drop image(s) here"));
+            placeholder.description = _("or select image(s) using the button below");
 
             select_button = new Gtk.Button.with_label (_("Select image(s)"));
-            select_button.can_default = true;
-            select_button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
-            select_button.clicked.connect (open_files_using_file_chooser);
+            select_button.add_css_class ("suggested-action");
+            select_button.halign = Gtk.Align.CENTER;
+            select_button.clicked.connect (() => open_files_using_file_chooser.begin ());
 
-            var drag_label = new Gtk.Label (_("Drop image(s) here"));
-            drag_label.justify = Gtk.Justification.CENTER;
+            var placeholder_grid = new Gtk.Grid ();
+            placeholder_grid.orientation = Gtk.Orientation.VERTICAL;
+            placeholder_grid.row_spacing = 12;
+            placeholder_grid.valign = Gtk.Align.CENTER;
+            placeholder_grid.halign = Gtk.Align.CENTER;
+            placeholder_grid.attach (placeholder, 0, 0, 1, 1);
+            placeholder_grid.attach (select_button, 0, 1, 1, 1);
 
-            var drag_label_style_context = drag_label.get_style_context ();
-            drag_label_style_context.add_class (Granite.STYLE_CLASS_H2_LABEL);
-            drag_label_style_context.add_class (Gtk.STYLE_CLASS_DIM_LABEL);
+            // Gtk.Widget.width_request only raises the *minimum* size, it can't
+            // cap the title/description's natural (unwrapped) width - use
+            // Adw.Clamp, which actually enforces a maximum, so the text wraps
+            // instead of overflowing past the card before any image is loaded.
+            var placeholder_clamp = new Adw.Clamp ();
+            placeholder_clamp.maximum_size = 260;
+            placeholder_clamp.valign = Gtk.Align.CENTER;
+            placeholder_clamp.halign = Gtk.Align.CENTER;
+            placeholder_clamp.child = placeholder_grid;
+            placeholder_box = placeholder_clamp;
 
-            var images = new Gtk.Fixed ();
-            images.valign = Gtk.Align.CENTER;
-            images.halign = Gtk.Align.CENTER;
-            images.put (image2, 0, 0);
-            images.put (image, 0, 0);
-
-            overlay_box.pack_start (drag_label);
-            overlay_box.pack_start (or_label);
-            overlay_box.pack_start (select_button);
-            this.add (images);
-            this.add_overlay (overlay_box);
+            var overlay = new Gtk.Overlay ();
+            // No main child - both images and the placeholder are added as
+            // overlay layers instead, so all three can be full-size Gtk.Picture
+            // widgets (via halign/valign FILL) that stretch to fill however
+            // wide the card ends up, rather than staying at a small fixed
+            // intrinsic size. Add order controls stacking: image2 (the "peek"
+            // photo behind) first, then image (the front preview) on top.
+            overlay.add_overlay (image2);
+            overlay.add_overlay (image);
+            overlay.add_overlay (placeholder_box);
+            overlay.set_measure_overlay (image, true);
+            overlay.set_measure_overlay (image2, true);
+            overlay.set_measure_overlay (placeholder_box, true);
+            this.append (overlay);
         }
         public void show_preview (File[] files) throws Error {
 
@@ -85,10 +112,9 @@ namespace Resizer {
                 true
             );
 
-            overlay_box.no_show_all = true;
-            overlay_box.visible = false;
+            placeholder_box.visible = false;
 
-            image.set_from_pixbuf (pixbuf);
+            image.paintable = Gdk.Texture.for_pixbuf (pixbuf);
             image.height_request = pixbuf.height;
             image.width_request = pixbuf.width;
 
@@ -100,25 +126,19 @@ namespace Resizer {
                     500,
                     true
                 );
-                image2.set_from_pixbuf (pixbuf2);
+                image2.paintable = Gdk.Texture.for_pixbuf (pixbuf2);
+                image2.height_request = pixbuf2.height;
+                image2.width_request = pixbuf2.width;
                 image2.visible = true;
-
-                image.margin_top = 6 + 6;
             } else {
                 image2.visible = false;
-
-                image.margin_top = 6;
             }
         }
 
-        private void open_files_using_file_chooser () {
-            var file_chooser = new Gtk.FileChooserNative (_("Open Image(s)"),
-                                                          null,
-                                                          Gtk.FileChooserAction.OPEN,
-                                                          _("Open"),
-                                                          _("Cancel"));
+        private async void open_files_using_file_chooser () {
+            var dialog = new Gtk.FileDialog ();
+            dialog.title = _("Open Image(s)");
 
-            var files = new GenericArray<File> ();
             var image_files_filter = new Gtk.FileFilter ();
             image_files_filter.set_filter_name (_("Image files"));
             /* some image types like webp, svg are not supported */
@@ -126,17 +146,25 @@ namespace Resizer {
             foreach (var mimetype in supported_mimetypes) {
                 image_files_filter.add_mime_type (mimetype);
             }
-            file_chooser.add_filter (image_files_filter);
-            file_chooser.select_multiple = true;
-            var response = file_chooser.run ();
-            if (response == Gtk.ResponseType.ACCEPT) {
-                var uris = file_chooser.get_uris ();
-                foreach (var uri in uris) {
-                    stdout.printf ("opening: %s\n", uri);
-                    var file = File.new_for_uri (uri);
-                    files.add (file);
-                    Resizer.get_default ().files = files.data;
+            var filters = new GLib.ListStore (typeof (Gtk.FileFilter));
+            filters.append (image_files_filter);
+            dialog.filters = filters;
+            dialog.default_filter = image_files_filter;
+
+            try {
+                var chosen = yield dialog.open_multiple ((Gtk.Window) get_root (), null);
+                if (chosen == null) {
+                    return;
                 }
+                var files = new GenericArray<File> ();
+                for (uint i = 0; i < chosen.get_n_items (); i++) {
+                    var file = (File) chosen.get_item (i);
+                    stdout.printf ("opening: %s\n", file.get_uri ());
+                    files.add (file);
+                }
+                Resizer.get_default ().files = files.data;
+            } catch (Error e) {
+                // user cancelled the dialog
             }
         }
     }
