@@ -48,6 +48,20 @@ config_file = configure_file(
 
 subdir('src')
 
+# Granite.CssClass (replacing the now-deprecated Granite.STYLE_CLASS_* consts)
+# only exists from granite-7 7.7.0 onwards. io.elementary.Platform//8, the
+# runtime this app actually ships against, bundles granite-7 7.6.0, so the
+# newer API can't be used unconditionally without breaking the flatpak/CI
+# build. Feature-gate on the *build-time* granite version instead: this keeps
+# the flatpak build on the STYLE_CLASS_* consts it still has, while a host
+# with a newer granite-7 (e.g. a plain apt install) gets the non-deprecated
+# API and no local deprecation warning.
+granite_dep = dependency('granite-7', version: '>=7.4.0')
+vala_args = []
+if granite_dep.version().version_compare('>=7.7.0')
+    vala_args += ['--define=GRANITE_HAS_CSS_CLASS']
+endif
+
 executable(
     meson.project_name(),
     sources,
@@ -55,8 +69,9 @@ executable(
     dependencies: [
         dependency('gtk4', version: '>=4.14.0'),
         dependency('libadwaita-1', version: '>=1.5.0'),
-        dependency('granite-7', version: '>=7.4.0'),
+        granite_dep,
     ],
+    vala_args: vala_args,
     install: true,
 )
 
