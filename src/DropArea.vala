@@ -33,7 +33,11 @@ namespace Resizer {
         construct {
             image = new Gtk.Picture ();
             image.content_fit = Gtk.ContentFit.CONTAIN;
+#if GRANITE_HAS_CSS_CLASS
             image.add_css_class (Granite.CssClass.CARD);
+#else
+            image.add_css_class (Granite.STYLE_CLASS_CARD);
+#endif
             image.hexpand = true;
             image.vexpand = true;
             image.halign = Gtk.Align.FILL;
@@ -44,7 +48,11 @@ namespace Resizer {
 
             image2 = new Gtk.Picture ();
             image2.content_fit = Gtk.ContentFit.CONTAIN;
+#if GRANITE_HAS_CSS_CLASS
             image2.add_css_class (Granite.CssClass.CARD);
+#else
+            image2.add_css_class (Granite.STYLE_CLASS_CARD);
+#endif
             image2.hexpand = true;
             image2.vexpand = true;
             image2.halign = Gtk.Align.FILL;
