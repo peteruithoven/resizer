@@ -155,9 +155,66 @@ def ensure_gala_data_dir():
     (Path(data_home) / "io.elementary.gala").mkdir(parents=True, exist_ok=True)
 
 
-def start_gala(log_path):
+GNOME_SCHEMA_DIR = Path("/usr/share/glib-2.0/schemas")
+
+
+def build_no_animations_schema_dir(work_dir):
+    # gala's WindowManager.map() (src/WindowManager.vala) does:
+    #   if (NotificationStack.is_notification (window) || !Meta.Prefs.get_gnome_animations ()) {
+    #       ... skip the animation entirely ...
+    #   }
+    #   animate_map.begin (actor);
+    # Meta.Prefs.get_gnome_animations() is backed by the standard GNOME/mutter
+    # key org.gnome.desktop.interface's enable-animations - the same setting
+    # System Settings' "Reduce Motion" toggle would flip (via elementary's
+    # settings-daemon bridging its own io.elementary.settings-daemon.a11y
+    # reduce-motion key to this one - gala itself doesn't know about the
+    # elementary-specific key, only this upstream one). If this is false,
+    # gala calls map_completed() directly instead of animate_map.begin(),
+    # skipping the Clutter timeline that segfaults with no GPU (see git log)
+    # entirely - the actual root cause, rather than another workaround for
+    # a symptom.
+    #
+    # Forcing it without ever touching real state: `gsettings set` would
+    # write to the real, persistent $HOME/.config/dconf/user (dconf's
+    # storage isn't scoped to XDG_RUNTIME_DIR or the D-Bus session - see
+    # GSETTINGS_BACKEND=memory's comment elsewhere in this file for the
+    # same issue), which would be harmless on a fresh CI VM but would
+    # silently turn off animations on a real dev machine's actual desktop
+    # too if this script is ever run there - not acceptable. Instead, build
+    # an isolated schema directory with just this one schema's default
+    # overridden to false, and pass it via GSETTINGS_SCHEMA_DIR (GLib
+    # chains it in front of the standard system schema locations, it
+    # doesn't replace them - other lookups still fall through normally)
+    # together with GSETTINGS_BACKEND=memory (so gala reads only compiled
+    # defaults from this chain, never the real dconf database at all).
+    schema_dir = work_dir / "no-animations-schema"
+    schema_dir.mkdir(exist_ok=True)
+    # The interface schema's <enum> references are defined in a separate
+    # file - glib-compile-schemas rejects the whole schema file without it
+    # ("<enum id='...GDesktopToolbarStyle'> not (yet) defined"), so both
+    # need to be present in the same directory, not just the one key's
+    # schema.
+    for name in ("org.gnome.desktop.interface.gschema.xml", "org.gnome.desktop.enums.xml"):
+        src = GNOME_SCHEMA_DIR / name
+        if not src.exists():
+            fail(f"expected system schema file not found: {src}")
+        shutil.copy(src, schema_dir / name)
+    (schema_dir / "local.gschema.override").write_text(
+        "[org.gnome.desktop.interface]\nenable-animations=false\n"
+    )
+    result = subprocess.run(["glib-compile-schemas", str(schema_dir)], capture_output=True, text=True)
+    if result.returncode != 0:
+        fail(f"glib-compile-schemas failed for the no-animations override: {result.stderr}")
+    return schema_dir
+
+
+def start_gala(log_path, schema_dir):
     ensure_gala_data_dir()
     log_file = open(log_path, "wb")
+    gala_env = dict(os.environ)
+    gala_env["GSETTINGS_SCHEMA_DIR"] = str(schema_dir)
+    gala_env["GSETTINGS_BACKEND"] = "memory"
     gala_args = [
         # --no-x11: without it gala tries to spawn Xwayland for X11 client
         # compat, which this smoke test never needs (resizer is pure
@@ -187,7 +244,7 @@ def start_gala(log_path):
             "-ex", "bt full",
             "--args", *gala_args,
         ]
-    proc = subprocess.Popen(gala_args, stdout=log_file, stderr=subprocess.STDOUT)
+    proc = subprocess.Popen(gala_args, env=gala_env, stdout=log_file, stderr=subprocess.STDOUT)
     return proc, log_file
 
 
@@ -363,7 +420,8 @@ def main():
     # easy to misread which width/height each stage uses.
     expected_output = work_dir / f"smoke-test-{DEFAULT_MAX_SIZE}.png"
 
-    gala_proc, gala_log_file = start_gala(_gala_log_path)
+    no_animations_schema_dir = build_no_animations_schema_dir(work_dir)
+    gala_proc, gala_log_file = start_gala(_gala_log_path, no_animations_schema_dir)
     app_proc = None
     try:
         wait_for_gala_ready(gala_proc, time.monotonic() + 15)
