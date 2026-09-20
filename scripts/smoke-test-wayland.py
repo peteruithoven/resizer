@@ -122,7 +122,31 @@ def wait_for_gala_ready(proc, deadline):
         time.sleep(0.05)
     else:
         fail("gala's Wayland socket never appeared")
-    log("gala Wayland socket ready")
+    log("gala Wayland socket file exists")
+
+    # The socket *file* can exist slightly before gala is actually listening
+    # on it - on a dev machine with real GPU acceleration this window is too
+    # small to matter (gala reaches this point in ~0.15s total), but on a
+    # CI runner with no GPU (gala falls back to software EGL, which took
+    # ~4.5s there) a client that connects right after the path appears can
+    # still get "Failed to open display" (GTK doesn't retry a failed
+    # wl_display_connect). Actually connecting - not just stat()-ing the
+    # path - is the only way to confirm the server side is ready.
+    import socket as socket_module
+    while time.monotonic() < deadline:
+        if proc.poll() is not None:
+            fail(f"gala exited early (code {proc.returncode}) while waiting for its Wayland socket to accept connections")
+        probe = socket_module.socket(socket_module.AF_UNIX, socket_module.SOCK_STREAM)
+        try:
+            probe.connect(str(wayland_socket))
+            break
+        except OSError:
+            time.sleep(0.05)
+        finally:
+            probe.close()
+    else:
+        fail("gala's Wayland socket never accepted a connection")
+    log("gala Wayland socket accepting connections")
 
     bus = Gio.bus_get_sync(Gio.BusType.SESSION, None)
     while time.monotonic() < deadline:
