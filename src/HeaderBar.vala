@@ -38,7 +38,7 @@ namespace Resizer {
 
             var info_menu = new Gtk.MenuButton ();
             info_menu.tooltip_text = _("Info");
-            info_menu.icon_name = "dialog-information";
+            info_menu.icon_name = "dialog-information-symbolic";
             info_menu.valign = Gtk.Align.CENTER;
             info_menu.popover = info_popover;
 
