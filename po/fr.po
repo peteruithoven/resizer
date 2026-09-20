@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.peteruithoven.resizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-24 17:30+0100\n"
+"POT-Creation-Date: 2026-09-20 17:21+0200\n"
 "PO-Revision-Date: 2022-01-24 17:02+0100\n"
 "Last-Translator: Nathan Bonnemains (@NathanBnm)\n"
 "Language-Team: none\n"
@@ -17,37 +17,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/DropArea.vala:49
-msgid "or"
-msgstr ""
-
-#: src/DropArea.vala:54
-msgid "Select image(s)"
-msgstr ""
-
-#: src/DropArea.vala:59
+#: src/DropArea.vala:63
 #, fuzzy
 msgid "Drop image(s) here"
 msgstr "Déposez des images ici"
 
-#: src/DropArea.vala:115
+#: src/DropArea.vala:64
+msgid "or select image(s) using the button below"
+msgstr ""
+
+#: src/DropArea.vala:66
+msgid "Select image(s)"
+msgstr ""
+
+#: src/DropArea.vala:140
 #, fuzzy
 msgid "Open Image(s)"
 msgstr "Déposez des images ici"
 
-#: src/DropArea.vala:118
-msgid "Open"
-msgstr ""
-
-#: src/DropArea.vala:119 src/ResizePage.vala:78
-msgid "Cancel"
-msgstr "Annuler"
-
-#: src/DropArea.vala:123
+#: src/DropArea.vala:143
 msgid "Image files"
 msgstr ""
 
-#: src/HeaderBar.vala:32
+#: src/HeaderBar.vala:29
 msgid ""
 "Resizer will never upscale and always maintain the aspect ratio of your "
 "images."
@@ -55,7 +47,7 @@ msgstr ""
 "Resizer n'augmentera jamais l'échelle et maintiendra toujours le rapport "
 "d'aspect de vos images."
 
-#: src/HeaderBar.vala:43
+#: src/HeaderBar.vala:40
 msgid "Info"
 msgstr "Info"
 
@@ -67,50 +59,62 @@ msgstr "Largeur maxi :"
 msgid "Max height:"
 msgstr "Hauteur maxi :"
 
+#: src/ResizePage.vala:78
+msgid "Cancel"
+msgstr "Annuler"
+
 #: src/ResizePage.vala:82
 msgid "Resize"
 msgstr "Redimensionner"
 
-#: src/ResizePage.vala:118
+#: src/ResizePage.vala:117
 msgid "Resize image(s) within:"
 msgstr "Redimensionner la ou les image(s) dans :"
 
-#: src/ResizePage.vala:126
+#: src/ResizePage.vala:125
 msgid "Resize image within:"
 msgstr "Redimensionner l'image dans :"
 
-#: src/ResizePage.vala:128
+#: src/ResizePage.vala:127
 #, c-format
 msgid "Resize %i images within:"
 msgstr "Redimensionner %i images dans :"
 
-#: src/ResizePage.vala:133
+#: src/ResizePage.vala:132
 #, c-format
 msgid "Error creating preview: %s"
 msgstr "Erreur lors de la création de l'aperçu : %s"
 
-#: src/ResizingPage.vala:53
+#: src/ResizingPage.vala:46
 msgid "All images resized"
 msgstr "Toutes les images ont été redimensionnées"
 
-#: src/ResizingPage.vala:56
+#: src/ResizingPage.vala:49
 msgid "1 image remaining"
 msgstr "1 image restante"
 
-#: src/ResizingPage.vala:58
+#: src/ResizingPage.vala:51
 #, c-format
 msgid "%i images remaining"
 msgstr "%i images restantes"
 
-#: src/Resizer.vala:80
-msgid "Resizer requires Imagemagick"
-msgstr ""
-
-#: src/Resizer.vala:106
+#: src/Resizer.vala:67
 #, c-format
-msgid "There was an issue resizing '%s'"
-msgstr "Il y a eu un problème lors du redimensionnement de « %s »"
+msgid "Removed unsupported file type: %s"
+msgid_plural "Removed unsupported file types: %s"
+msgstr[0] "Type de fichier non pris en charge supprimé : %s"
+msgstr[1] "Types de fichiers non pris en charge supprimés : %s"
 
-#: src/Window.vala:31
+#: src/Resizer.vala:128
+#, c-format
+msgid "1 image couldn't be resized: %s"
+msgstr "1 image n'a pas pu être redimensionnée : %s"
+
+#: src/Resizer.vala:132
+#, c-format
+msgid "%d of %d images couldn't be resized: %s"
+msgstr "%d images sur %d n'ont pas pu être redimensionnées : %s"
+
+#: src/Window.vala:28
 msgid "Resizer"
 msgstr "Resizer"

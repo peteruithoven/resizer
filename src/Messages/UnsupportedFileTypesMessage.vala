@@ -19,22 +19,18 @@
 * Authored by: Peter Uithoven <peter@peteruithoven.nl>
 */
 
-namespace Resizer {
-    public class MessageCenter : GLib.Object {
-
-        // Set once by Window right after it creates the overlay that hosts
-        // toasts. Assigned before any drop/resize/preview code path can run,
-        // so it's never used unset.
-        public Adw.ToastOverlay toast_overlay { get; set; }
-
-        public void add_error (string message) {
-            stdout.printf ("adding message: %s\n", message);
-            toast_overlay.add_toast (new Adw.Toast (message));
-        }
-
-        private static GLib.Once<MessageCenter> instance;
-        public static unowned MessageCenter get_default () {
-            return instance.once (() => { return new MessageCenter (); });
+namespace Resizer.Messages {
+    // Tells people which file *type(s)* got dropped, not which files - the
+    // type is the actionable info, and listing every dropped filename is
+    // what made this message unreadably long in the first place.
+    public class UnsupportedFileTypesMessage {
+        public static string format (string[] types) {
+            var unique_types = Core.Strings.unique (types);
+            return ngettext (
+                "Removed unsupported file type: %s",
+                "Removed unsupported file types: %s",
+                unique_types.length
+            ).printf (Core.Strings.truncated_join (unique_types, 25));
         }
     }
 }

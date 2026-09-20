@@ -19,22 +19,16 @@
 * Authored by: Peter Uithoven <peter@peteruithoven.nl>
 */
 
-namespace Resizer {
-    public class MessageCenter : GLib.Object {
-
-        // Set once by Window right after it creates the overlay that hosts
-        // toasts. Assigned before any drop/resize/preview code path can run,
-        // so it's never used unset.
-        public Adw.ToastOverlay toast_overlay { get; set; }
-
-        public void add_error (string message) {
-            stdout.printf ("adding message: %s\n", message);
-            toast_overlay.add_toast (new Adw.Toast (message));
-        }
-
-        private static GLib.Once<MessageCenter> instance;
-        public static unowned MessageCenter get_default () {
-            return instance.once (() => { return new MessageCenter (); });
+namespace Resizer.Core {
+    public class ImageGeometry {
+        // Mirrors ImageMagick's "-resize WxH>" geometry: fit within max_width x
+        // max_height while preserving aspect ratio, but never enlarge.
+        public static void bounded_size (
+            int width, int height, int max_width, int max_height, out int new_width, out int new_height
+        ) {
+            double scale = double.min (1.0, double.min ((double) max_width / width, (double) max_height / height));
+            new_width = int.max (1, (int) (width * scale + 0.5));
+            new_height = int.max (1, (int) (height * scale + 0.5));
         }
     }
 }

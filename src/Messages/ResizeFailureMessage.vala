@@ -19,22 +19,20 @@
 * Authored by: Peter Uithoven <peter@peteruithoven.nl>
 */
 
-namespace Resizer {
-    public class MessageCenter : GLib.Object {
-
-        // Set once by Window right after it creates the overlay that hosts
-        // toasts. Assigned before any drop/resize/preview code path can run,
-        // so it's never used unset.
-        public Adw.ToastOverlay toast_overlay { get; set; }
-
-        public void add_error (string message) {
-            stdout.printf ("adding message: %s\n", message);
-            toast_overlay.add_toast (new Adw.Toast (message));
-        }
-
-        private static GLib.Once<MessageCenter> instance;
-        public static unowned MessageCenter get_default () {
-            return instance.once (() => { return new MessageCenter (); });
+namespace Resizer.Messages {
+    public class ResizeFailureMessage {
+        // Not ngettext: the singular form drops "of %d total" entirely
+        // rather than just swapping "image"/"images", so the two forms
+        // don't share a matching set of printf arguments.
+        public static string format (string[] failed_names, int total_files) {
+            if (failed_names.length == 1) {
+                return _("1 image couldn't be resized: %s").printf (
+                    Core.Strings.truncated_join (failed_names, 25)
+                );
+            }
+            return _("%d of %d images couldn't be resized: %s").printf (
+                failed_names.length, total_files, Core.Strings.truncated_join (failed_names, 25)
+            );
         }
     }
 }

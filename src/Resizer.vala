@@ -40,14 +40,19 @@ namespace Resizer {
         // rest of the app only ever has to deal with files it can act on.
         private File[] drop_unsupported (File[] candidates) {
             File[] supported = {};
+            string[] unsupported_types = {};
             foreach (var file in candidates) {
                 try {
-                    ImageGeometry.pixbuf_type_for_path (file.get_path ());
+                    Core.ImageFormat.pixbuf_type_for_path (file.get_path ());
                     supported += file;
                 } catch (Error e) {
-                    var message = _("Removed unsupported file: '%s'").printf (file.get_path ());
-                    MessageCenter.get_default ().add_error (message);
+                    unsupported_types += Core.ImageFormat.extension_label (file.get_basename ());
                 }
+            }
+            if (unsupported_types.length > 0) {
+                MessageCenter.get_default ().add_error (
+                    Messages.UnsupportedFileTypesMessage.format (unsupported_types)
+                );
             }
             return supported;
         }
@@ -82,11 +87,12 @@ namespace Resizer {
 
             num_files = files.length;
             num_files_resized = 0;
+            string[] failed_names = {};
             foreach (var file in files) {
                 stdout.printf ("resizing: %s\n", file.get_path ());
 
                 var input_name = file.get_path ();
-                var output_name = ImageGeometry.output_name (input_name, max_width, max_height);
+                var output_name = Core.FileNaming.output_name (input_name, max_width, max_height);
 
                 try {
                     yield resize_image (input_name, output_name, max_width, max_height);
@@ -97,9 +103,13 @@ namespace Resizer {
                         set_state (State.SUCCESS);
                     }
                 } catch (Error e) {
-                    var message = _("There was an issue resizing '%s'").printf (input_name);
-                    MessageCenter.get_default ().add_error (message);
+                    failed_names += file.get_basename ();
                 }
+            }
+            if (failed_names.length > 0) {
+                MessageCenter.get_default ().add_error (
+                    Messages.ResizeFailureMessage.format (failed_names, num_files)
+                );
             }
         }
         // Loads, scales and saves the image on a worker thread so the UI thread
@@ -111,13 +121,13 @@ namespace Resizer {
                 try {
                     var pixbuf = new Gdk.Pixbuf.from_file (input);
                     int width, height;
-                    ImageGeometry.bounded_size (
+                    Core.ImageGeometry.bounded_size (
                         pixbuf.width, pixbuf.height, max_width, max_height, out width, out height
                     );
                     if (width != pixbuf.width || height != pixbuf.height) {
                         pixbuf = pixbuf.scale_simple (width, height, Gdk.InterpType.BILINEAR);
                     }
-                    pixbuf.savev (output, ImageGeometry.pixbuf_type_for_path (output), {}, {});
+                    pixbuf.savev (output, Core.ImageFormat.pixbuf_type_for_path (output), {}, {});
                 } catch (Error e) {
                     thread_error = e;
                 }

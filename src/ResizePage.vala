@@ -129,8 +129,7 @@ namespace Resizer {
                 try {
                     drop_area.show_preview (files);
                 } catch (Error e) {
-                    var message = _("Error creating preview: %s").printf (e.message);
-                    MessageCenter.get_default ().add_error (message);
+                    MessageCenter.get_default ().add_error (Messages.PreviewErrorMessage.format (e.message));
                 }
                 // when pressing enter, activate the resize button
                 app.set_default_widget (resize_btn);

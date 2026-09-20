@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.peteruithoven.resizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-24 17:30+0100\n"
+"POT-Creation-Date: 2026-09-20 17:21+0200\n"
 "PO-Revision-Date: 2022-01-24 17:02+0100\n"
 "Last-Translator: Michał Nowakowski <nowakowski@offshore.rocks>\n"
 "Language-Team: none\n"
@@ -18,43 +18,35 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
-#: src/DropArea.vala:49
-msgid "or"
-msgstr ""
-
-#: src/DropArea.vala:54
-msgid "Select image(s)"
-msgstr ""
-
-#: src/DropArea.vala:59
+#: src/DropArea.vala:63
 #, fuzzy
 msgid "Drop image(s) here"
 msgstr "Przeciągnij obraz/y tutaj"
 
-#: src/DropArea.vala:115
+#: src/DropArea.vala:64
+msgid "or select image(s) using the button below"
+msgstr ""
+
+#: src/DropArea.vala:66
+msgid "Select image(s)"
+msgstr ""
+
+#: src/DropArea.vala:140
 #, fuzzy
 msgid "Open Image(s)"
 msgstr "Przeciągnij obraz/y tutaj"
 
-#: src/DropArea.vala:118
-msgid "Open"
-msgstr ""
-
-#: src/DropArea.vala:119 src/ResizePage.vala:78
-msgid "Cancel"
-msgstr "Anuluj"
-
-#: src/DropArea.vala:123
+#: src/DropArea.vala:143
 msgid "Image files"
 msgstr ""
 
-#: src/HeaderBar.vala:32
+#: src/HeaderBar.vala:29
 msgid ""
 "Resizer will never upscale and always maintain the aspect ratio of your "
 "images."
 msgstr "Resizer nie zwiększy rozdzielczości i utrzyma proporcje obrazu."
 
-#: src/HeaderBar.vala:43
+#: src/HeaderBar.vala:40
 msgid "Info"
 msgstr "Informacje"
 
@@ -66,50 +58,63 @@ msgstr "Maks. szerokość:"
 msgid "Max height:"
 msgstr "Maks. wysokość:"
 
+#: src/ResizePage.vala:78
+msgid "Cancel"
+msgstr "Anuluj"
+
 #: src/ResizePage.vala:82
 msgid "Resize"
 msgstr "Zmień rozmiar"
 
-#: src/ResizePage.vala:118
+#: src/ResizePage.vala:117
 msgid "Resize image(s) within:"
 msgstr "Zmień rozmiar obrazu/ów w granicach:"
 
-#: src/ResizePage.vala:126
+#: src/ResizePage.vala:125
 msgid "Resize image within:"
 msgstr "Zmień rozmiar obrazu w granicach:"
 
-#: src/ResizePage.vala:128
+#: src/ResizePage.vala:127
 #, c-format
 msgid "Resize %i images within:"
 msgstr "Zmień rozmiar %i obrazów w granicach:"
 
-#: src/ResizePage.vala:133
+#: src/ResizePage.vala:132
 #, c-format
 msgid "Error creating preview: %s"
 msgstr "Wystąpił błąd przy tworzeniu podglądu „%s”"
 
-#: src/ResizingPage.vala:53
+#: src/ResizingPage.vala:46
 msgid "All images resized"
 msgstr "Zmieniono rozmiar obrazów."
 
-#: src/ResizingPage.vala:56
+#: src/ResizingPage.vala:49
 msgid "1 image remaining"
 msgstr "Pozostał jeden obraz."
 
-#: src/ResizingPage.vala:58
+#: src/ResizingPage.vala:51
 #, c-format
 msgid "%i images remaining"
 msgstr "Pozostało/y %i obrazy/ów."
 
-#: src/Resizer.vala:80
-msgid "Resizer requires Imagemagick"
-msgstr ""
-
-#: src/Resizer.vala:106
+#: src/Resizer.vala:67
 #, c-format
-msgid "There was an issue resizing '%s'"
-msgstr "Był problem ze zmianą obrazu „%s”"
+msgid "Removed unsupported file type: %s"
+msgid_plural "Removed unsupported file types: %s"
+msgstr[0] "Usunięto nieobsługiwany typ pliku: %s"
+msgstr[1] "Usunięto nieobsługiwane typy plików: %s"
+msgstr[2] "Usunięto nieobsługiwanych typów plików: %s"
 
-#: src/Window.vala:31
+#: src/Resizer.vala:128
+#, c-format
+msgid "1 image couldn't be resized: %s"
+msgstr "Nie udało się zmienić rozmiaru 1 obrazu: %s"
+
+#: src/Resizer.vala:132
+#, c-format
+msgid "%d of %d images couldn't be resized: %s"
+msgstr "Nie udało się zmienić rozmiaru %d z %d obrazów: %s"
+
+#: src/Window.vala:28
 msgid "Resizer"
 msgstr "Resizer"
