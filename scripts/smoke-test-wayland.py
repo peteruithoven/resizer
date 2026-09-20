@@ -158,7 +158,7 @@ def ensure_gala_data_dir():
 def start_gala(log_path):
     ensure_gala_data_dir()
     log_file = open(log_path, "wb")
-    proc = subprocess.Popen(
+    gala_args = [
         # --no-x11: without it gala tries to spawn Xwayland for X11 client
         # compat, which this smoke test never needs (resizer is pure
         # GTK4/Wayland) and which isn't installed in the minimal CI image
@@ -167,9 +167,27 @@ def start_gala(log_path):
         # segfaulted in one CI run, alongside a separate missing
         # org.freedesktop.Accounts D-Bus assertion failure - see the CI
         # apt install step for that one).
-        ["gala", "--headless", "--no-x11", "--virtual-monitor", VIRTUAL_MONITOR],
-        stdout=log_file, stderr=subprocess.STDOUT,
-    )
+        "gala", "--headless", "--no-x11", "--virtual-monitor", VIRTUAL_MONITOR,
+    ]
+    # TEMPORARY diagnostic: gala segfaults (SIGSEGV) in CI right when the
+    # app's window maps, in a way not reproducible on a dev machine (real
+    # GPU, so gala never takes the "surfaceless renderer without GPU"
+    # fallback code path CI's log shows - the CI-only crash is presumably
+    # somewhere in there) and with no critical/warning logged immediately
+    # before it this time (unlike the WindowStateSaver crash already found
+    # and fixed this way - see git log). Running gala under gdb gets an
+    # actual stack trace out of the next CI run instead of guessing again.
+    # Remove this wrapping once the real cause is found and fixed.
+    if shutil.which("gdb"):
+        gala_args = [
+            "gdb", "-q", "--batch",
+            "-ex", "set pagination off",
+            "-ex", "set confirm off",
+            "-ex", "run",
+            "-ex", "bt full",
+            "--args", *gala_args,
+        ]
+    proc = subprocess.Popen(gala_args, stdout=log_file, stderr=subprocess.STDOUT)
     return proc, log_file
 
 

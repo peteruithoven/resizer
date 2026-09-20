@@ -93,7 +93,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y meson ninja-build valac libgtk-4-dev libgranite-7-dev \
           libadwaita-1-dev gettext desktop-file-utils imagemagick \
-          gala accountsservice at-spi2-core python3-gi gir1.2-atspi-2.0
+          gala accountsservice at-spi2-core python3-gi gir1.2-atspi-2.0 gdb
     - name: Build and install
       run: |
         meson setup build --prefix=/usr
