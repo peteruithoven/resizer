@@ -74,6 +74,36 @@ jobs:
     - name: Run smoke test
       run: xvfb-run -a ./scripts/smoke-test.sh
 
+  smoke-test-wayland:
+    name: Smoke Test (Wayland, experimental)
+    runs-on: ubuntu-latest
+    # Spike: validates scripts/smoke-test-wayland.py (headless gala + a real
+    # D-Bus session + org.gnome.Shell.Screenshot, instead of Xvfb + xdotool +
+    # ImageMagick's `import`) against the real CI container, to check
+    # whether it hits the slow xdg-desktop-portal backend activation that
+    # smoke-test.sh's blackholed D-Bus buses exist to avoid (see that
+    # script's docstring). continue-on-error since it's unproven - it must
+    # not block merges yet.
+    continue-on-error: true
+    steps:
+    - uses: actions/checkout@v5
+    - name: Install dependencies
+      run: |
+        sudo add-apt-repository -y ppa:elementary-os/stable
+        sudo apt-get update
+        sudo apt-get install -y meson ninja-build valac libgtk-4-dev libgranite-7-dev \
+          libadwaita-1-dev gettext desktop-file-utils imagemagick \
+          gala at-spi2-core python3-gi gir1.2-atspi-2.0
+    - name: Build and install
+      run: |
+        meson setup build --prefix=/usr
+        ninja -C build
+        sudo ninja -C build install
+    - name: Run smoke test (Wayland)
+      run: |
+        rt=$(mktemp -d /tmp/rsz-rt-XXXXXX)
+        XDG_RUNTIME_DIR="$rt" dbus-run-session -- python3 scripts/smoke-test-wayland.py
+
   # This workflow contains a single job called "flatpak"
   flatpak:
     # The type of runner that the job will run on
