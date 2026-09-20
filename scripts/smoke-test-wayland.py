@@ -1,29 +1,38 @@
 #!/usr/bin/python3
-"""EXPERIMENTAL alternative to smoke-test.sh: same goal (launch the built app,
-confirm a window appears and renders a test image), but via gala's own
-`--headless` Wayland compositor mode and org.gnome.Shell.Screenshot (the same
-D-Bus API scripts/screenshots.py uses) instead of Xvfb/XWayland + xdotool +
-ImageMagick's `import`.
+"""EXPERIMENTAL alternative to smoke-test.sh: same underlying goal (catch
+"the app doesn't even start" / "resizing is broken" regressions), but drives
+the app under gala's own `--headless` Wayland compositor mode with AT-SPI
+(the same button-clicking technique scripts/screenshots.py already uses)
+instead of Xvfb/XWayland + xdotool + ImageMagick's `import`.
 
 Why: `import -window <id>` occasionally fails outright with "unable to read
 X window image ... Resource temporarily unavailable" (a transient X11
-capture race - see smoke-test.sh's retry-loop comment and CLAUDE.md). This
-script sidesteps X11 entirely. It's also >10x faster in local testing
-(~1.5s end to end vs. smoke-test.sh's multi-second typical run / much larger
-worst-case retry budget), because AT-SPI (used here to find the app's
-window, the same technique screenshots.py already uses for widgets) doesn't
-need to poll/retry the way `xdotool search` does.
+capture race - see smoke-test.sh's retry-loop comment and CLAUDE.md).
 
-The tradeoff: this needs a *real* D-Bus session (org.gnome.Shell.Screenshot
-and AT-SPI don't exist without one), unlike smoke-test.sh, which
-deliberately blackholes both buses specifically to avoid unpredictable
-xdg-desktop-portal backend activation latency (see smoke-test.sh's comment -
-one measurement found a real session bus added 25-30s there). This hasn't
-been observed here in local testing (which has gnome-keyring and other
-desktop helper daemons already installed), but the actual CI container is
-much more minimal, so that risk is the main open question this experimental
-script exists to answer - hence running it as its own separate CI job
-alongside, not instead of, smoke-test.sh for now.
+This originally worked by screenshotting the window and sampling a pixel
+(mirroring smoke-test.sh's own check), via org.gnome.Shell.Screenshot -
+gala's own D-Bus screenshot API, the same one screenshots.py uses. That hit
+two more CI-only problems (see git log for this file): the CI runner has no
+GPU at all, so GTK4's GL/NGL/Vulkan renderers all failed outright and killed
+the Wayland connection before a window even appeared (fixed by forcing
+GSK_RENDERER=cairo, GTK4's software-only 2D renderer); and, locally (not yet
+confirmed in CI), a real D-Bus session also autostarts unrelated desktop
+shell clients (wingpanel, dock, appcenter, ...) that can steal the "active"
+window gala hands to ScreenshotWindow, since that D-Bus call has no way to
+target a specific window - only "whatever's currently focused".
+
+Screenshotting was dropped entirely rather than chasing that further: it
+was only ever a proxy for "did the app actually do the thing" anyway. This
+version instead clicks the real "Resize" button via an AT-SPI action (the
+same technique screenshots.py already uses for its own screenshots, and
+notably NOT synthetic key/mouse input - CLAUDE.md notes those don't reliably
+reach the app under XWayland, but AT-SPI actions call directly into the
+app's own accessibility implementation, sidestepping that whole problem)
+and then verifies the actual resized file Resizer.vala writes to disk -
+checking real output, not a render of it, so it no longer depends on GPU
+availability or window focus at all for the check itself (a working
+renderer is still needed to realize a clickable window in the first place,
+which is what GSK_RENDERER=cairo is still for).
 
 Usage: XDG_RUNTIME_DIR=<short-path empty dir> dbus-run-session -- \\
            python3 scripts/smoke-test-wayland.py
@@ -42,10 +51,10 @@ gala fails with "socket path ... exceeds 108 bytes" / "Failed to create
 socket" instead of a clear "path too long" error.
 
 Requires: gala, at-spi2-core (for AT-SPI - `NO_AT_BRIDGE` is *not* set here,
-unlike smoke-test.sh, since accessibility is how this script finds the
-window at all), ImageMagick's `convert` (for pixel sampling of the PNG
-Screenshot() writes, not for capture itself), PyGObject with the Atspi gi
-binding, and the app installed and on PATH.
+unlike smoke-test.sh, since accessibility is how this script finds and
+drives the app at all), ImageMagick (to generate the test fixture and
+verify the resized output), PyGObject with the Atspi gi binding, and the
+app installed and on PATH.
 """
 import os
 import shutil
@@ -62,14 +71,29 @@ except ImportError:
     raise
 
 gi.require_version("Atspi", "2.0")
-from gi.repository import Atspi, Gio, GLib  # noqa: E402
+from gi.repository import Atspi, GLib  # noqa: E402
 
 sys.stdout.reconfigure(line_buffering=True)
 
 APP_ID = "com.github.peteruithoven.resizer"
 BINARY = "com.github.peteruithoven.resizer"
-EXPECTED_PIXEL = "srgb(135,206,235)"
 VIRTUAL_MONITOR = "1200x800"
+
+# The test fixture and the expected output name/dimensions the app should
+# produce for it. Must track data/com.github.peteruithoven.resizer.gschema.xml's
+# width/height defaults (1000x1000, the "max width/height" the app resizes
+# within when neither has been changed from default in this fresh, isolated
+# dconf) and src/Core/ImageGeometry.bounded_size()'s fit-within-bounds math
+# (preserve aspect ratio, never enlarge) and src/Core/FileNaming.vala's
+# "<input>-<W>x<H><ext>" naming - not read from the app, since a headless
+# smoke test has no reliable way to ask it "what will you name this" up
+# front; if any of those three change, this needs updating to match.
+TEST_IMAGE_WIDTH = 2000
+TEST_IMAGE_HEIGHT = 1500
+TEST_IMAGE_FILL = "#87ceeb"
+DEFAULT_MAX_SIZE = 1000
+EXPECTED_OUTPUT_WIDTH = 1000
+EXPECTED_OUTPUT_HEIGHT = 750
 
 t_start = time.monotonic()
 
@@ -84,7 +108,7 @@ def fail(msg):
 
 
 def check_requirements():
-    for cmd in ("gala", "convert"):
+    for cmd in ("gala", "convert", "identify"):
         if shutil.which(cmd) is None:
             fail(f"required tool '{cmd}' not found on PATH")
     if shutil.which(BINARY) is None:
@@ -127,11 +151,12 @@ def wait_for_gala_ready(proc, deadline):
     # The socket *file* can exist slightly before gala is actually listening
     # on it - on a dev machine with real GPU acceleration this window is too
     # small to matter (gala reaches this point in ~0.15s total), but on a
-    # CI runner with no GPU (gala falls back to software EGL, which took
-    # ~4.5s there) a client that connects right after the path appears can
-    # still get "Failed to open display" (GTK doesn't retry a failed
-    # wl_display_connect). Actually connecting - not just stat()-ing the
-    # path - is the only way to confirm the server side is ready.
+    # CI runner with no GPU (gala falls back to much slower software EGL
+    # setup, which took ~4.5s there in one run) a client that connects right
+    # after the path appears can still get "Failed to open display" (GTK
+    # doesn't retry a failed wl_display_connect). Actually connecting - not
+    # just stat()-ing the path - is the only way to confirm the server side
+    # is ready.
     import socket as socket_module
     while time.monotonic() < deadline:
         if proc.poll() is not None:
@@ -148,21 +173,8 @@ def wait_for_gala_ready(proc, deadline):
         fail("gala's Wayland socket never accepted a connection")
     log("gala Wayland socket accepting connections")
 
-    bus = Gio.bus_get_sync(Gio.BusType.SESSION, None)
-    while time.monotonic() < deadline:
-        has_owner, = bus.call_sync(
-            "org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus",
-            "NameHasOwner", GLib.Variant("(s)", ("org.gnome.Shell",)), GLib.VariantType("(b)"),
-            Gio.DBusCallFlags.NONE, -1, None,
-        ).unpack()
-        if has_owner:
-            log("org.gnome.Shell registered")
-            return
-        time.sleep(0.05)
-    fail("gala never registered org.gnome.Shell on the session bus")
 
-
-# ---- AT-SPI: find the app's window, mirrors screenshots.py's approach ----
+# ---- AT-SPI: find and drive the app, mirrors screenshots.py's approach ----
 
 
 def find_app(app_id, deadline):
@@ -177,11 +189,11 @@ def find_app(app_id, deadline):
         time.sleep(0.05)
 
 
-def find_frame(node, depth=0):
-    if depth > 5:
+def find_once(node, role_name, name=None, depth=0):
+    if depth > 30:
         return None
     try:
-        if node.get_role_name() == "frame":
+        if node.get_role_name() == role_name and (name is None or node.get_name() == name):
             return node
         n = node.get_child_count()
     except GLib.Error:
@@ -193,96 +205,50 @@ def find_frame(node, depth=0):
             continue
         if child is None:
             continue
-        found = find_frame(child, depth + 1)
+        found = find_once(child, role_name, name, depth + 1)
         if found is not None:
             return found
     return None
 
 
-def wait_for_frame(app, deadline):
-    frame = None
-    while frame is None and time.monotonic() < deadline:
-        frame = find_frame(app)
-        if frame is None:
+def find_polling(app, role_name, name, deadline):
+    node = None
+    while node is None and time.monotonic() < deadline:
+        node = find_once(app, role_name, name)
+        if node is None:
             time.sleep(0.05)
-    return frame
+    return node
 
 
-def wait_for_active(frame, deadline):
-    # gala should auto-focus the sole toplevel window (nothing else is
-    # running in this headless session to compete for focus), but
-    # ScreenshotWindow operates on "whatever's currently focused" with no
-    # way to name a target window, so confirm it rather than assume it.
-    while time.monotonic() < deadline:
-        try:
-            if Atspi.StateType.ACTIVE in frame.get_state_set().get_states():
-                return True
-        except GLib.Error:
-            pass
-        time.sleep(0.05)
-    return False
+# ---- launching the app ----
 
 
-# ---- screenshot + pixel sample, with the same retry-on-mid-paint logic as
-# smoke-test.sh (see its comment - the first frame or two after a window
-# appears can still be mid-paint) ----
-
-
-def capture_and_check(screenshot_path):
-    bus = Gio.bus_get_sync(Gio.BusType.SESSION, None)
-    proxy = Gio.DBusProxy.new_sync(
-        bus, Gio.DBusProxyFlags.NONE, None,
-        "org.gnome.Shell", "/org/gnome/Shell/Screenshot", "org.gnome.Shell.Screenshot", None,
-    )
-    pixel = ""
-    last_error = ""
-    for _ in range(20):
-        try:
-            result = proxy.call_sync(
-                "ScreenshotWindow",
-                GLib.Variant("(bbbs)", (False, False, False, str(screenshot_path))),
-                Gio.DBusCallFlags.NONE, 2000, None,
-            )
-            success, _filename_used = result.unpack()
-            if not success:
-                last_error = "ScreenshotWindow returned success=False"
-                time.sleep(0.5)
-                continue
-        except GLib.Error as e:
-            last_error = f"ScreenshotWindow call failed: {e}"
-            time.sleep(0.5)
-            continue
-
-        identify = subprocess.run(
-            ["identify", "-format", "%w %h", str(screenshot_path)], capture_output=True, text=True,
-        )
-        try:
-            width, height = (int(v) for v in identify.stdout.split())
-        except ValueError:
-            last_error = f"could not read screenshot dimensions: {identify.stdout!r} {identify.stderr!r}"
-            time.sleep(0.5)
-            continue
-
-        sample_x = width * 28 // 100
-        sample_y = height * 46 // 100
-        # -alpha off: ScreenshotWindow's PNG carries an alpha channel (the
-        # app's preview area is fully opaque, but the pixel format comes
-        # back as "srgba(r,g,b,1)" rather than smoke-test.sh's plain
-        # "srgb(r,g,b)" from `import`) - strip it so the same EXPECTED_PIXEL
-        # constant works for both.
-        convert = subprocess.run(
-            ["convert", str(screenshot_path), "-alpha", "off", "-format", f"%[pixel:p{{{sample_x},{sample_y}}}]", "info:"],
-            capture_output=True, text=True,
-        )
-        pixel = convert.stdout.strip()
-        if pixel == EXPECTED_PIXEL:
-            log(f"pixel at ({sample_x},{sample_y}) in {width}x{height} window matches expected test-image color")
-            return True
-        last_error = f"sampled pixel {pixel!r} at ({sample_x},{sample_y}) in {width}x{height}, expected {EXPECTED_PIXEL!r}"
-        time.sleep(0.5)
-
-    log(f"FAIL: preview thumbnail never matched after retries - last attempt: {last_error}")
-    return False
+def launch_app_with_retry(binary, args, env, deadline):
+    # A raw connect() to gala's Wayland socket succeeding (wait_for_gala_ready)
+    # doesn't guarantee gala is actually ready to service a real client's
+    # full Wayland protocol handshake yet - observed in CI (not locally,
+    # where gala starts far faster with real GPU acceleration): the probe
+    # connects fine, but the app still gets GTK's "Failed to open display"
+    # and exits within ~1s. Rather than adding yet another readiness
+    # heuristic on the gala side, treat the app's own connection attempt as
+    # the actual readiness signal and retry launching it - the most direct
+    # thing that can fail is the thing being retried here.
+    attempt = 0
+    while True:
+        attempt += 1
+        proc = subprocess.Popen([binary, *args], env=env)
+        settle_deadline = time.monotonic() + 1.5
+        while time.monotonic() < settle_deadline:
+            if proc.poll() is not None:
+                break
+            time.sleep(0.1)
+        if proc.poll() is None:
+            log(f"app launched (pid {proc.pid}, attempt {attempt})")
+            return proc
+        log(f"app exited early (code {proc.returncode}) on launch attempt {attempt}, retrying")
+        if time.monotonic() >= deadline:
+            fail(f"app kept exiting early after {attempt} launch attempts (last code {proc.returncode})")
+        time.sleep(0.3)
 
 
 # ---- cleanup ----
@@ -314,7 +280,19 @@ def main():
     work_dir = Path(runtime_dir)
 
     test_image = work_dir / "smoke-test.png"
-    subprocess.run(["convert", "-size", "2000x1500", "xc:#87ceeb", str(test_image)], check=True)
+    subprocess.run(
+        ["convert", "-size", f"{TEST_IMAGE_WIDTH}x{TEST_IMAGE_HEIGHT}", f"xc:{TEST_IMAGE_FILL}", str(test_image)],
+        check=True,
+    )
+    # FileNaming.output_name() names the file after the *requested* max
+    # width/height (1000x1000 -> equal, so the square form "-1000", not
+    # "-1000x1000"), decided before the aspect-ratio-preserving scale - the
+    # actual pixel dimensions inside the file (checked separately below via
+    # `identify`) are smaller in one axis (EXPECTED_OUTPUT_WIDTH/HEIGHT).
+    # Confirmed against actual FileNaming.vala/Resizer.vala behavior by
+    # running this script locally, not just by reading the source - it's
+    # easy to misread which width/height each stage uses.
+    expected_output = work_dir / f"smoke-test-{DEFAULT_MAX_SIZE}.png"
 
     gala_proc, gala_log_file = start_gala(work_dir / "gala.log")
     app_proc = None
@@ -324,43 +302,89 @@ def main():
         env = dict(os.environ)
         env["GDK_BACKEND"] = "wayland"
         env["WAYLAND_DISPLAY"] = "wayland-0"
+        # Without this, the app reads/writes the real dconf database at
+        # $HOME/.config/dconf/user (dconf's actual storage isn't scoped to
+        # XDG_RUNTIME_DIR or the D-Bus session at all, just ca.desrt.dconf's
+        # change-notification service is) - on a dev machine with prior real
+        # usage this silently picks up a leftover width/height instead of
+        # the schema default EXPECTED_OUTPUT_WIDTH/HEIGHT above are computed
+        # from, which is exactly what happened in local testing (resized to
+        # "-600" instead of "-1000x750"). screenshots.py isolates the same
+        # way for the same reason.
+        env["GSETTINGS_BACKEND"] = "memory"
         # A CI runner has no GPU device at all (unlike a dev machine, where
         # gala picks up a real /dev/dri node) - GTK4's GL, NGL and Vulkan
         # renderers all fail to initialize there ("Could not initialize EGL
         # display" / VK_ERROR_INCOMPATIBLE_DRIVER), which kills the Wayland
-        # connection entirely before a window ever appears. This smoke test
-        # only needs correct pixels, not GPU acceleration, so force GTK4's
-        # software-only 2D (cairo) renderer and skip GPU rendering
-        # altogether rather than trying to get software EGL/Mesa working.
+        # connection entirely before a window ever appears. The window just
+        # needs to be clickable, not GPU-accelerated, so force GTK4's
+        # software-only cairo renderer and skip GPU rendering altogether
+        # rather than trying to get software EGL/Mesa working in CI.
         env["GSK_RENDERER"] = "cairo"
-        app_proc = subprocess.Popen([BINARY, str(test_image)], env=env)
-        log(f"app launched (pid {app_proc.pid})")
+        app_proc = launch_app_with_retry(BINARY, [str(test_image)], env, time.monotonic() + 15)
 
+        # A fresh deadline, not shared with launch_app_with_retry's above:
+        # that one may have already spent most of its 15s on retries, which
+        # would otherwise leave AT-SPI lookup with almost no time left.
         deadline = time.monotonic() + 15
         app = find_app(APP_ID, deadline)
         if app is None:
             fail(f"app '{APP_ID}' not found via AT-SPI after 15s")
         log("app found via AT-SPI")
 
-        frame = wait_for_frame(app, deadline)
-        if frame is None:
-            fail("no top-level window (AT-SPI 'frame') found")
-        log(f"window found: {frame.get_name()!r}")
-
-        if not wait_for_active(frame, time.monotonic() + 5):
-            log("warning: window never reported AT-SPI ACTIVE state, trying to screenshot anyway")
-
+        resize_button = find_polling(app, "push button", "Resize", deadline)
+        if resize_button is None:
+            fail("'Resize' button not found via AT-SPI")
         if app_proc.poll() is not None:
-            fail(f"app exited (code {app_proc.returncode}) before it could be screenshotted")
+            fail(f"app exited (code {app_proc.returncode}) before the Resize button could be clicked")
+        log("'Resize' button found, clicking it")
+        try:
+            resize_button.get_action_iface().do_action(0)
+        except GLib.Error as e:
+            fail(f"clicking 'Resize' failed: {e}")
 
-        ok = capture_and_check(work_dir / "shot.png")
+        # Poll for the output file on disk rather than parsing the app's
+        # stdout ("All successfully resized") - this way the check is
+        # identical to what a real user would see (a file that showed up),
+        # not an internal implementation detail of how the app logs.
+        resize_deadline = time.monotonic() + 15
+        while not expected_output.exists() and time.monotonic() < resize_deadline:
+            if app_proc.poll() is not None:
+                fail(f"app exited (code {app_proc.returncode}) before writing {expected_output.name}")
+            time.sleep(0.05)
+        if not expected_output.exists():
+            fail(f"{expected_output.name} was never created within 15s of clicking Resize")
+        log(f"{expected_output.name} appeared on disk")
 
-        if app_proc.poll() is not None:
-            fail(f"app exited (code {app_proc.returncode}) during the test")
+        identify = subprocess.run(
+            ["identify", "-format", "%w %h", str(expected_output)], capture_output=True, text=True,
+        )
+        try:
+            width, height = (int(v) for v in identify.stdout.split())
+        except ValueError:
+            fail(f"could not read output image dimensions: {identify.stdout!r} {identify.stderr!r}")
+        if (width, height) != (EXPECTED_OUTPUT_WIDTH, EXPECTED_OUTPUT_HEIGHT):
+            fail(f"resized output is {width}x{height}, expected {EXPECTED_OUTPUT_WIDTH}x{EXPECTED_OUTPUT_HEIGHT}")
+        log(f"output dimensions correct: {width}x{height}")
 
-        if not ok:
-            sys.exit(1)
-        log("PASS: window appeared and rendered the test image")
+        # The fixture is a solid fill, so a correctly resized/re-encoded
+        # copy should be too - checking a pixel confirms the file is a real
+        # decoded-and-rescaled copy of the input, not e.g. a zero-byte or
+        # truncated file that happens to still parse enough for `identify`.
+        convert = subprocess.run(
+            ["convert", str(expected_output), "-alpha", "off", "-format", f"%[pixel:p{{{width // 2},{height // 2}}}]", "info:"],
+            capture_output=True, text=True,
+        )
+        pixel = convert.stdout.strip()
+        expected_pixel = "srgb(135,206,235)"  # #87ceeb
+        if pixel != expected_pixel:
+            fail(f"resized output's center pixel is {pixel!r}, expected {expected_pixel!r}")
+        log(f"output pixel content correct: {pixel}")
+
+        if app_proc.poll() is not None and app_proc.returncode != 0:
+            fail(f"app exited with code {app_proc.returncode} during the test")
+
+        log("PASS: Resize button click produced a correctly-sized, correctly-rendered output file")
     finally:
         cleanup(app_proc, gala_proc, gala_log_file, runtime_dir)
 
