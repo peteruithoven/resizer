@@ -3,6 +3,7 @@ name: CI
 # Runs on pushes to main and on PR lifecycle events, but not both for the same
 # commit: a push to a branch with an open PR would otherwise fire `push` *and*
 # `pull_request:synchronize` for the identical SHA, running every job twice.
+# (test commit: confirming synchronize alone still fires CI)
 on:
   push:
     branches:
