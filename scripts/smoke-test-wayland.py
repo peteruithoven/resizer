@@ -135,7 +135,28 @@ def check_requirements():
 # ---- gala lifecycle ----
 
 
+def ensure_gala_data_dir():
+    # gala's WindowStateSaver.init() (src/Misc/WindowStateSaver.vala) does
+    # `Posix.mkdir (Path.build_filename (get_user_data_dir (),
+    # "io.elementary.gala"), 0775)` - a single-level mkdir, not mkdir -p. On
+    # a bare CI runner, $HOME/.local/share doesn't exist yet, so that mkdir
+    # fails silently (ENOENT: missing parent), the subsequent
+    # Sqlite.Database.open_v2() then fails too ("Cannot open database: 14"),
+    # and init() logs a critical() and returns *without* having opened `db`.
+    # WindowStateSaver.on_map() - called for every mapped window, including
+    # the app's - then unconditionally calls db.prepare_v2() on that
+    # never-opened handle with no check that init() actually succeeded,
+    # which is what was actually segfaulting gala (SIGSEGV) the moment the
+    # app's window appeared: not a timing race, a real upstream gala bug
+    # that only surfaces when this directory doesn't already exist.
+    # Pre-creating the full path ourselves (Python's makedirs *does* create
+    # missing parents) avoids ever hitting that broken code path.
+    data_home = os.environ.get("XDG_DATA_HOME") or str(Path.home() / ".local" / "share")
+    (Path(data_home) / "io.elementary.gala").mkdir(parents=True, exist_ok=True)
+
+
 def start_gala(log_path):
+    ensure_gala_data_dir()
     log_file = open(log_path, "wb")
     proc = subprocess.Popen(
         # --no-x11: without it gala tries to spawn Xwayland for X11 client
