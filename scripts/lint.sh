@@ -52,7 +52,22 @@ fi
 echo
 echo "==> AppStream metadata (appdata.xml.in)"
 if command -v appstreamcli >/dev/null 2>&1; then
-    appstreamcli validate data/com.github.peteruithoven.resizer.appdata.xml.in || status=1
+    appstream_out=$(appstreamcli validate data/com.github.peteruithoven.resizer.appdata.xml.in 2>&1)
+    appstream_status=$?
+    echo "$appstream_out"
+    if [ $appstream_status -ne 0 ]; then
+        # Ubuntu's appstreamcli 1.0.2 predates AppStream's addition of the
+        # "pantheon:dark" environment id (added to desktop-style-ids.txt in
+        # Sept 2024) and refuses to let screenshot-invalid-env-style be
+        # downgraded below "warning" - so it fails on a tag that's valid per
+        # the current AppStream spec. Tolerate only that known tag.
+        unexpected=$(echo "$appstream_out" | grep -E '^[EW]: ' | grep -v 'screenshot-invalid-env-style' || true)
+        if [ -n "$unexpected" ]; then
+            status=1
+        else
+            echo "(ignoring screenshot-invalid-env-style: known appstreamcli 1.0.2 false positive for pantheon:dark)"
+        fi
+    fi
 else
     echo "SKIPPED: install with 'sudo apt-get install appstream'" >&2
     status=1
