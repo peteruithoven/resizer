@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.peteruithoven.resizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-20 17:21+0200\n"
+"POT-Creation-Date: 2026-09-21 04:45+0200\n"
 "PO-Revision-Date: 2022-01-24 17:02+0100\n"
 "Last-Translator: Igor Gordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: none\n"
@@ -18,25 +18,25 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: src/DropArea.vala:63
+#: src/DropArea.vala:71
 #, fuzzy
 msgid "Drop image(s) here"
 msgstr "Перетягніть зображення Сюди"
 
-#: src/DropArea.vala:64
+#: src/DropArea.vala:72
 msgid "or select image(s) using the button below"
 msgstr ""
 
-#: src/DropArea.vala:66
+#: src/DropArea.vala:74
 msgid "Select image(s)"
 msgstr ""
 
-#: src/DropArea.vala:140
+#: src/DropArea.vala:148
 #, fuzzy
 msgid "Open Image(s)"
 msgstr "Перетягніть зображення Сюди"
 
-#: src/DropArea.vala:143
+#: src/DropArea.vala:151
 msgid "Image files"
 msgstr ""
 
@@ -51,6 +51,29 @@ msgstr ""
 #: src/HeaderBar.vala:40
 msgid "Info"
 msgstr "Довідка"
+
+#: src/Messages/PreviewErrorMessage.vala:25
+#, c-format
+msgid "Error creating preview: %s"
+msgstr "Помилка створення попереднього перегляду зображення: %s"
+
+#: src/Messages/ResizeFailureMessage.vala:29
+#, c-format
+msgid "1 image couldn't be resized: %s"
+msgstr "Не вдалося змінити розмір 1 зображення: %s"
+
+#: src/Messages/ResizeFailureMessage.vala:33
+#, c-format
+msgid "%d of %d images couldn't be resized: %s"
+msgstr "Не вдалося змінити розмір %d із %d зображень: %s"
+
+#: src/Messages/UnsupportedFileTypesMessage.vala:30
+#, c-format
+msgid "Removed unsupported file type: %s"
+msgid_plural "Removed unsupported file types: %s"
+msgstr[0] "Вилучено непідтримуваний тип файлу: %s"
+msgstr[1] "Вилучено непідтримувані типи файлів: %s"
+msgstr[2] "Вилучено непідтримуваних типів файлів: %s"
 
 #: src/ResizePage.vala:42
 msgid "Max width:"
@@ -81,11 +104,6 @@ msgstr "Змінити розмір зображення у межах:"
 msgid "Resize %i images within:"
 msgstr "Змінити розмір %i зображень у межах:"
 
-#: src/ResizePage.vala:132
-#, c-format
-msgid "Error creating preview: %s"
-msgstr "Помилка створення попереднього перегляду зображення: %s"
-
 #: src/ResizingPage.vala:46
 msgid "All images resized"
 msgstr "Змінено розмір усіх зображень"
@@ -98,24 +116,6 @@ msgstr "1 зображення залишилося"
 #, c-format
 msgid "%i images remaining"
 msgstr "Зображень залишилося %i"
-
-#: src/Resizer.vala:67
-#, c-format
-msgid "Removed unsupported file type: %s"
-msgid_plural "Removed unsupported file types: %s"
-msgstr[0] "Вилучено непідтримуваний тип файлу: %s"
-msgstr[1] "Вилучено непідтримувані типи файлів: %s"
-msgstr[2] "Вилучено непідтримуваних типів файлів: %s"
-
-#: src/Resizer.vala:128
-#, c-format
-msgid "1 image couldn't be resized: %s"
-msgstr "Не вдалося змінити розмір 1 зображення: %s"
-
-#: src/Resizer.vala:132
-#, c-format
-msgid "%d of %d images couldn't be resized: %s"
-msgstr "Не вдалося змінити розмір %d із %d зображень: %s"
 
 #: src/Window.vala:28
 msgid "Resizer"

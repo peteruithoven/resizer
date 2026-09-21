@@ -55,7 +55,7 @@
         <ul>
           <li>Rebuilt for elementary OS 8 with GTK4 and Adwaita</li>
           <li>Smaller download — no longer uses a legacy runtime</li>
-          <li>Automatically drops unsupported files</li>
+          <li>Ignores unsupported files</li>
         </ul>
       </description>
     </release>

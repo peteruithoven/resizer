@@ -60,15 +60,52 @@ needs `xvfb`, `xdotool`, and ImageMagick:
     sudo apt install xvfb xdotool imagemagick
     xvfb-run -a ./scripts/smoke-test.sh
 
-## translations
+## Translations
 
-Generate `.pot` file using `po/LINGUAS` and `po/POTFILES`:
+There are two separate translation domains, each with its own `.pot` template,
+`LINGUAS` (list of languages), and `POTFILES` (list of source files to scan):
 
-    ninja com.github.peteruithoven.resizer-pot
+- `po/` — UI strings, extracted from the `.vala` files listed in `po/POTFILES`.
+- `po/extra/` — the app name/description/changelog shown in AppCenter, extracted
+  from `data/*.desktop.in` and `data/*.appdata.xml.in`.
 
-Generate / update `.po` files:
+After changing a translatable string (or adding a new `.vala` file that uses
+`_()`/`ngettext()` — remember to add it to `po/POTFILES` first, otherwise its
+strings are silently never extracted), regenerate the templates:
 
-    ninja com.github.peteruithoven.resizer-update-po
+    meson setup build
+    ninja -C build com.github.peteruithoven.resizer-pot extra-pot
+
+then update the existing `.po` files against the new template (this preserves
+existing translations, using fuzzy-matching to flag ones that need a translator
+to double check them):
+
+    ninja -C build com.github.peteruithoven.resizer-update-po extra-update-po
+
+CI's `translations` job re-runs the `-pot` targets and fails the check (or, on
+a direct push to `main`, auto-commits the regenerated templates) if that would
+have produced a different result than what's committed — so the templates
+should never go stale the way they did before. It does *not* enforce
+`-update-po`/translation completeness; run that yourself when you want fuzzy
+matches to review. The same job also posts a per-language translated/fuzzy/
+untranslated count to the build summary (backed by `msgfmt --statistics`).
+
+### Adding a new language
+
+1. Add the language code to `po/LINGUAS` and, if the app name/description
+   should be translated in AppCenter too, `po/extra/LINGUAS`.
+2. Generate the `.po` file(s) from the template:
+
+       msginit --locale=<code> -i po/com.github.peteruithoven.resizer.pot -o po/<code>.po
+       msginit --locale=<code> -i po/extra/extra.pot -o po/extra/<code>.po
+
+3. Translate the `msgstr` entries. **Leave `msgid "Resizer"` translated as
+   `"Resizer"`** — it's the app name, not a description, and should stay the
+   same in every language (see `HeaderBar.vala`'s "Resizer will never
+   upscale..." string too, which also contains the name inline).
+4. Check for syntax errors and see how complete the translation is:
+
+       msgfmt --check --statistics po/<code>.po -o /dev/null
 
 ## Credits
 

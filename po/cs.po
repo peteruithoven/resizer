@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.peteruithoven.resizer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-20 17:21+0200\n"
+"POT-Creation-Date: 2026-09-21 04:45+0200\n"
 "PO-Revision-Date: 2022-01-24 17:02+0100\n"
 "Last-Translator: Tomáš Branda\n"
 "Language-Team: none\n"
@@ -17,25 +17,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: src/DropArea.vala:63
+#: src/DropArea.vala:71
 #, fuzzy
 msgid "Drop image(s) here"
 msgstr "Sem přetáhněte obrázek/obrázky"
 
-#: src/DropArea.vala:64
+#: src/DropArea.vala:72
 msgid "or select image(s) using the button below"
 msgstr ""
 
-#: src/DropArea.vala:66
+#: src/DropArea.vala:74
 msgid "Select image(s)"
 msgstr ""
 
-#: src/DropArea.vala:140
+#: src/DropArea.vala:148
 #, fuzzy
 msgid "Open Image(s)"
 msgstr "Sem přetáhněte obrázek/obrázky"
 
-#: src/DropArea.vala:143
+#: src/DropArea.vala:151
 msgid "Image files"
 msgstr ""
 
@@ -50,6 +50,29 @@ msgstr ""
 #: src/HeaderBar.vala:40
 msgid "Info"
 msgstr "Informace"
+
+#: src/Messages/PreviewErrorMessage.vala:25
+#, c-format
+msgid "Error creating preview: %s"
+msgstr "Při vytváření náhledu se vyskytla chyba: %s"
+
+#: src/Messages/ResizeFailureMessage.vala:29
+#, c-format
+msgid "1 image couldn't be resized: %s"
+msgstr "Nepodařilo se změnit velikost 1 obrázku: %s"
+
+#: src/Messages/ResizeFailureMessage.vala:33
+#, c-format
+msgid "%d of %d images couldn't be resized: %s"
+msgstr "Nepodařilo se změnit velikost %d z %d obrázků: %s"
+
+#: src/Messages/UnsupportedFileTypesMessage.vala:30
+#, c-format
+msgid "Removed unsupported file type: %s"
+msgid_plural "Removed unsupported file types: %s"
+msgstr[0] "Odstraněn nepodporovaný typ souboru: %s"
+msgstr[1] "Odstraněny nepodporované typy souborů: %s"
+msgstr[2] "Odstraněno nepodporovaných typů souborů: %s"
 
 #: src/ResizePage.vala:42
 msgid "Max width:"
@@ -80,11 +103,6 @@ msgstr "Změnit velikost obrázku v rámci:"
 msgid "Resize %i images within:"
 msgstr "Změnit velikost %i obrázků v rámci:"
 
-#: src/ResizePage.vala:132
-#, c-format
-msgid "Error creating preview: %s"
-msgstr "Při vytváření náhledu se vyskytla chyba: %s"
-
 #: src/ResizingPage.vala:46
 msgid "All images resized"
 msgstr "Velikost obrázků byla změněna"
@@ -97,24 +115,6 @@ msgstr "Zbývá 1 obrázek"
 #, c-format
 msgid "%i images remaining"
 msgstr "Zbývá %i obrázků"
-
-#: src/Resizer.vala:67
-#, c-format
-msgid "Removed unsupported file type: %s"
-msgid_plural "Removed unsupported file types: %s"
-msgstr[0] "Odstraněn nepodporovaný typ souboru: %s"
-msgstr[1] "Odstraněny nepodporované typy souborů: %s"
-msgstr[2] "Odstraněno nepodporovaných typů souborů: %s"
-
-#: src/Resizer.vala:128
-#, c-format
-msgid "1 image couldn't be resized: %s"
-msgstr "Nepodařilo se změnit velikost 1 obrázku: %s"
-
-#: src/Resizer.vala:132
-#, c-format
-msgid "%d of %d images couldn't be resized: %s"
-msgstr "Nepodařilo se změnit velikost %d z %d obrázků: %s"
 
 #: src/Window.vala:28
 msgid "Resizer"
