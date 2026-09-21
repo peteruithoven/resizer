@@ -61,7 +61,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y meson ninja-build valac libgtk-4-dev libgranite-7-dev \
-          libadwaita-1-dev gettext
+          libadwaita-1-dev gettext desktop-file-utils
     - name: Regenerate translation templates
       run: |
         meson setup build
