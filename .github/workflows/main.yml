@@ -50,6 +50,69 @@ jobs:
           msgfmt --check --check-format --check-domain -o /dev/null "$po"
         done
 
+  translations:
+    name: Translations
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v5
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y meson ninja-build valac libgtk-4-dev libgranite-7-dev \
+          libadwaita-1-dev gettext
+    - name: Regenerate translation templates
+      run: |
+        meson setup build
+        ninja -C build com.github.peteruithoven.resizer-pot extra-pot
+    - name: Check translation templates are up to date
+      id: pot-diff
+      run: |
+        # Source line references shift on every unrelated code edit, and
+        # POT-Creation-Date changes on every regeneration - neither means a
+        # translator needs to do anything, so they don't count as "changed".
+        ignore='^[+-](#:|#,|"POT-Creation-Date)'
+        significant=$(git diff --unified=0 -- po/com.github.peteruithoven.resizer.pot po/extra/extra.pot \
+          | grep -E '^[+-]' | grep -Ev '^(\+\+\+|---)' | grep -Ev "$ignore" || true)
+        if [ -z "$significant" ]; then
+          echo "up_to_date=true" >> "$GITHUB_OUTPUT"
+          echo "Translation templates are up to date."
+        else
+          echo "up_to_date=false" >> "$GITHUB_OUTPUT"
+          echo "Translatable strings changed but the templates weren't regenerated:"
+          echo "$significant"
+        fi
+    - name: Commit updated templates
+      if: steps.pot-diff.outputs.up_to_date == 'false' && github.event_name == 'push'
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add po/com.github.peteruithoven.resizer.pot po/extra/extra.pot
+        git commit -m "Update translation templates"
+        git push
+    - name: Fail if templates are stale
+      if: steps.pot-diff.outputs.up_to_date == 'false' && github.event_name != 'push'
+      run: |
+        echo "::error::Translation templates are out of date. Run 'meson setup build && ninja -C build com.github.peteruithoven.resizer-pot extra-pot' locally and commit the result."
+        exit 1
+    - name: Translation status
+      if: always()
+      run: |
+        {
+          echo "### Translation status"
+          echo
+          echo "| Language | po/ | po/extra/ |"
+          echo "|---|---|---|"
+          for lang in $(sort -u po/LINGUAS po/extra/LINGUAS); do
+            main="—"
+            extra="—"
+            [ -f "po/$lang.po" ] && main=$(msgfmt --statistics "po/$lang.po" -o /dev/null 2>&1)
+            [ -f "po/extra/$lang.po" ] && extra=$(msgfmt --statistics "po/extra/$lang.po" -o /dev/null 2>&1)
+            echo "| $lang | $main | $extra |"
+          done
+        } >> "$GITHUB_STEP_SUMMARY"
+
   data-lint:
     name: Data Files
     runs-on: ubuntu-latest
