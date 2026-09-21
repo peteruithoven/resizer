@@ -1,5 +1,8 @@
 src/DropArea.vala
 src/HeaderBar.vala
+src/Messages/PreviewErrorMessage.vala
+src/Messages/ResizeFailureMessage.vala
+src/Messages/UnsupportedFileTypesMessage.vala
 src/ResizePage.vala
 src/ResizingPage.vala
 src/Resizer.vala
