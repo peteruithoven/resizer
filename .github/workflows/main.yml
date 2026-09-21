@@ -65,7 +65,24 @@ jobs:
     - name: Check XML well-formedness
       run: xmllint --noout data/*.xml.in data/*.xml data/icons/*.svg
     - name: Validate AppStream metadata
-      run: appstreamcli validate data/com.github.peteruithoven.resizer.appdata.xml.in
+      run: |
+        set +e
+        out=$(appstreamcli validate data/com.github.peteruithoven.resizer.appdata.xml.in 2>&1)
+        status=$?
+        set -e
+        echo "$out"
+        if [ $status -ne 0 ]; then
+          # Ubuntu's appstreamcli 1.0.2 predates AppStream's addition of the
+          # "pantheon:dark" environment id (added to desktop-style-ids.txt in
+          # Sept 2024) and refuses to let screenshot-invalid-env-style be
+          # downgraded below "warning" - so it fails on a tag that's valid
+          # per the current AppStream spec. Tolerate only that known tag.
+          unexpected=$(echo "$out" | grep -E '^[EW]: ' | grep -v 'screenshot-invalid-env-style' || true)
+          if [ -n "$unexpected" ]; then
+            exit $status
+          fi
+          echo "(ignoring screenshot-invalid-env-style: known appstreamcli 1.0.2 false positive for pantheon:dark)"
+        fi
 
   smoke-test:
     name: Smoke Test

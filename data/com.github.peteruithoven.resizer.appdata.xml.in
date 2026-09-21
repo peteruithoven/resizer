@@ -30,17 +30,35 @@
   </description>
   <launchable type="desktop-id">com.github.peteruithoven.resizer.desktop</launchable>
   <screenshots>
-    <screenshot type="default">
-      <image>https://raw.githubusercontent.com/peteruithoven/resizer/master/screenshot-6-image.png</image>
+    <screenshot type="default" environment="pantheon">
+      <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-8-light-image.png</image>
     </screenshot>
-    <screenshot>
-      <image>https://raw.githubusercontent.com/peteruithoven/resizer/master/screenshot-6-empty.png</image>
+    <screenshot environment="pantheon:dark">
+      <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-8-dark-image.png</image>
     </screenshot>
-    <screenshot>
-      <image>https://raw.githubusercontent.com/peteruithoven/resizer/master/screenshot-6-images.png</image>
+    <screenshot environment="pantheon">
+      <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-8-light-empty.png</image>
+    </screenshot>
+    <screenshot environment="pantheon:dark">
+      <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-8-dark-empty.png</image>
+    </screenshot>
+    <screenshot environment="pantheon">
+      <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-8-light-images.png</image>
+    </screenshot>
+    <screenshot environment="pantheon:dark">
+      <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-8-dark-images.png</image>
     </screenshot>
   </screenshots>
   <releases>
+    <release version="3.0.0" date="2026-09-21">
+      <description>
+        <ul>
+          <li>Rebuilt for elementary OS 8 with GTK4 and Adwaita</li>
+          <li>Smaller download — no longer uses a legacy runtime</li>
+          <li>Automatically drops unsupported files</li>
+        </ul>
+      </description>
+    </release>
     <release version="2.3.0" date="2022-01-19">
       <description>
         <ul>

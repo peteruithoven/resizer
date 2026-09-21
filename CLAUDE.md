@@ -26,7 +26,7 @@ flatpak run --filesystem=host org.flatpak.Builder --force-clean \
 - GTK4 CSS has no `max-width`/`max-height` property (only `min-width`/
   `min-height` exist and affect measurement) — setting one via
   `Gtk.CssProvider` fails silently with a `Theme parser error: ... No
-  property named "max-width"` warning and, worse, seems to break that node's
+property named "max-width"` warning and, worse, seems to break that node's
   rendering entirely rather than just ignoring the bad declaration. There's
   no way to cap `Adw.Toast`'s width via CSS, and its API only takes a plain
   string (no custom widget to wrap in `Adw.Clamp`, which is what
@@ -56,6 +56,14 @@ valalang/lint:latest io.elementary.vala-lint -d src`. The script falls back to D
   always review its diff before trusting it.
 - `desktop-file-validate` rejects files by extension, so the script/CI copy
   `com.github.peteruithoven.resizer.desktop.in` to a temp `*.desktop` file before checking it.
+- Ubuntu 24.04's `appstream` apt package ships `appstreamcli` 1.0.2, which predates
+  AppStream's addition of the `pantheon:dark` screenshot `environment` id (added to
+  upstream's `desktop-style-ids.txt` in Sept 2024) and refuses to let the resulting
+  `screenshot-invalid-env-style` warning be downgraded via `--override` — it's a false
+  positive on an id that's valid per the current spec (and what AppCenter itself uses
+  for dark-mode screenshots, e.g. `elementary/music`'s `metainfo.xml.in`). The script/CI
+  wrap the `appstreamcli validate` call to tolerate only that specific known tag and still
+  fail on anything else, rather than passing `--override` (blocked) or skipping validation.
 
 ## Automated tests
 
@@ -63,21 +71,21 @@ valalang/lint:latest io.elementary.vala-lint -d src`. The script falls back to D
   two namespaces mirroring `elementary/calculator`'s and
   `elementary/appcenter`'s own `src/Core/` convention for framework-independent
   logic:
-  - `src/Core/` — generic reusable logic, one class per file (`ImageGeometry`:
-    bounded-size math; `ImageFormat`: extension→pixbuf-type mapping and
-    extension display labels; `FileNaming`: output-filename generation;
-    `Strings`: truncate-with-ellipsis and dedup-preserving-order helpers).
-  - `src/Messages/` — one class per toast message, composing `Core/` helpers
-    plus `ngettext`/`_()` into the final localized string
-    (`UnsupportedFileTypesMessage`, `ResizeFailureMessage`,
-    `PreviewErrorMessage`). `MessageCenter` only ever receives an
-    already-formatted string from these.
-  - Tests mirror this 1:1 (`tests/test-image-geometry.vala`,
-    `tests/test-image-format.vala`, etc.), but are wired into just two
-    GLib.Test/TAP binaries — `tests/test-core-main.vala` and
-    `tests/test-messages-main.vala` hold the `Test.add_func` calls for every
-    test file in their group, since only one file per executable can define
-    `main()`. Run via `meson test`.
+    - `src/Core/` — generic reusable logic, one class per file (`ImageGeometry`:
+      bounded-size math; `ImageFormat`: extension→pixbuf-type mapping and
+      extension display labels; `FileNaming`: output-filename generation;
+      `Strings`: truncate-with-ellipsis and dedup-preserving-order helpers).
+    - `src/Messages/` — one class per toast message, composing `Core/` helpers
+      plus `ngettext`/`_()` into the final localized string
+      (`UnsupportedFileTypesMessage`, `ResizeFailureMessage`,
+      `PreviewErrorMessage`). `MessageCenter` only ever receives an
+      already-formatted string from these.
+    - Tests mirror this 1:1 (`tests/test-image-geometry.vala`,
+      `tests/test-image-format.vala`, etc.), but are wired into just two
+      GLib.Test/TAP binaries — `tests/test-core-main.vala` and
+      `tests/test-messages-main.vala` hold the `Test.add_func` calls for every
+      test file in their group, since only one file per executable can define
+      `main()`. Run via `meson test`.
 - `_()`/`ngettext()` work in the test binaries with no extra setup: they're
   Vala/GLib built-ins that just pass strings through untranslated without a
   bound catalog, and `add_project_arguments('-DGETTEXT_PACKAGE=...')` in the
@@ -96,12 +104,12 @@ valalang/lint:latest io.elementary.vala-lint -d src`. The script falls back to D
 - flatpak-builder only runs `ninja test` for a module if that module has
   `run-tests: true` in the manifest — the GH Action's own `run-tests: true`
   input alone doesn't do it. `--disable-tests` on the flatpak-builder CLI is
-  the opt-*out*, not opt-in.
-- `ninja install` builds *all* targets regardless of `build_by_default: false`
+  the opt-_out_, not opt-in.
+- `ninja install` builds _all_ targets regardless of `build_by_default: false`
   (used on the test binary to keep it out of a plain `ninja`).
 - CI builds the app twice, deliberately: the `flatpak` job builds it inside
   the Flatpak sandbox and runs `meson test` there (via `run-tests: true`
-  above); the `smoke-test` job builds it *natively* on the bare runner,
+  above); the `smoke-test` job builds it _natively_ on the bare runner,
   because the Flatpak sandbox has no display to run the GUI smoke test
   against. Don't try to consolidate these into one build.
 
@@ -172,7 +180,7 @@ valalang/lint:latest io.elementary.vala-lint -d src`. The script falls back to D
   (without it, your entrypoint is PID 1, which has broken signal-handling
   semantics — this is why `xvfb-run` hung forever once, never receiving the
   `SIGUSR1` "Xvfb is ready" signal it waits for) and `git archive HEAD | tar
-  -x` into the container rather than a bind mount (so you test exactly what's
+-x` into the container rather than a bind mount (so you test exactly what's
   committed, not local working-tree state, including any stray `build/` dir).
   Also don't assume a tool is covered by the apt packages already listed —
   check with `apt-cache depends <pkg>` (e.g. `glib-compile-schemas` comes via
