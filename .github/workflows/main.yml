@@ -66,8 +66,10 @@ jobs:
       run: xmllint --noout data/*.xml.in data/*.xml data/icons/*.svg
     - name: Validate AppStream metadata
       run: |
+        set +e
         out=$(appstreamcli validate data/com.github.peteruithoven.resizer.appdata.xml.in 2>&1)
         status=$?
+        set -e
         echo "$out"
         if [ $status -ne 0 ]; then
           # Ubuntu's appstreamcli 1.0.2 predates AppStream's addition of the
