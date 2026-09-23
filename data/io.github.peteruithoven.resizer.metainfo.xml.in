@@ -3,12 +3,12 @@
 <component type="desktop">
   <id>io.github.peteruithoven.resizer</id>
   <metadata_license>CC0</metadata_license>
-  <project_license>GPL-3.0+</project_license>
+  <project_license>GPL-3.0-or-later</project_license>
   <name>Resizer</name>
   <summary>Quickly resize images</summary>
   <description>
     <p>
-    Resizer is a simple, native elementary OS app for resizing one or more images at once. It always maintains the aspect ratio and never upscales images.
+    Resizer is a simple app for resizing one or more images at once. It always maintains the aspect ratio and never upscales images.
     </p>
     <p>
     Features:
@@ -35,21 +35,27 @@
   <screenshots>
     <screenshot type="default" environment="pantheon">
       <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-8-light-image.png</image>
+      <caption>Resize an image to fit within a maximum width and height</caption>
     </screenshot>
     <screenshot environment="pantheon:dark">
       <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-8-dark-image.png</image>
+      <caption>Resize an image to fit within a maximum width and height</caption>
     </screenshot>
     <screenshot environment="pantheon">
       <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-8-light-empty.png</image>
+      <caption>Drop images onto the window or select them with the file chooser</caption>
     </screenshot>
     <screenshot environment="pantheon:dark">
       <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-8-dark-empty.png</image>
+      <caption>Drop images onto the window or select them with the file chooser</caption>
     </screenshot>
     <screenshot environment="pantheon">
       <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-8-light-images.png</image>
+      <caption>Resize several images at once</caption>
     </screenshot>
     <screenshot environment="pantheon:dark">
       <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-8-dark-images.png</image>
+      <caption>Resize several images at once</caption>
     </screenshot>
   </screenshots>
   <releases>
@@ -263,7 +269,13 @@
   <url type="homepage">https://github.com/peteruithoven/resizer</url>
   <url type="bugtracker">https://github.com/peteruithoven/resizer/issues</url>
   <url type="help">https://github.com/peteruithoven/resizer/issues</url>
-  <update_contact>peter@peteruithoven.com</update_contact>
+  <url type="vcs-browser">https://github.com/peteruithoven/resizer</url>
+  <url type="translate">https://github.com/peteruithoven/resizer#translations</url>
+  <update_contact>peter@peteruithoven.nl</update_contact>
+  <branding>
+    <color type="primary" scheme_preference="light">#60caee</color>
+    <color type="primary" scheme_preference="dark">#1c6e8c</color>
+  </branding>
   <custom>
     <value key="x-appcenter-color-primary">#60caee</value>
     <value key="x-appcenter-color-primary-text">#ffffff</value>
