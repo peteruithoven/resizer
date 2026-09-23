@@ -18,6 +18,12 @@ flatpak run --filesystem=host org.flatpak.Builder --force-clean \
 
 ## Source quirks
 
+- App icon: `data/icons/{16..64}.svg` are pixel-hinted sources only; what gets
+  installed is the committed `{N}.png`/`{N}@2.png` rendered from them (Flathub's
+  linter rejects SVGs in sized `hicolor/NxN/` folders). After editing one of
+  those SVGs, re-run `scripts/render-icons.sh` and commit the PNGs.
+  `128.svg` is installed directly as the scalable icon.
+
 - The app's file picker only accepts **PNG / JPEG / BMP / TIFF**
   (`DropArea.vala`, `supported_mimetypes`). No WebP, SVG, or GIF support.
 - `Math.round()` in Vala needs libm, which isn't linked by the current
