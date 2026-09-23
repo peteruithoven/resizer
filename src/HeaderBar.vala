@@ -23,7 +23,9 @@ namespace Resizer {
     public class HeaderBar {
         public static Adw.HeaderBar create () {
             var header = new Adw.HeaderBar ();
-            header.add_css_class (Granite.STYLE_CLASS_DEFAULT_DECORATION);
+            // Compact header bar padding, styled by both the elementary
+            // stylesheet and libadwaita.
+            header.add_css_class ("default-decoration");
 
             var info_text = new Gtk.Label (
                 _("Resizer will never upscale and always maintain the aspect ratio of your images.")

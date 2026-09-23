@@ -23,7 +23,8 @@ Features:
 You'll need the following dependencies:
 
 - meson >= 0.47.0
-- libgranite-dev
+- libgtk-4-dev (>= 4.14)
+- libadwaita-1-dev (>= 1.5)
 - valac
 
 Run `meson` to configure the build environment and then `ninja` to build

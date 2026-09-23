@@ -3,7 +3,7 @@
 # image via the command line (skipping drag-and-drop), and checks that a
 # window actually appears and renders that image in its preview thumbnail.
 # This is meant to catch "the app doesn't even start" regressions (e.g. a
-# broken GTK/Granite/libhandy dependency bump) rather than to drive the full
+# broken GTK/libadwaita dependency bump) rather than to drive the full
 # UI - synthetic keyboard input doesn't reliably reach the app under a
 # nested/XWayland session, and clicking specific buttons by pixel position is
 # too fragile to be worth it for a smoke test. See CLAUDE.md for background.
@@ -15,8 +15,8 @@ set -euo pipefail
 
 # Point D-Bus at an address nothing is listening on, for both buses. This
 # makes every D-Bus call the app makes during startup (GSettings,
-# Granite.Settings' dark-mode/portal lookup, AT-SPI) fail immediately instead
-# of trying to discover or activate a real bus/portal. That discovery path is
+# libadwaita's dark-mode/appearance-portal lookup, AT-SPI) fail immediately
+# instead of trying to discover or activate a real bus/portal. That discovery path is
 # the actual danger here: on one CI run the app hung before its window was
 # ever created (no crash, no error, it just never got there), and separately,
 # routing it through a *real* freshly-started session bus was observed to
