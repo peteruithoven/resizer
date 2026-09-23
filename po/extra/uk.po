@@ -296,24 +296,3 @@ msgstr "Початкова версія"
 #: data/io.github.peteruithoven.resizer.metainfo.xml.in:261
 msgid "Peter Uithoven"
 msgstr "Peter Uithoven"
-
-#~ msgid "com.github.peteruithoven.resizer"
-#~ msgstr "com.github.peteruithoven.resizer"
-
-#~ msgid ""
-#~ "A simple image resizer that resizes one or more images, usable from the "
-#~ "context menu or as a standalone app."
-#~ msgstr ""
-#~ "Простий змінювач розмірів зображень, котрий змінює розмір одного або "
-#~ "декількох зображень. Його можна використовувати за допомогою контекстного "
-#~ "меню або як окремий додаток."
-
-#~ msgid ""
-#~ "Use from context menu: right click on image(s), and select \"Resize "
-#~ "images\"."
-#~ msgstr ""
-#~ "Використовуйте за допомогою контекстного меню: клацніть правою кнопкою "
-#~ "миші на зображенні та виберіть \"Змінити розмір зображень\"."
-
-#~ msgid "Use from Applications menu: Drag and drop image(s)."
-#~ msgstr "Використовуйте з меню додатків: перетягніть зображення."

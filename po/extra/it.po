@@ -297,25 +297,3 @@ msgstr "Release iniziale"
 #: data/io.github.peteruithoven.resizer.metainfo.xml.in:261
 msgid "Peter Uithoven"
 msgstr "Peter Uithoven"
-
-#~ msgid "com.github.peteruithoven.resizer"
-#~ msgstr "com.github.peteruithoven.resizer"
-
-#~ msgid ""
-#~ "A simple image resizer that resizes one or more images, usable from the "
-#~ "context menu or as a standalone app."
-#~ msgstr ""
-#~ "Un semplice ridimensionatore di immagini che ti permette di modificare la "
-#~ "dimensione di una o più immagini, utilizzabile direttamente dal context "
-#~ "menu oppure come un'app standalone."
-
-#~ msgid ""
-#~ "Use from context menu: right click on image(s), and select \"Resize "
-#~ "images\"."
-#~ msgstr ""
-#~ "Utilizza dal context menu: clic destro sull'immagine (o su più immagini) "
-#~ "e seleziona \"Ridimensiona immagini\"."
-
-#~ msgid "Use from Applications menu: Drag and drop image(s)."
-#~ msgstr ""
-#~ "Utilizza dal menu delle applicazioni: trascina e rilascia le immagini."
