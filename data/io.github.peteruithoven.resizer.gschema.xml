@@ -1,5 +1,5 @@
 <schemalist>
-  <schema id="com.github.peteruithoven.resizer" path="/com/github/peteruithoven/resizer/" gettext-domain="com.github.peteruithoven.resizer">
+  <schema id="io.github.peteruithoven.resizer" path="/io/github/peteruithoven/resizer/" gettext-domain="io.github.peteruithoven.resizer">
     <key name="width" type="i">
       <range min="1" max="10000" />
       <default>1000</default>

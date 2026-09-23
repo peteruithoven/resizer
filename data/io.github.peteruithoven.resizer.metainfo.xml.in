@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2019 Peter Uithoven <peter@peteruithoven.nl> -->
 <component type="desktop">
-  <id>com.github.peteruithoven.resizer</id>
+  <id>io.github.peteruithoven.resizer</id>
   <metadata_license>CC0</metadata_license>
   <project_license>GPL-3.0+</project_license>
   <name>Resizer</name>
@@ -28,7 +28,10 @@
       <li>TIFF</li>
     </ul>
   </description>
-  <launchable type="desktop-id">com.github.peteruithoven.resizer.desktop</launchable>
+  <launchable type="desktop-id">io.github.peteruithoven.resizer.desktop</launchable>
+  <replaces>
+    <id>com.github.peteruithoven.resizer</id>
+  </replaces>
   <screenshots>
     <screenshot type="default" environment="pantheon">
       <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-8-light-image.png</image>

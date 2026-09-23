@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Captures one screenshot per app state, in both light and dark mode, into
 data/screenshots/ as screenshot-<os-version>-<light|dark>-<state>.png -
-candidates for AppStream's <screenshots> in the appdata.xml. This is a
+candidates for AppStream's <screenshots> in the metainfo.xml. This is a
 manual/interactive dev tool (not run in CI): a quick way to eyeball several
 states at once and refresh the screenshots bundled with a release.
 
@@ -48,12 +48,12 @@ sys.stdout.reconfigure(line_buffering=True)
 REPO_ROOT = Path(__file__).resolve().parent.parent
 BUILD_DIR = REPO_ROOT / "_build" / "meson-native"
 SCHEMA_DIR = BUILD_DIR / "schemas"
-BINARY = BUILD_DIR / "com.github.peteruithoven.resizer"
+BINARY = BUILD_DIR / "io.github.peteruithoven.resizer"
 OUT_DIR = REPO_ROOT / "data" / "screenshots"
 EXAMPLES_DIR = REPO_ROOT / "data" / "examples"
 LOG_PATH = Path("/tmp/resizer-screenshots.log")
 
-APP_ID = "com.github.peteruithoven.resizer"
+APP_ID = "io.github.peteruithoven.resizer"
 WINDOW_TITLE_RE = "^Resizer$"
 
 # Set once in main() before any capture runs.
@@ -225,7 +225,7 @@ def build():
         subprocess.run(["meson", "setup", str(BUILD_DIR)], check=True)
     subprocess.run(["ninja", "-C", str(BUILD_DIR)], check=True)
     SCHEMA_DIR.mkdir(parents=True, exist_ok=True)
-    shutil.copy(REPO_ROOT / "data" / "com.github.peteruithoven.resizer.gschema.xml", SCHEMA_DIR)
+    shutil.copy(REPO_ROOT / "data" / "io.github.peteruithoven.resizer.gschema.xml", SCHEMA_DIR)
     subprocess.run(["glib-compile-schemas", str(SCHEMA_DIR)], check=True)
 
 

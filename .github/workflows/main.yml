@@ -65,7 +65,7 @@ jobs:
     - name: Regenerate translation templates
       run: |
         meson setup build
-        ninja -C build com.github.peteruithoven.resizer-pot extra-pot
+        ninja -C build io.github.peteruithoven.resizer-pot extra-pot
     - name: Check translation templates are up to date
       id: pot-diff
       run: |
@@ -73,7 +73,7 @@ jobs:
         # POT-Creation-Date changes on every regeneration - neither means a
         # translator needs to do anything, so they don't count as "changed".
         ignore='^[+-](#:|#,|"POT-Creation-Date)'
-        significant=$(git diff --unified=0 -- po/com.github.peteruithoven.resizer.pot po/extra/extra.pot \
+        significant=$(git diff --unified=0 -- po/io.github.peteruithoven.resizer.pot po/extra/extra.pot \
           | grep -E '^[+-]' | grep -Ev '^(\+\+\+|---)' | grep -Ev "$ignore" || true)
         if [ -z "$significant" ]; then
           echo "up_to_date=true" >> "$GITHUB_OUTPUT"
@@ -88,13 +88,13 @@ jobs:
       run: |
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
-        git add po/com.github.peteruithoven.resizer.pot po/extra/extra.pot
+        git add po/io.github.peteruithoven.resizer.pot po/extra/extra.pot
         git commit -m "Update translation templates"
         git push
     - name: Fail if templates are stale
       if: steps.pot-diff.outputs.up_to_date == 'false' && github.event_name != 'push'
       run: |
-        echo "::error::Translation templates are out of date. Run 'meson setup build && ninja -C build com.github.peteruithoven.resizer-pot extra-pot' locally and commit the result."
+        echo "::error::Translation templates are out of date. Run 'meson setup build && ninja -C build io.github.peteruithoven.resizer-pot extra-pot' locally and commit the result."
         exit 1
     - name: Translation status
       if: always()
@@ -123,14 +123,14 @@ jobs:
     - name: Check .desktop syntax
       run: |
         tmp_desktop=$(mktemp --suffix=.desktop)
-        cp data/com.github.peteruithoven.resizer.desktop.in "$tmp_desktop"
+        cp data/io.github.peteruithoven.resizer.desktop.in "$tmp_desktop"
         desktop-file-validate "$tmp_desktop"
     - name: Check XML well-formedness
       run: xmllint --noout data/*.xml.in data/*.xml data/icons/*.svg
     - name: Validate AppStream metadata
       run: |
         set +e
-        out=$(appstreamcli validate data/com.github.peteruithoven.resizer.appdata.xml.in 2>&1)
+        out=$(appstreamcli validate data/io.github.peteruithoven.resizer.metainfo.xml.in 2>&1)
         status=$?
         set -e
         echo "$out"
@@ -186,7 +186,7 @@ jobs:
         # This is the name of the Bundle file we're building and can be anything you like
         bundle: MyApp.flatpak
         # This uses your app's RDNN ID
-        manifest-path: com.github.peteruithoven.resizer.yml
+        manifest-path: io.github.peteruithoven.resizer.yml
 
         # You can automatically run any of the tests you've created as part of this workflow
         run-tests: true
