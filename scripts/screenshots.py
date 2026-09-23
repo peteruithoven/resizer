@@ -1,19 +1,24 @@
 #!/usr/bin/python3
 """Captures one screenshot per app state, in both light and dark mode, into
-data/screenshots/ as screenshot-<os-version>-<light|dark>-<state>.png -
-candidates for AppStream's <screenshots> in the metainfo.xml. This is a
-manual/interactive dev tool (not run in CI): a quick way to eyeball several
-states at once and refresh the screenshots bundled with a release.
+data/screenshots/ as screenshot-<light|dark>-<state>.png - candidates for
+AppStream's <screenshots> in the metainfo.xml. This is a manual/interactive
+dev tool (not run in CI): a quick way to eyeball several states at once and
+refresh the screenshots bundled with a release.
 
-Usage: ./scripts/screenshots.py [os-version]
-  os-version defaults to "8"
+Usage: ./scripts/screenshots.py
 
-Requires a real desktop session (DISPLAY=:0, not xvfb-run - this wants the
-actual elementary OS theme rendered, not a headless render) with xdotool,
-ImageMagick (convert/identify), accessibility (AT-SPI) enabled, and a
-compositor that implements org.gnome.Shell.Screenshot (gala, Pantheon's own,
-does). See CLAUDE.md "GUI testing" for why GDK_BACKEND=x11 is needed on this
-Wayland desktop.
+Shows what Flathub users get, following Flathub's screenshot guidelines: the
+app is built and run inside the Flatpak's GNOME runtime via
+`scripts/run.sh --gnome-defaults`, so it renders with the runtime's own
+libadwaita and GNOME's default settings (font, accent color, window buttons)
+instead of this desktop's.
+
+Requires a real desktop session (not xvfb-run) with ImageMagick
+(convert/identify), accessibility (AT-SPI) enabled, and a compositor that
+implements org.gnome.Shell.Screenshot (gala, Pantheon's own, does). The
+compositor screenshots the focused window, so leave the desktop alone while
+this runs: each capture is skipped rather than taken if the app's window
+isn't the active one.
 """
 import argparse
 import os
@@ -46,19 +51,15 @@ from gi.repository import Atspi, Gio, GLib  # noqa: E402
 sys.stdout.reconfigure(line_buffering=True)
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-BUILD_DIR = REPO_ROOT / "_build" / "meson-native"
-SCHEMA_DIR = BUILD_DIR / "schemas"
-BINARY = BUILD_DIR / "io.github.peteruithoven.resizer"
+RUN_SCRIPT = REPO_ROOT / "scripts" / "run.sh"
 OUT_DIR = REPO_ROOT / "data" / "screenshots"
 EXAMPLES_DIR = REPO_ROOT / "data" / "examples"
+# Like the real Flatpak, the app can only open files under $HOME, so
+# generated test images go here rather than in /tmp.
+SCRATCH_DIR = REPO_ROOT / "_build" / "screenshots-tmp"
 LOG_PATH = Path("/tmp/resizer-screenshots.log")
 
 APP_ID = "io.github.peteruithoven.resizer"
-WINDOW_TITLE_RE = "^Resizer$"
-
-# Set once in main() before any capture runs.
-OS_VERSION = None
-BASE_THEME = None
 
 
 # ---- AT-SPI: find/click widgets and read the progress bar's real value,
@@ -182,11 +183,11 @@ def click_and_wait_for_mid_progress(button_name, find_timeout=5.0, mid_timeout=2
 
 
 def check_requirements():
-    for cmd in ("xdotool", "convert", "identify", "gsettings"):
+    for cmd in ("flatpak", "convert", "identify", "gsettings"):
         if shutil.which(cmd) is None:
             sys.exit(f"Required tool '{cmd}' not found on PATH.")
-    if not os.environ.get("DISPLAY"):
-        sys.exit("DISPLAY is not set. Run this from a real desktop session (e.g. DISPLAY=:0), not headless.")
+    if not os.environ.get("WAYLAND_DISPLAY") and not os.environ.get("DISPLAY"):
+        sys.exit("No display found. Run this from a real desktop session, not headless.")
     result = subprocess.run(
         ["gsettings", "get", "org.gnome.desktop.interface", "toolkit-accessibility"],
         capture_output=True,
@@ -221,51 +222,37 @@ def check_requirements():
 
 def build():
     print("==> Building")
-    if not BUILD_DIR.exists():
-        subprocess.run(["meson", "setup", str(BUILD_DIR)], check=True)
-    subprocess.run(["ninja", "-C", str(BUILD_DIR)], check=True)
-    SCHEMA_DIR.mkdir(parents=True, exist_ok=True)
-    shutil.copy(REPO_ROOT / "data" / "io.github.peteruithoven.resizer.gschema.xml", SCHEMA_DIR)
-    subprocess.run(["glib-compile-schemas", str(SCHEMA_DIR)], check=True)
-
-
-def read_base_theme():
-    # Base theme name (e.g. "io.elementary.stylesheet.mint"). The dark
-    # variant of an elementary stylesheet theme is just this name with
-    # ":dark" appended.
-    result = subprocess.run(
-        ["gsettings", "get", "org.gnome.desktop.interface", "gtk-theme"],
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-    theme = result.stdout.strip().strip("'")
-    if not theme:
-        sys.exit("Could not read a GTK theme via gsettings; can't force light/dark variants.")
-    return theme
+    subprocess.run([str(RUN_SCRIPT), "--build-only"], check=True)
 
 
 # ---- app process + window management ----
 
 
 def launch_app(variant, args):
-    gtk_theme = BASE_THEME if variant == "light" else f"{BASE_THEME}:dark"
     env = dict(os.environ)
-    env.update(
-        {
-            "GSETTINGS_SCHEMA_DIR": str(SCHEMA_DIR),
-            # Always starts from the schema's defaults (e.g. 300x300)
-            # instead of whatever width/height a previous real run of the
-            # app happens to have saved - otherwise a stray "9999" can
-            # subtly change the resize page's layout, which would be an odd
-            # thing for a published screenshot to show.
-            "GSETTINGS_BACKEND": "memory",
-            "GDK_BACKEND": "x11",
-            "GTK_THEME": gtk_theme,
-        }
-    )
+    env["COLOR_SCHEME"] = f"prefer-{variant}"
     with open(LOG_PATH, "wb") as log:
-        return subprocess.Popen([str(BINARY), *args], env=env, stdout=log, stderr=subprocess.STDOUT)
+        return subprocess.Popen(
+            [str(RUN_SCRIPT), "--gnome-defaults", *args], env=env, stdout=log, stderr=subprocess.STDOUT
+        )
+
+
+def find_window(app):
+    try:
+        for i in range(app.get_child_count()):
+            window = app.get_child_at_index(i)
+            if window is not None and window.get_role_name() == "frame" and window.get_name() == "Resizer":
+                return window
+    except GLib.Error:
+        pass
+    return None
+
+
+def is_active(window):
+    try:
+        return window.get_state_set().contains(Atspi.StateType.ACTIVE)
+    except GLib.Error:
+        return False
 
 
 def wait_for_window(proc, timeout=12):
@@ -274,12 +261,12 @@ def wait_for_window(proc, timeout=12):
         if proc.poll() is not None:
             log = LOG_PATH.read_text(errors="replace") if LOG_PATH.exists() else ""
             sys.exit(f"App exited before its window appeared. Log:\n{log}")
-        result = subprocess.run(["xdotool", "search", "--name", WINDOW_TITLE_RE], capture_output=True, text=True)
-        ids = result.stdout.split()
-        if ids:
-            return ids[0]
-        time.sleep(0.2)
-    sys.exit("App window never appeared after 12s.")
+        app = find_app(APP_ID, time.monotonic())
+        window = find_window(app) if app is not None else None
+        if window is not None:
+            return window
+        time.sleep(0.1)
+    sys.exit(f"App window never appeared after {timeout}s.")
 
 
 def close_app(proc):
@@ -290,6 +277,11 @@ def close_app(proc):
         except subprocess.TimeoutExpired:
             proc.kill()
             proc.wait()
+    # Its accessible can linger for a moment after the process is gone,
+    # and the next launch's wait_for_window() mustn't pick that one up.
+    deadline = time.monotonic() + 3
+    while find_app(APP_ID, time.monotonic()) is not None and time.monotonic() < deadline:
+        time.sleep(0.05)
 
 
 def color_count(path):
@@ -304,14 +296,23 @@ def color_count(path):
 _screenshot_proxy = None
 
 
-def capture_window(window_id, out_path):
-    """Screenshots window_id to out_path with a real alpha channel, via the
+def capture_window(window, out_path, focus_timeout=3.0):
+    """Screenshots window to out_path with a real alpha channel, via the
     compositor's own org.gnome.Shell.Screenshot D-Bus interface (gala
-    implements this)
+    implements this). That captures whichever window is focused, and on
+    Wayland there's no way to focus one from here, so this only captures
+    once AT-SPI reports the app's window as the active one (a new window
+    normally gets focus by itself), and discards the result if focus moved
+    away during the capture - otherwise it could save some other app's
+    window.
     """
     global _screenshot_proxy
-    subprocess.run(["xdotool", "windowactivate", window_id], capture_output=True)
-    time.sleep(0.05)
+    deadline = time.monotonic() + focus_timeout
+    while not is_active(window):
+        if time.monotonic() >= deadline:
+            print(f"Resizer's window isn't focused, not capturing {out_path.name}", file=sys.stderr)
+            return False
+        time.sleep(0.05)
     if _screenshot_proxy is None:
         _screenshot_proxy = Gio.DBusProxy.new_for_bus_sync(
             Gio.BusType.SESSION,
@@ -334,22 +335,28 @@ def capture_window(window_id, out_path):
         print(f"ScreenshotWindow failed: {e}", file=sys.stderr)
         return False
     success, _filename_used = result.unpack()
+    if success and not is_active(window):
+        print(f"focus moved away during capture, discarding {out_path.name}", file=sys.stderr)
+        out_path.unlink(missing_ok=True)
+        return False
     return success
 
 
-def capture_when_painted(window_id, out_path):
+def capture_when_painted(window, out_path):
     # Retries for a couple seconds if the frame comes back as a single flat
     # color - the window can report as mapped before GTK has actually
     # painted anything into it yet, and a fixed sleep before the first
     # capture isn't always enough (same issue and fix as smoke-test.sh's
     # pixel retry loop, see CLAUDE.md "GUI testing").
     for _ in range(20):
-        capture_window(window_id, out_path)
+        if not capture_window(window, out_path):
+            return False
         colors = color_count(out_path)
         if colors is not None and colors > 20:
-            return
+            return True
         time.sleep(0.15)
     print(f"warning: {out_path} may still be a blank/unpainted frame", file=sys.stderr)
+    return True
 
 
 # ---- per-state capture ----
@@ -358,16 +365,16 @@ def capture_when_painted(window_id, out_path):
 def capture_static(variant, state, args):
     proc = launch_app(variant, args)
     try:
-        window_id = wait_for_window(proc)
+        window = wait_for_window(proc)
         time.sleep(0.3)
-        capture_when_painted(window_id, OUT_DIR / f"screenshot-{OS_VERSION}-{variant}-{state}.png")
+        if capture_when_painted(window, OUT_DIR / f"screenshot-{variant}-{state}.png"):
+            print(f"  wrote screenshot-{variant}-{state}.png")
     finally:
         close_app(proc)
-    print(f"  wrote screenshot-{OS_VERSION}-{variant}-{state}.png")
 
 
 def capture_resizing_error(variant):
-    tmp = Path(tempfile.mkdtemp())
+    tmp = Path(tempfile.mkdtemp(dir=SCRATCH_DIR))
     try:
         shutil.copy(EXAMPLES_DIR / "example1.jpg", tmp)
         shutil.copy(EXAMPLES_DIR / "example2.jpg", tmp)
@@ -378,24 +385,24 @@ def capture_resizing_error(variant):
 
         proc = launch_app(variant, [str(tmp / "example1.jpg"), str(tmp / "example2.jpg")])
         try:
-            window_id = wait_for_window(proc)
+            window = wait_for_window(proc)
             time.sleep(0.3)
             # This click never reaches a mid-progress value (a failed
             # resize's bar stays at its minimum forever), so mid_timeout is
             # kept short - only the click itself landing matters here.
             click_and_wait_for_mid_progress("Resize", mid_timeout=0.2)
             time.sleep(0.6)
-            capture_when_painted(window_id, OUT_DIR / f"screenshot-{OS_VERSION}-{variant}-resizing-error.png")
+            if capture_when_painted(window, OUT_DIR / f"screenshot-{variant}-resizing-error.png"):
+                print(f"  wrote screenshot-{variant}-resizing-error.png")
         finally:
             close_app(proc)
     finally:
         tmp.chmod(0o755)
         shutil.rmtree(tmp)
-    print(f"  wrote screenshot-{OS_VERSION}-{variant}-resizing-error.png")
 
 
 def capture_resizing(variant):
-    with tempfile.TemporaryDirectory() as tmp_str:
+    with tempfile.TemporaryDirectory(dir=SCRATCH_DIR) as tmp_str:
         tmp = Path(tmp_str)
         big_example1 = tmp / "example1.jpg"
         big_example2 = tmp / "example2.jpg"
@@ -419,7 +426,7 @@ def capture_resizing(variant):
 
         proc = launch_app(variant, [str(big_example1), str(big_example2)])
         try:
-            window_id = wait_for_window(proc)
+            window = wait_for_window(proc)
             time.sleep(0.3)
             if click_and_wait_for_mid_progress("Resize"):
                 # Caught a strict mid-progress value (AT-SPI-confirmed, not
@@ -429,9 +436,9 @@ def capture_resizing(variant):
                 # a short settle avoids screenshotting a stale, not-yet-
                 # updated frame that still shows the previous value.
                 time.sleep(0.08)
-                out_path = OUT_DIR / f"screenshot-{OS_VERSION}-{variant}-resizing.png"
-                capture_window(window_id, out_path)
-                print(f"  wrote screenshot-{OS_VERSION}-{variant}-resizing.png")
+                out_path = OUT_DIR / f"screenshot-{variant}-resizing.png"
+                if capture_window(window, out_path):
+                    print(f"  wrote screenshot-{variant}-resizing.png")
             else:
                 print(f"warning: never caught a mid-progress frame for {variant}, skipping", file=sys.stderr)
         finally:
@@ -439,15 +446,13 @@ def capture_resizing(variant):
 
 
 def main():
-    global OS_VERSION, BASE_THEME
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("os_version", nargs="?", default="8", help='elementary OS SDK version, e.g. "8" (default)')
-    OS_VERSION = parser.parse_args().os_version
+    parser.parse_args()
 
     check_requirements()
     build()
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    BASE_THEME = read_base_theme()
+    SCRATCH_DIR.mkdir(parents=True, exist_ok=True)
 
     for variant in ("light", "dark"):
         print(f"==> Capturing {variant} screenshots")

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-23 23:37+0200\n"
+"POT-Creation-Date: 2026-09-24 01:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -90,208 +90,203 @@ msgstr ""
 
 #: data/io.github.peteruithoven.resizer.metainfo.xml.in:46
 #: data/io.github.peteruithoven.resizer.metainfo.xml.in:50
-msgid "Drop images onto the window or select them with the file chooser"
-msgstr ""
-
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:54
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:58
 msgid "Resize several images at once"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:65
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:57
 msgid "Rebuilt for elementary OS 8 with GTK4 and Adwaita"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:66
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:58
 msgid "Smaller download — no longer uses a legacy runtime"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:67
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:59
 msgid "Ignores unsupported files"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:74
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:66
 msgid "Auto focus relevant buttons"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:75
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:67
 msgid "Image files filter in file chooser (Thanks @adithyankv)"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:76
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:68
 msgid "Small text improvements"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:83
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:75
 msgid "Selecting images through file chooser (Thanks @Adithyan-KV)"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:90
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:82
 msgid ""
 "Fixed disappearing label when dragging in an invalid filetype (Thanks "
 "@Adithyan-KV)"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:91
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:83
 msgid "Italian translation (Thanks @Sav22999)"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:92
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:84
 msgid "Czech translation (Thanks @PapuleX)"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:99
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:91
 msgid "Dark mode (Thanks @Adithyan-KV)"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:106
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:98
 msgid "Fixed stretched infobutton highlight (Thanks @Adithyan-KV)"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:113
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:105
 msgid "Fixed features typo (Thanks @Adithyan-KV)"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:120
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:112
 msgid "Improved contrast AppCenter color"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:127
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:119
 msgid "Updated screenshots"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:134
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:126
 msgid "Appdata release notes"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:135
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:127
 msgid "Maintain old screenshot for juno"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:136
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:128
 msgid "Setup Continuous Integration"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:143
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:135
 msgid "First Flatpak release"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:144
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:136
 msgid "Check availability convert app"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:145
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:137
 msgid "Make it available in Open With menu for image files"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:152
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:144
 msgid "Portuguese translation (thanks @rottenpants466!)"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:153
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:145
 msgid "File rename fix for filenames with multiple dots"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:160
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:152
 msgid "French translation"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:161
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:153
 msgid "Ukrainian translation"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:162
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:154
 msgid "Polish translation"
 msgstr ""
 
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:161
 #: data/io.github.peteruithoven.resizer.metainfo.xml.in:169
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:177
 msgid "Never upscale images"
 msgstr ""
 
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:162
 #: data/io.github.peteruithoven.resizer.metainfo.xml.in:170
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:178
 msgid "Added info box"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:185
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:177
 msgid "Improved Lithuanian translation (Thanks @welaq)"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:186
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:178
 msgid "Added French translation (Thanks @NathanBnm)"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:187
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:179
 msgid "Added more app categories"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:194
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:203
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:186
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:195
 msgid "Improved page transition"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:195
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:204
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:187
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:196
 msgid "Added clearer finished state"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:196
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:188
 msgid "Republishing for Juno"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:211
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:220
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:229
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:238
-msgid "Lithuanian translation (Thanks welaq)"
-msgstr ""
-
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:203
 #: data/io.github.peteruithoven.resizer.metainfo.xml.in:212
 #: data/io.github.peteruithoven.resizer.metainfo.xml.in:221
 #: data/io.github.peteruithoven.resizer.metainfo.xml.in:230
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:239
+msgid "Lithuanian translation (Thanks welaq)"
+msgstr ""
+
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:204
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:213
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:222
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:231
 msgid ""
 "Fixed issue where files with a . in their path couldn't be resized (Thanks "
 "inhji)"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:213
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:205
 msgid "Release for Loki"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:222
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:214
 msgid "More appdata file fixes"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:231
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:223
 msgid "Appdata file fixes"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:246
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:238
 msgid "Improved icon thanks to TraumaD"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:247
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:239
 msgid "Clarified that it resizes within size using labels"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:254
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:246
 msgid "Progress indication"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:255
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:247
 msgid "Proper error messages"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:256
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:248
 msgid "Switched to GPL-3.0"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:262
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:254
 msgid "Initial release"
 msgstr ""
 
-#: data/io.github.peteruithoven.resizer.metainfo.xml.in:267
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:259
 msgid "Peter Uithoven"
 msgstr ""

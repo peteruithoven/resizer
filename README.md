@@ -1,11 +1,5 @@
 # Resizer
 
-<p align="center">
-    <a href="https://appcenter.elementary.io/com.github.peteruithoven.resizer">
-        <img src="https://appcenter.elementary.io/badge.svg" alt="Get it on AppCenter">
-    </a>
-</p>
-
 Quickly resize images.
 Features:
 
@@ -14,9 +8,9 @@ Features:
 - Keyboard control: Change the sizes using the up and down keys, press enter to resize.
 - Settings are stored for next time.
 
-![Screenshot resize image](data/screenshots/screenshot-8-dark-image.png)
-![Screenshot empty](data/screenshots/screenshot-8-dark-empty.png)
-![Screenshot resize multiple images](data/screenshots/screenshot-8-dark-images.png)
+![Screenshot resize image](data/screenshots/screenshot-dark-image.png)
+![Screenshot empty](data/screenshots/screenshot-dark-empty.png)
+![Screenshot resize multiple images](data/screenshots/screenshot-dark-images.png)
 
 ## Building, Testing, and Installation
 
@@ -40,11 +34,14 @@ To install, use `ninja install`, then execute with `io.github.peteruithoven.resi
 
 ### Running without installing
 
-To try out changes without `sudo ninja install`, `scripts/run.sh` builds the app into
-`_build/meson-native` and runs it straight from there:
+To try out changes without installing anything, `scripts/run.sh` builds the app inside the
+same GNOME runtime the Flatpak uses (so it looks like what Flathub users get) and runs it
+straight from `_build/`. It needs `flatpak` and the GNOME SDK:
 
+    flatpak install --user flathub org.gnome.Sdk//51 org.gnome.Platform//51
     ./scripts/run.sh
-    ./scripts/run.sh photo.png   # opens a file directly, skipping drag-and-drop
+    ./scripts/run.sh ~/Pictures/photo.png   # opens a file directly, skipping drag-and-drop
+    ./scripts/run.sh --gnome-defaults       # GNOME's default look instead of your desktop's
 
 Handy when working in a git worktree, since each one gets its own isolated build.
 
@@ -67,7 +64,7 @@ There are two separate translation domains, each with its own `.pot` template,
 `LINGUAS` (list of languages), and `POTFILES` (list of source files to scan):
 
 - `po/` — UI strings, extracted from the `.vala` files listed in `po/POTFILES`.
-- `po/extra/` — the app name/description/changelog shown in AppCenter, extracted
+- `po/extra/` — the app name/description/changelog shown in app stores, extracted
   from `data/*.desktop.in` and `data/*.metainfo.xml.in`.
 
 After changing a translatable string (or adding a new `.vala` file that uses
@@ -94,7 +91,7 @@ untranslated count to the build summary (backed by `msgfmt --statistics`).
 ### Adding a new language
 
 1. Add the language code to `po/LINGUAS` and, if the app name/description
-   should be translated in AppCenter too, `po/extra/LINGUAS`.
+   should be translated in app stores too, `po/extra/LINGUAS`.
 2. Generate the `.po` file(s) from the template:
 
        msginit --locale=<code> -i po/io.github.peteruithoven.resizer.pot -o po/<code>.po
