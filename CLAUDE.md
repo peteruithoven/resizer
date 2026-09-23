@@ -6,7 +6,7 @@ Notes for working on this repo that aren't obvious from the code alone.
 
 ```
 flatpak install --user flathub org.flatpak.Builder   # once
-flatpak install --user appcenter io.elementary.Sdk//8 io.elementary.Platform//8
+flatpak install --user appcenter io.elementary.Sdk//8.2 io.elementary.Platform//8.2
 flatpak run --filesystem=host org.flatpak.Builder --force-clean \
   <project-dir>/_build/build com.github.peteruithoven.resizer.yml
 ```
