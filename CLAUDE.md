@@ -146,8 +146,9 @@ valalang/lint:latest io.elementary.vala-lint -d src`. The script falls back to D
   comparison, e.g. of colors or the real theme's widget metrics).
 - `smoke-test.sh` deliberately points `DBUS_SESSION_BUS_ADDRESS` and
   `DBUS_SYSTEM_BUS_ADDRESS` at `unix:path=/dev/null`, so every D-Bus call the
-  app makes at startup (GSettings, Granite's dark-mode/portal lookup, AT-SPI)
-  fails instantly instead of triggering bus discovery or service activation.
+  app makes at startup (GSettings, libadwaita's dark-mode/appearance-portal
+  lookup, AT-SPI) fails instantly instead of triggering bus discovery or
+  service activation.
   **Don't remove this or "fix" it with a real bus** (e.g. `dbus-run-session`):
   that was tried first and made things worse, since a fresh session bus makes
   `xdg-desktop-portal` cold-activate its backends on demand, and one backend
@@ -160,7 +161,7 @@ valalang/lint:latest io.elementary.vala-lint -d src`. The script falls back to D
   (if needed) and runs straight out of `_build/meson-native`, no
   `ninja install`, same D-Bus-blackholed isolation as `smoke-test.sh` (so
   concurrent worktrees/sessions can't collide via the single-instance
-  GApplication id). Since that also blocks the appearance portal Granite
+  GApplication id). Since that also blocks the appearance portal libadwaita
   would use for dark-mode detection, it separately reads the real
   `gtk-theme`/`color-scheme` via `gsettings` (run unsandboxed, so it's
   instant) and passes it through `$GTK_THEME`, which GTK reads directly with

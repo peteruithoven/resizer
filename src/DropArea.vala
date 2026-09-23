@@ -33,11 +33,7 @@ namespace Resizer {
         construct {
             image = new Gtk.Picture ();
             image.content_fit = Gtk.ContentFit.CONTAIN;
-#if GRANITE_HAS_CSS_CLASS
-            image.add_css_class (Granite.CssClass.CARD);
-#else
-            image.add_css_class (Granite.STYLE_CLASS_CARD);
-#endif
+            image.add_css_class ("card");
             image.hexpand = true;
             image.vexpand = true;
             image.halign = Gtk.Align.FILL;
@@ -48,11 +44,7 @@ namespace Resizer {
 
             image2 = new Gtk.Picture ();
             image2.content_fit = Gtk.ContentFit.CONTAIN;
-#if GRANITE_HAS_CSS_CLASS
-            image2.add_css_class (Granite.CssClass.CARD);
-#else
-            image2.add_css_class (Granite.STYLE_CLASS_CARD);
-#endif
+            image2.add_css_class ("card");
             image2.hexpand = true;
             image2.vexpand = true;
             image2.halign = Gtk.Align.FILL;
@@ -68,21 +60,29 @@ namespace Resizer {
             image2.margin_end = 0;
             image2.visible = false;
 
-            var placeholder = new Granite.Placeholder (_("Drop image(s) here"));
-            placeholder.description = _("or select image(s) using the button below");
+            // Plain labels rather than Adw.StatusPage, whose large centered
+            // title would change the placeholder's established look.
+            var title = new Gtk.Label (_("Drop image(s) here"));
+            title.wrap = true;
+            title.xalign = 0;
+
+            var description = new Gtk.Label (_("or select image(s) using the button below"));
+            description.wrap = true;
+            description.xalign = 0;
 
             select_button = new Gtk.Button.with_label (_("Select image(s)"));
             select_button.add_css_class ("suggested-action");
             select_button.halign = Gtk.Align.CENTER;
+            select_button.margin_top = 12;
             select_button.clicked.connect (() => open_files_using_file_chooser.begin ());
 
             var placeholder_grid = new Gtk.Grid ();
             placeholder_grid.orientation = Gtk.Orientation.VERTICAL;
-            placeholder_grid.row_spacing = 12;
             placeholder_grid.valign = Gtk.Align.CENTER;
             placeholder_grid.halign = Gtk.Align.CENTER;
-            placeholder_grid.attach (placeholder, 0, 0, 1, 1);
-            placeholder_grid.attach (select_button, 0, 1, 1, 1);
+            placeholder_grid.attach (title, 0, 0, 1, 1);
+            placeholder_grid.attach (description, 0, 1, 1, 1);
+            placeholder_grid.attach (select_button, 0, 2, 1, 1);
 
             // Gtk.Widget.width_request only raises the *minimum* size, it can't
             // cap the title/description's natural (unwrapped) width - use
