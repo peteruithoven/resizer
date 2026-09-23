@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Runs the same checks as CI: Vala style, meson.build formatting, .po syntax,
-# and the .desktop/appdata/gschema/icon files under data/.
+# and the .desktop/metainfo/gschema/icon files under data/.
 set -uo pipefail
 cd "$(dirname "$0")/.."
 
@@ -32,7 +32,7 @@ echo
 echo "==> .desktop syntax"
 if command -v desktop-file-validate >/dev/null 2>&1; then
     tmp_desktop=$(mktemp --suffix=.desktop)
-    cp data/com.github.peteruithoven.resizer.desktop.in "$tmp_desktop"
+    cp data/io.github.peteruithoven.resizer.desktop.in "$tmp_desktop"
     desktop-file-validate "$tmp_desktop" || status=1
     rm -f "$tmp_desktop"
 else
@@ -41,7 +41,7 @@ else
 fi
 
 echo
-echo "==> XML well-formedness (appdata, gschema, icons)"
+echo "==> XML well-formedness (metainfo, gschema, icons)"
 if command -v xmllint >/dev/null 2>&1; then
     xmllint --noout data/*.xml.in data/*.xml data/icons/*.svg || status=1
 else
@@ -50,9 +50,9 @@ else
 fi
 
 echo
-echo "==> AppStream metadata (appdata.xml.in)"
+echo "==> AppStream metadata (metainfo.xml.in)"
 if command -v appstreamcli >/dev/null 2>&1; then
-    appstream_out=$(appstreamcli validate data/com.github.peteruithoven.resizer.appdata.xml.in 2>&1)
+    appstream_out=$(appstreamcli validate data/io.github.peteruithoven.resizer.metainfo.xml.in 2>&1)
     appstream_status=$?
     echo "$appstream_out"
     if [ $appstream_status -ne 0 ]; then

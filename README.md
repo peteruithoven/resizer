@@ -32,10 +32,10 @@ Run `meson` to configure the build environment and then `ninja` to build
     cd build
     ninja
 
-To install, use `ninja install`, then execute with `com.github.peteruithoven.resizer`
+To install, use `ninja install`, then execute with `io.github.peteruithoven.resizer`
 
     sudo ninja install
-    com.github.peteruithoven.resizer
+    io.github.peteruithoven.resizer
 
 ### Running without installing
 
@@ -67,20 +67,20 @@ There are two separate translation domains, each with its own `.pot` template,
 
 - `po/` — UI strings, extracted from the `.vala` files listed in `po/POTFILES`.
 - `po/extra/` — the app name/description/changelog shown in AppCenter, extracted
-  from `data/*.desktop.in` and `data/*.appdata.xml.in`.
+  from `data/*.desktop.in` and `data/*.metainfo.xml.in`.
 
 After changing a translatable string (or adding a new `.vala` file that uses
 `_()`/`ngettext()` — remember to add it to `po/POTFILES` first, otherwise its
 strings are silently never extracted), regenerate the templates:
 
     meson setup build
-    ninja -C build com.github.peteruithoven.resizer-pot extra-pot
+    ninja -C build io.github.peteruithoven.resizer-pot extra-pot
 
 then update the existing `.po` files against the new template (this preserves
 existing translations, using fuzzy-matching to flag ones that need a translator
 to double check them):
 
-    ninja -C build com.github.peteruithoven.resizer-update-po extra-update-po
+    ninja -C build io.github.peteruithoven.resizer-update-po extra-update-po
 
 CI's `translations` job re-runs the `-pot` targets and fails the check (or, on
 a direct push to `main`, auto-commits the regenerated templates) if that would
@@ -96,7 +96,7 @@ untranslated count to the build summary (backed by `msgfmt --statistics`).
    should be translated in AppCenter too, `po/extra/LINGUAS`.
 2. Generate the `.po` file(s) from the template:
 
-       msginit --locale=<code> -i po/com.github.peteruithoven.resizer.pot -o po/<code>.po
+       msginit --locale=<code> -i po/io.github.peteruithoven.resizer.pot -o po/<code>.po
        msginit --locale=<code> -i po/extra/extra.pot -o po/extra/<code>.po
 
 3. Translate the `msgstr` entries. **Leave `msgid "Resizer"` translated as

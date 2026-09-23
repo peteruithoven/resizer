@@ -8,7 +8,7 @@ Notes for working on this repo that aren't obvious from the code alone.
 flatpak install --user flathub org.flatpak.Builder   # once
 flatpak install --user appcenter io.elementary.Sdk//8.2 io.elementary.Platform//8.2
 flatpak run --filesystem=host org.flatpak.Builder --force-clean \
-  <project-dir>/_build/build com.github.peteruithoven.resizer.yml
+  <project-dir>/_build/build io.github.peteruithoven.resizer.yml
 ```
 
 - Build dir must be **inside the project directory**, not `/tmp` — cross-filesystem
@@ -41,7 +41,7 @@ property named "max-width"` warning and, worse, seems to break that node's
 
 `./scripts/lint.sh` runs the same checks as CI: Vala style (`io.elementary.vala-lint`),
 `meson.build` formatting (`meson format`), `.po` syntax (`msgfmt --check`), `.desktop.in`
-syntax (`desktop-file-validate`), XML well-formedness of `appdata.xml.in`/`gschema.xml`/icons
+syntax (`desktop-file-validate`), XML well-formedness of `metainfo.xml.in`/`gschema.xml`/icons
 (`xmllint --noout`), and AppStream metadata (`appstreamcli validate`).
 
 - `io.elementary.vala-lint` isn't in Ubuntu's default apt repos; install it with
@@ -55,7 +55,7 @@ valalang/lint:latest io.elementary.vala-lint -d src`. The script falls back to D
   `add(new Gtk.Label (""))` into `add( new Gtk.Label (""))` instead of `add (new ...)`) —
   always review its diff before trusting it.
 - `desktop-file-validate` rejects files by extension, so the script/CI copy
-  `com.github.peteruithoven.resizer.desktop.in` to a temp `*.desktop` file before checking it.
+  `io.github.peteruithoven.resizer.desktop.in` to a temp `*.desktop` file before checking it.
 - Ubuntu 24.04's `appstream` apt package ships `appstreamcli` 1.0.2, which predates
   AppStream's addition of the `pantheon:dark` screenshot `environment` id (added to
   upstream's `desktop-style-ids.txt` in Sept 2024) and refuses to let the resulting

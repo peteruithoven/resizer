@@ -46,8 +46,8 @@ export GDK_BACKEND=x11
 # use in CI) and costs nothing since a smoke test doesn't need accessibility.
 export NO_AT_BRIDGE=1
 
-if ! command -v com.github.peteruithoven.resizer >/dev/null 2>&1; then
-    echo "com.github.peteruithoven.resizer not found on PATH. Install it first (e.g. 'sudo ninja -C build install')." >&2
+if ! command -v io.github.peteruithoven.resizer >/dev/null 2>&1; then
+    echo "io.github.peteruithoven.resizer not found on PATH. Install it first (e.g. 'sudo ninja -C build install')." >&2
     exit 1
 fi
 
@@ -65,7 +65,7 @@ test_image="$work_dir/smoke-test.png"
 convert -size 2000x1500 xc:"#87ceeb" "$test_image"
 
 # HANDLES_OPEN: passing a file path opens it directly, skipping drag-and-drop.
-com.github.peteruithoven.resizer "$test_image" &
+io.github.peteruithoven.resizer "$test_image" &
 app_pid=$!
 
 window_id=""

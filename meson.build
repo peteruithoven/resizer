@@ -1,5 +1,5 @@
 project(
-    'com.github.peteruithoven.resizer',
+    'io.github.peteruithoven.resizer',
     ['vala', 'c'],
     meson_version: '>= 0.59.0',
     version: '3.0.0',

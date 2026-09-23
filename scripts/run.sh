@@ -37,7 +37,7 @@ echo "==> Building"
 ninja -C "$build_dir"
 
 mkdir -p "$schema_dir"
-cp data/com.github.peteruithoven.resizer.gschema.xml "$schema_dir/"
+cp data/io.github.peteruithoven.resizer.gschema.xml "$schema_dir/"
 glib-compile-schemas "$schema_dir"
 
 gtk_theme="$(gsettings get org.gnome.desktop.interface gtk-theme 2>/dev/null | tr -d "'" || true)"
@@ -56,4 +56,4 @@ if [ -n "$gtk_theme" ]; then
 fi
 
 echo "==> Running"
-exec env "${env_vars[@]}" "$build_dir/com.github.peteruithoven.resizer" "$@"
+exec env "${env_vars[@]}" "$build_dir/io.github.peteruithoven.resizer" "$@"

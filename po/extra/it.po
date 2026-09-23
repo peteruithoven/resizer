@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-21 04:57+0200\n"
+"POT-Creation-Date: 2026-09-23 23:02+0200\n"
 "PO-Revision-Date: 2021-10-03 00:39+0200\n"
 "Last-Translator: Saverio Morelli <saverio.morelli@outlook.it>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
@@ -19,48 +19,48 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 21.08.1\n"
 
-#: data/com.github.peteruithoven.resizer.desktop.in:3
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:7
+#: data/io.github.peteruithoven.resizer.desktop.in:3
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:7
 msgid "Resizer"
 msgstr "Resizer"
 
-#: data/com.github.peteruithoven.resizer.desktop.in:4
+#: data/io.github.peteruithoven.resizer.desktop.in:4
 msgid "Resizer App"
 msgstr "App Resizer"
 
-#: data/com.github.peteruithoven.resizer.desktop.in:5
+#: data/io.github.peteruithoven.resizer.desktop.in:5
 msgid "Image resizer"
 msgstr "Ridimensionatore di immagini"
 
-#: data/com.github.peteruithoven.resizer.desktop.in:12
+#: data/io.github.peteruithoven.resizer.desktop.in:11
 msgid "Image;resize;"
 msgstr "Ridimensiona immagine"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:8
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:8
 #, fuzzy
 msgid "Quickly resize images"
 msgstr "Ridimensione immagini in maniera veloce direttamente dal context menu"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:10
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:10
 msgid ""
 "Resizer is a simple, native elementary OS app for resizing one or more "
 "images at once. It always maintains the aspect ratio and never upscales "
 "images."
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:13
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:13
 msgid "Features:"
 msgstr "Funzionalità:"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:17
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:17
 msgid "Open images with Resizer or open Resizer and Drag and drop images"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:18
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:18
 msgid "Maintains aspect ratio."
 msgstr "Mantieni il rapporto (aspect ration)."
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:19
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:19
 msgid ""
 "Keyboard control: Change the sizes using the up and down keys, press enter "
 "to resize."
@@ -68,187 +68,187 @@ msgstr ""
 "Controlla da tastiera: modifica le dimensioni utilizzando i pulsanti Up e "
 "Down, premi Enter per ridimensionare."
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:20
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:20
 msgid "Settings are stored for next time."
 msgstr "Le impostazioni vengono salvate per la prossima volta."
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:22
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:22
 msgid "It supports the following image formats:"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:25
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:25
 msgid "JPEG"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:26
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:26
 msgid "PNG"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:27
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:27
 msgid "BMP"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:28
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:28
 msgid "TIFF"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:56
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:59
 msgid "Rebuilt for elementary OS 8 with GTK4 and Adwaita"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:57
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:60
 msgid "Smaller download — no longer uses a legacy runtime"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:58
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:61
 msgid "Ignores unsupported files"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:65
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:68
 msgid "Auto focus relevant buttons"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:66
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:69
 msgid "Image files filter in file chooser (Thanks @adithyankv)"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:67
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:70
 msgid "Small text improvements"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:74
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:77
 msgid "Selecting images through file chooser (Thanks @Adithyan-KV)"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:81
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:84
 msgid ""
 "Fixed disappearing label when dragging in an invalid filetype (Thanks "
 "@Adithyan-KV)"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:82
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:85
 #, fuzzy
 msgid "Italian translation (Thanks @Sav22999)"
 msgstr "Traduzione in lituano (grazie welag)"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:83
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:86
 #, fuzzy
 msgid "Czech translation (Thanks @PapuleX)"
 msgstr "Aggiunta la traduzione in francese (grazie @NathanBnm)"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:90
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:93
 msgid "Dark mode (Thanks @Adithyan-KV)"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:97
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:100
 msgid "Fixed stretched infobutton highlight (Thanks @Adithyan-KV)"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:104
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:107
 msgid "Fixed features typo (Thanks @Adithyan-KV)"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:111
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:114
 msgid "Improved contrast AppCenter color"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:118
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:121
 msgid "Updated screenshots"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:125
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:128
 #, fuzzy
 msgid "Appdata release notes"
 msgstr "Risolti file appdata"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:126
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:129
 msgid "Maintain old screenshot for juno"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:127
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:130
 msgid "Setup Continuous Integration"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:134
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:137
 #, fuzzy
 msgid "First Flatpak release"
 msgstr "Release iniziale"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:135
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:138
 msgid "Check availability convert app"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:136
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:139
 msgid "Make it available in Open With menu for image files"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:143
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:146
 msgid "Portuguese translation (thanks @rottenpants466!)"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:144
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:147
 msgid "File rename fix for filenames with multiple dots"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:151
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:154
 msgid "French translation"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:152
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:155
 msgid "Ukrainian translation"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:153
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:156
 msgid "Polish translation"
 msgstr ""
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:160
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:168
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:163
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:171
 msgid "Never upscale images"
 msgstr "Non migliorare mai le immagini"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:161
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:169
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:164
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:172
 msgid "Added info box"
 msgstr "Aggiungi una sezione informazioni"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:176
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:179
 msgid "Improved Lithuanian translation (Thanks @welaq)"
 msgstr "Migliorata la traduzione in lituano (grazie @welag)"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:177
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:180
 msgid "Added French translation (Thanks @NathanBnm)"
 msgstr "Aggiunta la traduzione in francese (grazie @NathanBnm)"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:178
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:181
 msgid "Added more app categories"
 msgstr "Aggiunte più categorie per app"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:185
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:194
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:188
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:197
 msgid "Improved page transition"
 msgstr "Migliorata la transizione della pagina"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:186
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:195
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:189
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:198
 msgid "Added clearer finished state"
 msgstr "Aggiunto stato finito più chiaro"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:187
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:190
 msgid "Republishing for Juno"
 msgstr "Ripubblica per Juno"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:202
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:211
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:220
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:229
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:205
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:214
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:223
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:232
 msgid "Lithuanian translation (Thanks welaq)"
 msgstr "Traduzione in lituano (grazie welag)"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:203
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:212
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:221
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:230
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:206
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:215
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:224
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:233
 msgid ""
 "Fixed issue where files with a . in their path couldn't be resized (Thanks "
 "inhji)"
@@ -256,45 +256,45 @@ msgstr ""
 "Risolto un problema dove i file con un . nel proprio percorso non potevano "
 "essere ridimensionati (grazie inhji)"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:204
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:207
 msgid "Release for Loki"
 msgstr "Rilasciata per Loki"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:213
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:216
 msgid "More appdata file fixes"
 msgstr "Risolti diversi file appdata"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:222
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:225
 msgid "Appdata file fixes"
 msgstr "Risolti file appdata"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:237
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:240
 msgid "Improved icon thanks to TraumaD"
 msgstr "Migliorata l'icona, grazie a TraumaD"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:238
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:241
 msgid "Clarified that it resizes within size using labels"
 msgstr ""
 "Chiarito che il ridimensionato è all'interno utilizzando le etichette delle "
 "dimensioni"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:245
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:248
 msgid "Progress indication"
 msgstr "Indicatore di progresso"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:246
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:249
 msgid "Proper error messages"
 msgstr "Messaggio di errore per proprietà"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:247
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:250
 msgid "Switched to GPL-3.0"
 msgstr "Passa a GPL-3.0"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:253
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:256
 msgid "Initial release"
 msgstr "Release iniziale"
 
-#: data/com.github.peteruithoven.resizer.appdata.xml.in:258
+#: data/io.github.peteruithoven.resizer.metainfo.xml.in:261
 msgid "Peter Uithoven"
 msgstr "Peter Uithoven"
 
