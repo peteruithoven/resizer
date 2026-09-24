@@ -128,24 +128,9 @@ jobs:
     - name: Check XML well-formedness
       run: xmllint --noout data/*.xml.in data/*.xml data/icons/*.svg
     - name: Validate AppStream metadata
-      run: |
-        set +e
-        out=$(appstreamcli validate data/io.github.peteruithoven.resizer.metainfo.xml.in 2>&1)
-        status=$?
-        set -e
-        echo "$out"
-        if [ $status -ne 0 ]; then
-          # Ubuntu's appstreamcli 1.0.2 predates AppStream's addition of the
-          # "pantheon:dark" environment id (added to desktop-style-ids.txt in
-          # Sept 2024) and refuses to let screenshot-invalid-env-style be
-          # downgraded below "warning" - so it fails on a tag that's valid
-          # per the current AppStream spec. Tolerate only that known tag.
-          unexpected=$(echo "$out" | grep -E '^[EW]: ' | grep -v 'screenshot-invalid-env-style' || true)
-          if [ -n "$unexpected" ]; then
-            exit $status
-          fi
-          echo "(ignoring screenshot-invalid-env-style: known appstreamcli 1.0.2 false positive for pantheon:dark)"
-        fi
+      # --no-net: the screenshot URLs point at main, so a PR that adds or
+      # renames a screenshot would otherwise fail until it's merged.
+      run: appstreamcli validate --no-net data/io.github.peteruithoven.resizer.metainfo.xml.in
 
   smoke-test:
     name: Smoke Test
@@ -165,33 +150,19 @@ jobs:
     - name: Run smoke test
       run: xvfb-run -a ./scripts/smoke-test.sh
 
-  # This workflow contains a single job called "flatpak"
   flatpak:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # This job runs in a special container designed for building Flatpaks for AppCenter
+    # Flathub's builder image, with the GNOME runtime and SDK preinstalled.
     container:
-      image: ghcr.io/elementary/flatpak-platform/runtime:8.2
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-51
       options: --privileged
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so the job can access it
     - uses: actions/checkout@v5
-
-      # Builds your flatpak manifest using the Flatpak Builder action
     - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
       with:
-        # This is the name of the Bundle file we're building and can be anything you like
-        bundle: MyApp.flatpak
-        # This uses your app's RDNN ID
+        bundle: io.github.peteruithoven.resizer.flatpak
         manifest-path: io.github.peteruithoven.resizer.yml
-
-        # You can automatically run any of the tests you've created as part of this workflow
+        # Runs `meson test` in the sandbox, together with the manifest's
+        # `run-tests: true` (see CLAUDE.md).
         run-tests: true
-
-        # These lines specify the location of the elementary Runtime and Sdk
-        repository-name: appcenter
-        repository-url: https://flatpak.elementary.io/repo.flatpakrepo
         cache-key: "flatpak-builder-${{ github.sha }}"

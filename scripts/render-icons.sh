@@ -16,16 +16,16 @@ sizes=(16 24 32 48 64)
 
 if command -v rsvg-convert >/dev/null 2>&1; then
     rsvg() { rsvg-convert "$@"; }
-elif flatpak info io.elementary.Sdk//8.2 >/dev/null 2>&1; then
-    echo "rsvg-convert not installed, falling back to the io.elementary.Sdk flatpak"
+elif flatpak info org.gnome.Sdk//51 >/dev/null 2>&1; then
+    echo "rsvg-convert not installed, falling back to the org.gnome.Sdk flatpak"
     # Reads the SVG via stdin and writes the PNG via stdout: the sandbox has
     # its own /tmp and can't see arbitrary host paths.
     rsvg() {
-        flatpak run --command=rsvg-convert io.elementary.Sdk//8.2 "$@" 2>/dev/null
+        flatpak run --command=rsvg-convert org.gnome.Sdk//51 "$@" 2>/dev/null
     }
 else
     echo "rsvg-convert not found: install with 'sudo apt-get install librsvg2-bin'," \
-        "or 'flatpak install --user appcenter io.elementary.Sdk//8.2'" >&2
+        "or 'flatpak install --user flathub org.gnome.Sdk//51'" >&2
     exit 1
 fi
 

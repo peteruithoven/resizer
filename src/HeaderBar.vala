@@ -23,8 +23,7 @@ namespace Resizer {
     public class HeaderBar {
         public static Adw.HeaderBar create () {
             var header = new Adw.HeaderBar ();
-            // Compact header bar padding, styled by both the elementary
-            // stylesheet and libadwaita.
+            // Compact header bar padding.
             header.add_css_class ("default-decoration");
 
             var info_text = new Gtk.Label (

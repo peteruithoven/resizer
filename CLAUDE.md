@@ -6,15 +6,41 @@ Notes for working on this repo that aren't obvious from the code alone.
 
 ```
 flatpak install --user flathub org.flatpak.Builder   # once
-flatpak install --user appcenter io.elementary.Sdk//8.2 io.elementary.Platform//8.2
+flatpak install --user flathub org.gnome.Sdk//51 org.gnome.Platform//51
 flatpak run --filesystem=host org.flatpak.Builder --force-clean \
   <project-dir>/_build/build io.github.peteruithoven.resizer.yml
+# Flathub's linter (same checks as the Flathub submission):
+flatpak run --filesystem=host --command=flatpak-builder-lint org.flatpak.Builder \
+  manifest io.github.peteruithoven.resizer.yml
+flatpak run --filesystem=host --command=flatpak-builder-lint org.flatpak.Builder \
+  builddir <project-dir>/_build/build
 ```
 
 - Build dir must be **inside the project directory**, not `/tmp` — cross-filesystem
   builds fail with `Invalid cross-device link`.
 - `--stop-at=MODULE` stops _before_ that module. To actually build module X, pass
   the module that comes _after_ X in the manifest.
+- The Flatpak uses the GNOME runtime from Flathub (Flathub requires a
+  Flathub-hosted runtime, at the latest version when submitting), so it
+  renders with stock libadwaita (Adwaita) everywhere, including on elementary
+  OS - no elementary stylesheet, no Granite. It does still pick up the
+  desktop's appearance through the settings portal (dark style, accent
+  color, font, window buttons), and host icon themes (Flatpak exposes them),
+  so on elementary OS it gets elementary's accent color, Inter, and
+  elementary's symbolic icons.
+- `flatpak-builder-lint` errors that are expected for now:
+  `finish-args-home-filesystem-access` (to be justified in the submission:
+  the resized image is written next to the original) and
+  `appstream-external-screenshot-url` (Flathub's own build mirrors them);
+  `lint repo` additionally reports `appstream-screenshots-not-mirrored-in-ostree`
+  for the same reason. A screenshot URL that doesn't exist on `main` yet
+  (e.g. in a PR adding it) shows up as `appstream-missing-screenshots`
+  instead.
+- The runtime's image loading goes through glycin, which decodes each image
+  in a separate sandbox spawned via the Flatpak portal
+  (`flatpak-spawn --sandbox`) on the session bus. So the app can't open any
+  image in a sandbox without a session bus (you get a "Loader process exited
+  early" error toast) - relevant for `scripts/run.sh`, see "GUI testing".
 
 ## Source quirks
 
@@ -62,14 +88,17 @@ valalang/lint:latest io.elementary.vala-lint -d src`. The script falls back to D
   always review its diff before trusting it.
 - `desktop-file-validate` rejects files by extension, so the script/CI copy
   `io.github.peteruithoven.resizer.desktop.in` to a temp `*.desktop` file before checking it.
-- Ubuntu 24.04's `appstream` apt package ships `appstreamcli` 1.0.2, which predates
-  AppStream's addition of the `pantheon:dark` screenshot `environment` id (added to
-  upstream's `desktop-style-ids.txt` in Sept 2024) and refuses to let the resulting
-  `screenshot-invalid-env-style` warning be downgraded via `--override` — it's a false
-  positive on an id that's valid per the current spec (and what AppCenter itself uses
-  for dark-mode screenshots, e.g. `elementary/music`'s `metainfo.xml.in`). The script/CI
-  wrap the `appstreamcli validate` call to tolerate only that specific known tag and still
-  fail on anything else, rather than passing `--override` (blocked) or skipping validation.
+- Released metainfo files point their screenshots at `main` (raw GitHub
+  URLs), so don't delete or rename screenshots a released version still
+  references: AppCenter still serves 2.3.0, which uses the `screenshot*.png`
+  files in the repo root.
+- The metainfo leaves out the `empty` screenshots on purpose: Flathub's
+  guidelines say screenshots shouldn't show empty states.
+  `scripts/screenshots.py` still captures them for testing.
+- `appstreamcli validate` runs with `--no-net`: the metainfo's screenshot
+  URLs point at `main`, so without it a PR that adds or renames a
+  screenshot fails until it's merged. Flathub's build fetches (and mirrors)
+  them anyway, which catches a broken URL.
 
 ## Automated tests
 
@@ -123,6 +152,16 @@ valalang/lint:latest io.elementary.vala-lint -d src`. The script falls back to D
 
 - Desktop session is Wayland-native (pantheon-wayland). `xdotool`/`import` only see
   the window if the app is launched with `GDK_BACKEND=x11` (forces XWayland).
+  Don't do that for the Flatpak/`scripts/run.sh`, though: under X11, GTK also
+  reads `gsd-xsettings`' XSETTINGS (host font etc.), so it no longer shows
+  what users see. Drive it via AT-SPI instead (button actions, progress
+  value), and capture it with gala's `org.gnome.Shell.Screenshot.ScreenshotWindow`.
+- `ScreenshotWindow` captures whichever window is **focused**, not a given
+  one, and there's no way to focus a Wayland window from a script. A newly
+  opened window normally gets focus, but if someone's using the desktop (or
+  a portal dialog is up) it silently captures some other app's window
+  instead. Check the app's AT-SPI frame has the `ACTIVE` state before and
+  after capturing (`scripts/screenshots.py` does).
 - Synthetic keyboard input (`xdotool key`/`type`) does not reach the app in that
   XWayland session — mouse clicks work, keyboard doesn't. Don't rely on keyboard
   shortcuts (e.g. Enter-to-resize) for local interactive testing; real Xvfb (no
@@ -144,12 +183,12 @@ valalang/lint:latest io.elementary.vala-lint -d src`. The script falls back to D
 - Xvfb (`xvfb-run`) is available on this machine, so `smoke-test.sh` can be
   run locally the same way CI does; use the live desktop session
   (`DISPLAY=:0`) for interactive GUI testing instead.
-- For visual/screenshot testing on `DISPLAY=:0`, launch via `scripts/run.sh`
-  (or otherwise replicate its `$GTK_THEME` handling), not the raw binary
-  directly. Without it GTK falls back to plain GNOME Adwaita instead of the
-  actual elementary OS theme, which looks close enough to pass a quick glance
-  but isn't what users actually see (undermines any screenshot-based
-  comparison, e.g. of colors or the real theme's widget metrics).
+- For visual/screenshot testing, launch via `scripts/run.sh`, not a native
+  build (`meson setup`/`ninja` on the host). A native build links the
+  host's own GTK/libadwaita (on elementary OS 8: libadwaita 1.5), while the
+  Flatpak gets the GNOME runtime's (GNOME 51: GTK 4.24, libadwaita 1.10) -
+  different widget metrics, colors and icons. `run.sh` compiles and runs the
+  app inside that runtime (see below).
 - `smoke-test.sh` deliberately points `DBUS_SESSION_BUS_ADDRESS` and
   `DBUS_SYSTEM_BUS_ADDRESS` at `unix:path=/dev/null`, so every D-Bus call the
   app makes at startup (GSettings, libadwaita's dark-mode/appearance-portal
@@ -163,17 +202,33 @@ valalang/lint:latest io.elementary.vala-lint -d src`. The script falls back to D
   appeared", only the 20x20 helper window present) — some activation attempt
   was blocking startup entirely. With the addresses blackholed, it's a
   consistent ~1.2s.
-- `scripts/run.sh` is the equivalent for interactive manual testing: builds
-  (if needed) and runs straight out of `_build/meson-native`, no
-  `ninja install`, same D-Bus-blackholed isolation as `smoke-test.sh` (so
-  concurrent worktrees/sessions can't collide via the single-instance
-  GApplication id). Since that also blocks the appearance portal libadwaita
-  would use for dark-mode detection, it separately reads the real
-  `gtk-theme`/`color-scheme` via `gsettings` (run unsandboxed, so it's
-  instant) and passes it through `$GTK_THEME`, which GTK reads directly with
-  no D-Bus round trip — confirmed via `dbus-run-session` that a real bus
-  gets dark mode right too, but cost ~30s to first window on this machine,
-  so it's not worth it just for that.
+- `scripts/run.sh` is for interactive manual testing: builds the app
+  incrementally inside the Flatpak's SDK (`flatpak build-init` +
+  `flatpak build ... ninja`, into `_build/flatpak-dev` and
+  `_build/meson-flatpak`) and runs it from there with the manifest's
+  permissions, no install. Unlike `smoke-test.sh` it can't blackhole D-Bus:
+  glycin needs the Flatpak portal (see "Flatpak builds"), so it uses the
+  real session bus through Flatpak's filtered proxy, same as `flatpak run`.
+  That brings back the single-instance GApplication collision (with the
+  installed Flatpak or another worktree's `run.sh`), so the script refuses
+  to start while the app id already has an owner on the bus.
+  - Default: looks like the Flatpak on _this_ desktop (desktop's
+    dark/accent/font/window buttons via the settings portal, desktop's
+    portal file chooser).
+  - `--gnome-defaults`: GNOME's defaults, as Flathub's screenshot
+    guidelines require - `GDK_DEBUG=no-portals` + `ADW_DISABLE_PORTAL=1`
+    make GTK/libadwaita skip the settings portal and fall back to
+    GSettings, which `GSETTINGS_BACKEND=memory` pins to the runtime's schema
+    defaults (Adwaita Sans 11, blue accent). GTK's fallback doesn't read the
+    window button layout from GSettings (it shows minimize+close), so a
+    `settings.ini` sets GNOME's `appmenu:close`. Light/dark comes from
+    `COLOR_SCHEME` via `ADW_DEBUG_COLOR_SCHEME`. glycin still works, since it
+    uses the Flatpak portal directly, not GTK's portal code.
+  - `flatpak build` doesn't proxy the a11y bus the way `flatpak run` does,
+    so the script hands in the host's AT-SPI bus socket itself.
+  - Files passed on the command line must be under `$HOME` (only
+    `--filesystem=home` is exposed), same as the real Flatpak -
+    `screenshots.py` writes its generated images to `_build/` for this.
 - `smoke-test.sh` retries the pixel sample (up to ~10s) instead of a single
   fixed sleep-then-sample: on GTK4, a CI run once failed with the sampled
   pixel reading pure black even though the window had already appeared —

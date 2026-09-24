@@ -33,28 +33,20 @@
     <id>com.github.peteruithoven.resizer</id>
   </replaces>
   <screenshots>
-    <screenshot type="default" environment="pantheon">
-      <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-8-light-image.png</image>
+    <screenshot type="default" environment="gnome">
+      <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-light-image.png</image>
       <caption>Resize an image to fit within a maximum width and height</caption>
     </screenshot>
-    <screenshot environment="pantheon:dark">
-      <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-8-dark-image.png</image>
+    <screenshot environment="gnome:dark">
+      <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-dark-image.png</image>
       <caption>Resize an image to fit within a maximum width and height</caption>
     </screenshot>
-    <screenshot environment="pantheon">
-      <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-8-light-empty.png</image>
-      <caption>Drop images onto the window or select them with the file chooser</caption>
-    </screenshot>
-    <screenshot environment="pantheon:dark">
-      <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-8-dark-empty.png</image>
-      <caption>Drop images onto the window or select them with the file chooser</caption>
-    </screenshot>
-    <screenshot environment="pantheon">
-      <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-8-light-images.png</image>
+    <screenshot environment="gnome">
+      <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-light-images.png</image>
       <caption>Resize several images at once</caption>
     </screenshot>
-    <screenshot environment="pantheon:dark">
-      <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-8-dark-images.png</image>
+    <screenshot environment="gnome:dark">
+      <image>https://raw.githubusercontent.com/peteruithoven/resizer/main/data/screenshots/screenshot-dark-images.png</image>
       <caption>Resize several images at once</caption>
     </screenshot>
   </screenshots>
@@ -276,10 +268,6 @@
     <color type="primary" scheme_preference="light">#60caee</color>
     <color type="primary" scheme_preference="dark">#1c6e8c</color>
   </branding>
-  <custom>
-    <value key="x-appcenter-color-primary">#60caee</value>
-    <value key="x-appcenter-color-primary-text">#ffffff</value>
-  </custom>
   <content_rating type="oars-1.1">
     <content_attribute id="violence-cartoon">none</content_attribute>
     <content_attribute id="violence-fantasy">none</content_attribute>
