@@ -49,10 +49,9 @@ namespace Resizer {
 
             var width_input = new Gtk.Grid ();
             width_input.column_spacing = spacing / 2;
-            width_input.column_homogeneous = true;
+            width_input.halign = Gtk.Align.CENTER;
             width_input.attach (width_label, 0, 0, 1, 1);
             width_input.attach (width_entry, 1, 0, 1, 1);
-            width_input.attach (new Gtk.Label (""), 2, 0, 1, 1);
 
             var height_label = new Gtk.Label (_("Max height:"));
             height_label.halign = Gtk.Align.START;
