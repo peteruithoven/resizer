@@ -36,6 +36,7 @@ namespace Resizer {
             this.orientation = Gtk.Orientation.VERTICAL;
             this.margin_start = this.margin_end = this.margin_bottom = spacing;
             this.margin_top = 0;
+            this.row_spacing = spacing / 2;
             this.attach (bar, 0, 0, 1, 1);
             this.attach (remaining_label, 0, 1, 1, 1);
 
