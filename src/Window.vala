@@ -28,6 +28,10 @@ namespace Resizer {
             Object (application: app, resizable: false, title: _("Resizer"));
         }
         construct {
+            // Adw.ApplicationWindow defaults to a 360×200 minimum size (meant for
+            // adaptive layouts); clear it so it can adapt to the thinner resizing page
+            this.height_request = -1;
+
             var header = HeaderBar.create ();
 
             var resize_page = new ResizePage (this);
