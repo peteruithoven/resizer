@@ -168,7 +168,6 @@ def start_gala(log_path):
     # With no system bus, gala logs "Unable to connect to logind bus, screen
     # locking disabled" and carries on, as it does in a plain container.
     # See https://github.com/elementary/gala/issues/2931
-    gala_env["DBUS_SYSTEM_BUS_ADDRESS"] = "unix:path=/nonexistent"
     gala_args = [
         # --no-x11: without it gala tries to spawn Xwayland for X11 client
         # compat, which this smoke test never needs (resizer is pure
