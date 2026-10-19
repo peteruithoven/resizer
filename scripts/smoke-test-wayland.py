@@ -155,66 +155,20 @@ def ensure_gala_data_dir():
     (Path(data_home) / "io.elementary.gala").mkdir(parents=True, exist_ok=True)
 
 
-GNOME_SCHEMA_DIR = Path("/usr/share/glib-2.0/schemas")
-
-
-def build_no_animations_schema_dir(work_dir):
-    # gala's WindowManager.map() (src/WindowManager.vala) does:
-    #   if (NotificationStack.is_notification (window) || !Meta.Prefs.get_gnome_animations ()) {
-    #       ... skip the animation entirely ...
-    #   }
-    #   animate_map.begin (actor);
-    # Meta.Prefs.get_gnome_animations() is backed by the standard GNOME/mutter
-    # key org.gnome.desktop.interface's enable-animations - the same setting
-    # System Settings' "Reduce Motion" toggle would flip (via elementary's
-    # settings-daemon bridging its own io.elementary.settings-daemon.a11y
-    # reduce-motion key to this one - gala itself doesn't know about the
-    # elementary-specific key, only this upstream one). If this is false,
-    # gala calls map_completed() directly instead of animate_map.begin(),
-    # skipping the Clutter timeline that segfaults with no GPU (see git log)
-    # entirely - the actual root cause, rather than another workaround for
-    # a symptom.
-    #
-    # Forcing it without ever touching real state: `gsettings set` would
-    # write to the real, persistent $HOME/.config/dconf/user (dconf's
-    # storage isn't scoped to XDG_RUNTIME_DIR or the D-Bus session - see
-    # GSETTINGS_BACKEND=memory's comment elsewhere in this file for the
-    # same issue), which would be harmless on a fresh CI VM but would
-    # silently turn off animations on a real dev machine's actual desktop
-    # too if this script is ever run there - not acceptable. Instead, build
-    # an isolated schema directory with just this one schema's default
-    # overridden to false, and pass it via GSETTINGS_SCHEMA_DIR (GLib
-    # chains it in front of the standard system schema locations, it
-    # doesn't replace them - other lookups still fall through normally)
-    # together with GSETTINGS_BACKEND=memory (so gala reads only compiled
-    # defaults from this chain, never the real dconf database at all).
-    schema_dir = work_dir / "no-animations-schema"
-    schema_dir.mkdir(exist_ok=True)
-    # The interface schema's <enum> references are defined in a separate
-    # file - glib-compile-schemas rejects the whole schema file without it
-    # ("<enum id='...GDesktopToolbarStyle'> not (yet) defined"), so both
-    # need to be present in the same directory, not just the one key's
-    # schema.
-    for name in ("org.gnome.desktop.interface.gschema.xml", "org.gnome.desktop.enums.xml"):
-        src = GNOME_SCHEMA_DIR / name
-        if not src.exists():
-            fail(f"expected system schema file not found: {src}")
-        shutil.copy(src, schema_dir / name)
-    (schema_dir / "local.gschema.override").write_text(
-        "[org.gnome.desktop.interface]\nenable-animations=false\n"
-    )
-    result = subprocess.run(["glib-compile-schemas", str(schema_dir)], capture_output=True, text=True)
-    if result.returncode != 0:
-        fail(f"glib-compile-schemas failed for the no-animations override: {result.stderr}")
-    return schema_dir
-
-
-def start_gala(log_path, schema_dir):
+def start_gala(log_path):
     ensure_gala_data_dir()
     log_file = open(log_path, "wb")
     gala_env = dict(os.environ)
-    gala_env["GSETTINGS_SCHEMA_DIR"] = str(schema_dir)
-    gala_env["GSETTINGS_BACKEND"] = "memory"
+    # Hide the system bus from gala (and only gala). On a GitHub Actions
+    # runner logind is running, but this job isn't part of a login session,
+    # so XDG_SESSION_ID isn't set and logind can't tell which user gala
+    # belongs to. gala's SessionLocker then reads logind's user Display
+    # property, gets NULL and dereferences it without checking: SIGSEGV
+    # shortly after startup (SessionLocker.get_current_session_manager()).
+    # With no system bus, gala logs "Unable to connect to logind bus, screen
+    # locking disabled" and carries on, as it does in a plain container.
+    # See https://github.com/elementary/gala/issues/2931
+    gala_env["DBUS_SYSTEM_BUS_ADDRESS"] = "unix:path=/nonexistent"
     gala_args = [
         # --no-x11: without it gala tries to spawn Xwayland for X11 client
         # compat, which this smoke test never needs (resizer is pure
@@ -420,8 +374,7 @@ def main():
     # easy to misread which width/height each stage uses.
     expected_output = work_dir / f"smoke-test-{DEFAULT_MAX_SIZE}.png"
 
-    no_animations_schema_dir = build_no_animations_schema_dir(work_dir)
-    gala_proc, gala_log_file = start_gala(_gala_log_path, no_animations_schema_dir)
+    gala_proc, gala_log_file = start_gala(_gala_log_path)
     app_proc = None
     try:
         wait_for_gala_ready(gala_proc, time.monotonic() + 15)
@@ -510,6 +463,12 @@ def main():
 
         if app_proc.poll() is not None and app_proc.returncode != 0:
             fail(f"app exited with code {app_proc.returncode} during the test")
+
+        # Evidence for the DBUS_SYSTEM_BUS_ADDRESS workaround in start_gala():
+        # gala should have logged that it couldn't reach logind.
+        for line in _gala_log_path.read_text(errors="replace").splitlines():
+            if "logind" in line:
+                log(f"gala.log: {line.strip()}")
 
         log("PASS: Resize button click produced a correctly-sized, correctly-rendered output file")
     finally:
